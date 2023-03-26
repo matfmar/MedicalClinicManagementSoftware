@@ -3,6 +3,7 @@ package net.sawannaniz.databaseclient.gui;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import net.sawannaniz.databaseclient.dbutils.*;
 
 public class LoginWindow extends JFrame {
     public LoginWindow() {
@@ -31,7 +32,10 @@ public class LoginWindow extends JFrame {
         buttonOK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                String user = new String(loginTextField.getText());
+                String password = new String(passwordField.getPassword());
+                Database db = new Database(user, password);
+                db.Connect();
             }
         });
         buttonClose.addActionListener(new ActionListener() {
