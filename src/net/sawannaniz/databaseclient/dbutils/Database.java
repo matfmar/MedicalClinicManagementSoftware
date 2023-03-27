@@ -11,22 +11,25 @@ public class Database {
         user = us;
         password = pwd;
     }
-    public void Connect() {
-        try {
-            Class.forName(JDBC_NAME);
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Fail to load MariaDB connecting class");
-            System.exit(-1);
-        }
-        //get the connection
+    public boolean Connect() {
+        boolean status = true;
         try {
             connection = DriverManager.getConnection(JDBC_URL, user, password);
         } catch (SQLException ex) {
             System.out.println("Failed to get connection: " + ex.getMessage());
-            System.exit(-1);
+            return false;
         } catch (Exception ex) {
             System.out.println("Error: " + ex.getMessage());
-            System.exit(-1);
+            return false;
+        }
+        System.out.println("Connection established.");
+        return true;
+    }
+    public void Close() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println("Failed to close a connection");
         }
     }
 }
