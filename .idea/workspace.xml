@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="696a4dd2-2330-49db-b86d-5ee82d114f20" name="Changes" comment="now waiting to manage db  connection with jdbc">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DatabaseClient.iml" beforeDir="false" afterPath="$PROJECT_DIR$/DatabaseClient.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/dbutils/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/dbutils/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/LoginWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/LoginWindow.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mariadb-java-client-3.1.3.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,13 +26,16 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2NY6lW2XhcHRoLa6KTyXdvktwm6" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -79,6 +79,7 @@
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="start" />
     <MESSAGE value="2" />
     <MESSAGE value="now waiting to manage db  connection with jdbc" />
