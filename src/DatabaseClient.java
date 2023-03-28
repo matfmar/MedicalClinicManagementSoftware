@@ -6,6 +6,5 @@ public class DatabaseClient extends JFrame {
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         LoginWindow loginWindow = new LoginWindow();
-        System.out.println("Klient zakonczyl dzialanie");
     }
 }

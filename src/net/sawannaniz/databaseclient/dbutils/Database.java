@@ -30,6 +30,8 @@ public class Database {
             connection.close();
         } catch (SQLException e) {
             System.out.println("Failed to close a connection");
+            return;
         }
+        System.out.println("Connection closed successfully");
     }
 }

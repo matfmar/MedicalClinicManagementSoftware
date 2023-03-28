@@ -2,12 +2,14 @@ package net.sawannaniz.databaseclient.gui;
 
 import net.sawannaniz.databaseclient.dbutils.*;
 import javax.swing.*;
+import java.awt.event.*;
 
 public class MainWindow extends JFrame {
     public MainWindow(Database db) {
         super("Main Window");
         database = db;
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowHandler(this, database));
 
         //PASEK MENU
         JMenuBar menuBar = new JMenuBar();
@@ -47,15 +49,58 @@ public class MainWindow extends JFrame {
         //MENU POMOC
         JMenuItem menuItemOProgramie = new JMenuItem("O programie");
         JMenuItem menuItemWyloguj = new JMenuItem("Wyloguj");
+        JMenuItem menuItemZamknij = new JMenuItem("Zamknij");
         menuPomoc.add(menuItemOProgramie);
         menuPomoc.add(menuItemWyloguj);
-
+        menuPomoc.add(menuItemZamknij);
+        //OTHER COMPONENTS
         JLabel label1 = new JLabel("To jest glowne okno programu", JLabel.CENTER);
         add(label1);
+
+        //EVENT SETUP
+        //MENU POMOC
+        menuItemZamknij.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                JFrame frame = new JFrame();
+                if (JOptionPane.showConfirmDialog(frame,
+                        "Czy zakonczyc program?",
+                        "Pytanie",
+                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    database.close();
+                    System.exit(0);
+                }
+            }
+        });
+        menuItemWyloguj.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                JFrame frame = new JFrame();
+                if (JOptionPane.showConfirmDialog(frame,
+                        "Czy chcesz sie wylogowac?",
+                        "Pytanie",
+                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    database.close();
+                    LoginWindow loginWindow = new LoginWindow();
+                    close();
+                }
+            }
+        });
+        menuItemOProgramie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame, "DatabaseClient v1.0", "HAHAHA !!!", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        //MENU POMIESZCZENIA
 
         pack();
         setSize(400,400);
         setVisible(true);
+    }
+    public void close() {
+        dispose();
     }
     private Database database;
 }

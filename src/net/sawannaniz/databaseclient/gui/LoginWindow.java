@@ -13,8 +13,10 @@ public class LoginWindow extends JFrame {
         JLabel label1 = new JLabel("Zaloguj sie do bazy danych: ", JLabel.LEFT);
         JLabel label2 = new JLabel("Login:", JLabel.RIGHT);
         JTextField loginTextField = new JTextField(10);
+        loginTextField.setText("nosorozek");
         JLabel label3 = new JLabel("Haslo:", JLabel.RIGHT);
         JPasswordField passwordField = new JPasswordField(10);
+        passwordField.setText("!M1o2r3f5i8n13A20");
         JButton buttonOK = new JButton("OK");
         JButton buttonClose = new JButton("Zamknij");
         JLabel label4 = new JLabel("Copyright by Mateusz Marzec");
