@@ -46,7 +46,9 @@ public class MainWindow extends JFrame {
         menuPomieszczenia.add(menuItemZnajdzPomieszczenie);
         //MENU POMOC
         JMenuItem menuItemOProgramie = new JMenuItem("O programie");
+        JMenuItem menuItemWyloguj = new JMenuItem("Wyloguj");
         menuPomoc.add(menuItemOProgramie);
+        menuPomoc.add(menuItemWyloguj);
 
         JLabel label1 = new JLabel("To jest glowne okno programu", JLabel.CENTER);
         add(label1);
