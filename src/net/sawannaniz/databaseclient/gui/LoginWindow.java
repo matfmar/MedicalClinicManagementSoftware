@@ -35,11 +35,14 @@ public class LoginWindow extends JFrame {
                 String user = new String(loginTextField.getText());
                 String password = new String(passwordField.getPassword());
                 Database db = new Database(user, password);
-                if (!db.Connect()) {
+                if (!db.connect()) {
                     JOptionPane.showMessageDialog(new JDialog(), "Blad logowania!");
+                    MainWindow mainWindow2 = new MainWindow(db);
+                    close();
                 }
                 else {
-                    db.Close();
+                    MainWindow mainWindow = new MainWindow(db);
+                    close();
                 }
             }
         });

@@ -11,7 +11,7 @@ public class Database {
         user = us;
         password = pwd;
     }
-    public boolean Connect() {
+    public boolean connect() {
         boolean status = true;
         try {
             connection = DriverManager.getConnection(JDBC_URL, user, password);
@@ -25,7 +25,7 @@ public class Database {
         System.out.println("Connection established.");
         return true;
     }
-    public void Close() {
+    public void close() {
         try {
             connection.close();
         } catch (SQLException e) {
