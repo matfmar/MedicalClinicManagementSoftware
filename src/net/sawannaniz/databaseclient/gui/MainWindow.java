@@ -94,6 +94,12 @@ public class MainWindow extends JFrame {
             }
         });
         //MENU POMIESZCZENIA
+        menuItemDodajPomieszczenie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                NowePomieszczenieWindow nowePomieszczenieWindow = new NowePomieszczenieWindow(database);
+            }
+        });
 
         pack();
         setSize(400,400);
