@@ -66,17 +66,23 @@ public class NowePomieszczenieWindow extends JFrame {
                     pietroPomieszczenia = Integer.parseInt(pietroPomieszczeniaStr);
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(null,
-                            "Convertion problem",
+                            "Conversion problem",
                             "Conversion problem",
                             JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 Pomieszczenie nowePomieszczenie = new Pomieszczenie(numerPomieszczenia, pietroPomieszczenia);
-                if (nowePomieszczenie.insertToDatabase()) {
-                    //UDALO SIE DODAC POMIESZCZENIE
+                if (nowePomieszczenie.insertToDatabase(database)) {
+                    JOptionPane.showMessageDialog(null,
+                            "udalo sie dodac pomieszczenie do bazy",
+                            "udalo sie!",JOptionPane.INFORMATION_MESSAGE);
+                    numerTextField.setText("");
+                    pietroTextField.setText("");
                 }
                 else {
-                    //NIE UDALO SIE DODAC POMIESZCZENIA
+                    JOptionPane.showMessageDialog(null,
+                            "nie udalo sie dodac pomieszczenia do bazy",
+                            "nie udalo sie!",JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

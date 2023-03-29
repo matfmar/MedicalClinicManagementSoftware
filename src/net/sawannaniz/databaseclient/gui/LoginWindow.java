@@ -39,8 +39,7 @@ public class LoginWindow extends JFrame {
                 Database db = new Database(user, password);
                 if (!db.connect()) {
                     JOptionPane.showMessageDialog(new JDialog(), "Blad logowania!");
-                    MainWindow mainWindow2 = new MainWindow(db);
-                    close();
+                    System.exit(-1);
                 }
                 else {
                     MainWindow mainWindow = new MainWindow(db);
@@ -66,6 +65,6 @@ public class LoginWindow extends JFrame {
         setVisible(true);
     }
     public void close() {
-        this.dispose();
+        dispose();
     }
 }

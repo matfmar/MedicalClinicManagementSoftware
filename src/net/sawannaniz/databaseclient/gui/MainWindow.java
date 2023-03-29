@@ -100,6 +100,12 @@ public class MainWindow extends JFrame {
                 NowePomieszczenieWindow nowePomieszczenieWindow = new NowePomieszczenieWindow(database);
             }
         });
+        menuItemZnajdzPomieszczenie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                WyszukajPomieszczenieWindow wyszukajPomieszczenieWindow = new WyszukajPomieszczenieWindow(database);
+            }
+        });
 
         pack();
         setSize(400,400);
