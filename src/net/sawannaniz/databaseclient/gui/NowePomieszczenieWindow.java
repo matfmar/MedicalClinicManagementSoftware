@@ -6,7 +6,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import net.sawannaniz.databaseclient.dbutils.*;
-
+import net.sawannaniz.databaseclient.ctrl.Pomieszczenie;
 public class NowePomieszczenieWindow extends JFrame {
     public NowePomieszczenieWindow(Database db) {
         super("Dodaj nowe pomieszczenie");
@@ -58,7 +58,26 @@ public class NowePomieszczenieWindow extends JFrame {
         buttonDodaj.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                //TUTAJ BEDZIE DODAWANIE NOWEGO POMIESZCZENIA DO BAZY
+                String numerPomieszczenia = numerTextField.getText();
+                String pietroPomieszczeniaStr = pietroTextField.getText();
+                pietroPomieszczeniaStr.trim();
+                int pietroPomieszczenia = 0;
+                try {
+                    pietroPomieszczenia = Integer.parseInt(pietroPomieszczeniaStr);
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null,
+                            "Convertion problem",
+                            "Conversion problem",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                Pomieszczenie nowePomieszczenie = new Pomieszczenie(numerPomieszczenia, pietroPomieszczenia);
+                if (nowePomieszczenie.insertToDatabase()) {
+                    //UDALO SIE DODAC POMIESZCZENIE
+                }
+                else {
+                    //NIE UDALO SIE DODAC POMIESZCZENIA
+                }
             }
         });
 
