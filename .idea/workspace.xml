@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="696a4dd2-2330-49db-b86d-5ee82d114f20" name="Changes" comment="first menu event done">
-      <change afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/NowePomieszczenieWindow.java" afterDir="false" />
+    <list default="true" id="696a4dd2-2330-49db-b86d-5ee82d114f20" name="Changes" comment="Pomieszczenie dodaj">
+      <change afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pomieszczenie.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/SaveableToPrzychodnia.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/MainWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,7 +17,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="package-info" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -113,7 +115,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680037263395</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Pomieszczenie dodaj">
+      <created>1680106924559</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1680106924559</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -124,6 +133,7 @@
     <MESSAGE value="aaa" />
     <MESSAGE value="now waiting to manage db  connection with jdbc" />
     <MESSAGE value="first menu event done" />
-    <option name="LAST_COMMIT_MESSAGE" value="first menu event done" />
+    <MESSAGE value="Pomieszczenie dodaj" />
+    <option name="LAST_COMMIT_MESSAGE" value="Pomieszczenie dodaj" />
   </component>
 </project>
