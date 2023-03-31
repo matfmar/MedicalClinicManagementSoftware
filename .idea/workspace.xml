@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="696a4dd2-2330-49db-b86d-5ee82d114f20" name="Changes" comment="Pomieszczenie dodaj">
-      <change afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajPomieszczenieWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pomieszczenie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pomieszczenie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/SaveableToPrzychodnia.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/SaveableToPrzychodnia.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/dbutils/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/dbutils/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/LoginWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/LoginWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/NowePomieszczenieWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/NowePomieszczenieWindow.java" afterDir="false" />
-    </list>
+    <list default="true" id="696a4dd2-2330-49db-b86d-5ee82d114f20" name="Changes" comment="TERAZ TRZEBA OBROBIC GUI DLA WYSZUKAJ POMIESZCZENIE" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -141,7 +132,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680108527626</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="TERAZ TRZEBA OBROBIC GUI DLA WYSZUKAJ POMIESZCZENIE">
+      <created>1680122839280</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1680122839280</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -153,6 +151,7 @@
     <MESSAGE value="now waiting to manage db  connection with jdbc" />
     <MESSAGE value="first menu event done" />
     <MESSAGE value="Pomieszczenie dodaj" />
-    <option name="LAST_COMMIT_MESSAGE" value="Pomieszczenie dodaj" />
+    <MESSAGE value="TERAZ TRZEBA OBROBIC GUI DLA WYSZUKAJ POMIESZCZENIE" />
+    <option name="LAST_COMMIT_MESSAGE" value="TERAZ TRZEBA OBROBIC GUI DLA WYSZUKAJ POMIESZCZENIE" />
   </component>
 </project>
