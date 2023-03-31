@@ -44,8 +44,8 @@ public class WyszukajPomieszczenieWindow extends JFrame {
                 dtm.setRowCount(0);     //clears table
                 String numerPomieszczenia = numerTextField.getText();
                 String pietroPomieszczeniaStr = pietroTextField.getText();
-                pietroPomieszczeniaStr.trim();
-                numerPomieszczenia.trim();
+                pietroPomieszczeniaStr = pietroPomieszczeniaStr.trim();
+                numerPomieszczenia = numerPomieszczenia.trim();
                 boolean jestPietro;
                 int pietroPomieszczenia = 0;
                 if (!(pietroPomieszczeniaStr.isEmpty())) {

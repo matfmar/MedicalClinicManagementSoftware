@@ -55,11 +55,11 @@ public class NowyLekarzWindow extends JFrame {
                 String pwz = pwzTextField.getText();
                 String telefon = telefonTextField.getText();
                 String specjalizacje = specjalizacjeTextArea.getText();
-                imie.trim();
-                nazwisko.trim();
-                pwz.trim();
-                telefon.trim();
-                specjalizacje.trim();
+                imie = imie.trim();
+                nazwisko = nazwisko.trim();
+                pwz = pwz.trim();
+                telefon = telefon.trim();
+                specjalizacje = specjalizacje.trim();
                 if ((imie.isEmpty() || nazwisko.isEmpty()) || pwz.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Za malo danych!", "Blad", JOptionPane.ERROR_MESSAGE);
                     return;

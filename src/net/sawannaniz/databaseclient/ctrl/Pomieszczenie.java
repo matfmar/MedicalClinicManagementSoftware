@@ -33,6 +33,10 @@ public class Pomieszczenie implements SaveableToPrzychodnia {
         return (database.insert(table, columns, params));
     }
     public ResultSet searchDatabase(Database database, boolean jestPietro, AtomicBoolean result) {
+        if (!checkNumerAndPietro()) {
+            result.set(false);
+            return null;
+        }
         boolean jestNumer = !(numer.isEmpty());
         String what = "numer, pietro";
         String table = "Pomieszczenia";

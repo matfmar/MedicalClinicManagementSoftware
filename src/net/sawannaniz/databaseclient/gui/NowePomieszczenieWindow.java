@@ -60,8 +60,8 @@ public class NowePomieszczenieWindow extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 String numerPomieszczenia = numerTextField.getText();
                 String pietroPomieszczeniaStr = pietroTextField.getText();
-                pietroPomieszczeniaStr.trim();
-                numerPomieszczenia.trim();
+                pietroPomieszczeniaStr = pietroPomieszczeniaStr.trim();
+                numerPomieszczenia = numerPomieszczenia.trim();
                 if (numerPomieszczenia.isEmpty())
                     return;
                 int pietroPomieszczenia = 0;
@@ -76,7 +76,7 @@ public class NowePomieszczenieWindow extends JFrame {
                                 JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-                    bezPietra = true;
+                    bezPietra = false;
                 }
                 Pomieszczenie nowePomieszczenie = new Pomieszczenie(numerPomieszczenia, pietroPomieszczenia, bezPietra);
                 if (nowePomieszczenie.insertToDatabase(database)) {

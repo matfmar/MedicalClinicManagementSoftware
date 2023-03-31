@@ -1,9 +1,15 @@
 package net.sawannaniz.databaseclient.gui;
 
+import net.sawannaniz.databaseclient.ctrl.Lekarz;
 import net.sawannaniz.databaseclient.dbutils.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WyszukajLekarzaWindow extends JFrame {
     public WyszukajLekarzaWindow(Database db) {
@@ -40,6 +46,39 @@ public class WyszukajLekarzaWindow extends JFrame {
         panelPWZ.add(label3); panelPWZ.add(pwzTextField);
         panelSpecjalizacja.add(label4); panelSpecjalizacja.add(specjalizacjaTextField);
         panelTable.add(scrTable);
+        //EVENTS SETUP
+        wyszukajButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                dtm.setRowCount(0);
+                String imie = imieTextField.getText(); imie = imie.trim();
+                String nazwisko = nazwiskoTextField.getText(); nazwisko = nazwisko.trim();
+                String pwz = pwzTextField.getText(); pwz = pwz.trim();
+                String specjalizacja = specjalizacjaTextField.getText(); specjalizacja = specjalizacja.trim();
+                Lekarz lekarzDoWyszukania = new Lekarz(imie, nazwisko, pwz, "", specjalizacja);
+                AtomicBoolean result = new AtomicBoolean(false);
+                ResultSet wynikiWyszukiwania = lekarzDoWyszukania.searchDatabase(database, result);
+                if (!result.get()) {
+                    JOptionPane.showMessageDialog(null, "Nie udalo sie odczytac danych", "Blad", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                String imieRes, nazwiskoRes, pwzRes, telefonRes, specjalizacjeRes;
+                try {
+                    while (wynikiWyszukiwania.next()) {
+                        imieRes = wynikiWyszukiwania.getString(1);
+                        nazwiskoRes = wynikiWyszukiwania.getString(2);
+                        pwzRes = wynikiWyszukiwania.getString(3);
+                        telefonRes = wynikiWyszukiwania.getString(4);
+                        specjalizacjeRes = wynikiWyszukiwania.getString(5);
+                        dtm.addRow(new Object[] {imieRes, nazwiskoRes, pwzRes, telefonRes, specjalizacjeRes});
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,"Blad odczytu kursora", "Blad", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+        });
+
         //PACK EVERYTHING TOGETHER
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         getContentPane().add(panelImie);
