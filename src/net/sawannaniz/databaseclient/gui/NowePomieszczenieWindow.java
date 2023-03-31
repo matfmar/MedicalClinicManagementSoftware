@@ -10,7 +10,7 @@ import net.sawannaniz.databaseclient.ctrl.Pomieszczenie;
 public class NowePomieszczenieWindow extends JFrame {
     public NowePomieszczenieWindow(Database db) {
         super("Dodaj nowe pomieszczenie");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         database = db;
         //COMPONENTS
         JLabel label1 = new JLabel("pietro: ");
@@ -61,17 +61,24 @@ public class NowePomieszczenieWindow extends JFrame {
                 String numerPomieszczenia = numerTextField.getText();
                 String pietroPomieszczeniaStr = pietroTextField.getText();
                 pietroPomieszczeniaStr.trim();
-                int pietroPomieszczenia = 0;
-                try {
-                    pietroPomieszczenia = Integer.parseInt(pietroPomieszczeniaStr);
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null,
-                            "Conversion problem",
-                            "Conversion problem",
-                            JOptionPane.ERROR_MESSAGE);
+                numerPomieszczenia.trim();
+                if (numerPomieszczenia.isEmpty())
                     return;
+                int pietroPomieszczenia = 0;
+                boolean bezPietra = true;
+                if (!pietroPomieszczeniaStr.isEmpty()) {
+                    try {
+                        pietroPomieszczenia = Integer.parseInt(pietroPomieszczeniaStr);
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null,
+                                "Conversion problem",
+                                "Conversion problem",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    bezPietra = true;
                 }
-                Pomieszczenie nowePomieszczenie = new Pomieszczenie(numerPomieszczenia, pietroPomieszczenia);
+                Pomieszczenie nowePomieszczenie = new Pomieszczenie(numerPomieszczenia, pietroPomieszczenia, bezPietra);
                 if (nowePomieszczenie.insertToDatabase(database)) {
                     JOptionPane.showMessageDialog(null,
                             "udalo sie dodac pomieszczenie do bazy",

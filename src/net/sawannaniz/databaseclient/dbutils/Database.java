@@ -2,6 +2,7 @@ package net.sawannaniz.databaseclient.dbutils;
 
 import java.sql.*;
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Database {
     public Database(String us, String pwd) {
@@ -58,6 +59,43 @@ public class Database {
             return false;
         }
         return true;
+    }
+    public ResultSet select(String what, String table, String condition, AtomicBoolean result) {
+        String command = "SELECT " + what + " FROM " + table + " WHERE " + condition + " ;";
+        System.out.println(command);
+        ResultSet resultSet;
+        try {
+            resultSet = statement.executeQuery(command);
+        } catch (SQLException ex) {
+            System.out.println("Failed to create insert data: " + ex.getMessage());
+            result.set(false);
+            return null;
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+            result.set(false);
+            return null;
+        }
+        result.set(true);
+        return resultSet;
+    }
+    //overloaded for no conditions
+    public ResultSet select(String what, String table, AtomicBoolean result) {
+        String command = "SELECT " + what + " FROM " + table + " ;";
+        System.out.println(command);
+        ResultSet resultSet;
+        try {
+            resultSet = statement.executeQuery(command);
+        } catch (SQLException ex) {
+            System.out.println("Failed to create insert data: " + ex.getMessage());
+            result.set(false);
+            return null;
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+            result.set(false);
+            return null;
+        }
+        result.set(true);
+        return resultSet;
     }
     public void close() {
         try {

@@ -106,6 +106,13 @@ public class MainWindow extends JFrame {
                 WyszukajPomieszczenieWindow wyszukajPomieszczenieWindow = new WyszukajPomieszczenieWindow(database);
             }
         });
+        //MENU LEKARZE
+        menuItemDodajLekarza.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                NowyLekarzWindow nowyLekarzWindow = new NowyLekarzWindow(database);
+            }
+        });
 
         pack();
         setSize(400,400);
