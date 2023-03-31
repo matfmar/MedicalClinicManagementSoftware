@@ -37,7 +37,8 @@ public class NowyLekarzWindow extends JFrame {
         panelNazwisko.add(label2); panelNazwisko.add(nazwiskoTextField);
         panelPWZ.add(label3); panelPWZ.add(pwzTextField);
         panelTelefon.add(label5); panelTelefon.add(telefonTextField);
-        panelSpecjalizacje.add(label4); panelSpecjalizacje.add(specjalizacjeTextArea);
+        JScrollPane scrSpecjalizacje = new JScrollPane(specjalizacjeTextArea);
+        panelSpecjalizacje.add(label4); panelSpecjalizacje.add(scrSpecjalizacje);
         panelButtons.add(dodajButton); panelButtons.add(zamknijButton);
         //EVENTS SETUP
         zamknijButton.addActionListener(new ActionListener() {
@@ -63,8 +64,20 @@ public class NowyLekarzWindow extends JFrame {
                     JOptionPane.showMessageDialog(null, "Za malo danych!", "Blad", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                specjalizacje = specjalizacje.replace("\r\n", " ");
+                specjalizacje = specjalizacje.replace("\n", " ");
                 Lekarz lekarz = new Lekarz(imie, nazwisko, pwz, telefon, specjalizacje);
-
+                if (lekarz.insertToDatabase(database)) {
+                    JOptionPane.showMessageDialog(null,"Udalo sie dodac","sukces",JOptionPane.INFORMATION_MESSAGE);
+                    imieTextField.setText("");
+                    nazwiskoTextField.setText("");
+                    pwzTextField.setText("");
+                    telefonTextField.setText("");
+                    specjalizacjeTextArea.setText("");
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Nie udalo sie", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         //PACKING EVERYTHING

@@ -12,12 +12,12 @@ public class Database {
     public static boolean checkStringsForProperContent(Vector<String> strTable) {
         char c=';';
         for (String s : strTable) {
-            if (s.isEmpty())
-                return false;
             for (int i = 0; i < s.length(); ++i) {
                 c = s.charAt(i);
-                if (!((Character.isLetter(c) || Character.isDigit(c)) || Character.isSpaceChar(c)))
+                if (!((Character.isLetter(c) || Character.isDigit(c)) || Character.isSpaceChar(c))) {
+                    System.out.println("Dane wejsciowe nie spelniaja kryteriow!");
                     return false;
+                }
             }
         }
         return true;

@@ -113,6 +113,12 @@ public class MainWindow extends JFrame {
                 NowyLekarzWindow nowyLekarzWindow = new NowyLekarzWindow(database);
             }
         });
+        menuItemZnajdzLekarza.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                WyszukajLekarzaWindow wyszukajLekarzaWindow = new WyszukajLekarzaWindow(database);
+            }
+        });
 
         pack();
         setSize(400,400);
