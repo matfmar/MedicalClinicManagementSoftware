@@ -79,6 +79,21 @@ public class Database {
         }
         return true;
     }
+    public boolean update(String table, String data, String condition) {
+        String command = "UPDATE " + table + " SET " + data + " WHERE " + condition + ";";
+        System.out.println(command);
+        int resultInt = 0;
+        try {
+            resultInt = statement.executeUpdate(command);
+        } catch (SQLException ex) {
+            System.out.println("Failed to update data: " + ex.getMessage());
+            return false;
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+            return false;
+        }
+        return true;
+    }
     public ResultSet select(String what, String table, String condition, AtomicBoolean result) {
         String command = "SELECT " + what + " FROM " + table + " WHERE " + condition + " ;";
         System.out.println(command);

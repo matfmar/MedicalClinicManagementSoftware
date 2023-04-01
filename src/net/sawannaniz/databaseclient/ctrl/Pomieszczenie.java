@@ -6,7 +6,13 @@ import java.sql.ResultSet;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Pomieszczenie implements SaveableToPrzychodnia {
+public class Pomieszczenie extends ImplicitSearchingClass implements SaveableToPrzychodnia {
+    public Pomieszczenie(int idPom, String nr, int p) {
+        numer = nr;
+        pietro = p;
+        id = idPom;
+        bezPietra = false;
+    }
     public Pomieszczenie(int idPom) {
         numer = "";
         pietro = -1;
@@ -25,6 +31,20 @@ public class Pomieszczenie implements SaveableToPrzychodnia {
         bezPietra = bp;
         id = 0;
     }
+    @Override
+    public ResultSet search(Database database, int id, AtomicBoolean result) {
+        String table = "Pomieszczenia";
+        String what = "id_pomieszczenie, numer, pietro";
+        String condition = "id_pomieszczenie = " + Integer.toString(id);
+        return (database.select(what, table, condition, result));
+    }
+    @Override
+    public ResultSet search(Database database, AtomicBoolean result) {
+        String table = "Pomieszczenia";
+        String what = "id_pomieszczenie, numer, pietro";
+        return (database.select(what, table, result));
+    }
+
     public boolean insertToDatabase(Database database) {
         String table = "Pomieszczenia";
         if (!checkNumerAndPietro())
@@ -73,7 +93,14 @@ public class Pomieszczenie implements SaveableToPrzychodnia {
         return (database.delete(table, where));
     }
     public boolean modifyInDatabase(Database database) {
-        return true;
+        String table = "Pomieszczenia";
+        if (!checkNumerAndPietro())
+            return false;
+        String numerPart = "numer = " + Database.addCommas(numer);
+        String pietroPart = "pietro = " + Integer.toString(pietro);
+        String data = numerPart + ", " + pietroPart;
+        String condition = "id_pomieszczenie = " + Integer.toString(id);
+        return (database.update(table, data, condition));
     }
     private String numer;
     private int pietro, id;

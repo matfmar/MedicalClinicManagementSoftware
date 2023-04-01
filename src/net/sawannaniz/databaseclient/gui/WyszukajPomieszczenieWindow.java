@@ -121,7 +121,7 @@ public class WyszukajPomieszczenieWindow extends JFrame {
             updateMenuItem.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    UpdatePomieszczenieWindow updatePomieszczenieWindow = new UpdatePomieszczenieWindow(database);
+                    UpdatePomieszczenieWindow updatePomieszczenieWindow = new UpdatePomieszczenieWindow(database, dtm, table, vtIdPomieszczenia);
                 }
             });
             deleteMenuItem.addActionListener(new ActionListener() {
