@@ -4,14 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="696a4dd2-2330-49db-b86d-5ee82d114f20" name="Changes" comment="lekarz insert done, wyszukaj lekarz in progress">
+    <list default="true" id="696a4dd2-2330-49db-b86d-5ee82d114f20" name="Changes" comment="lekarze and pomieszczenia completed !!!">
+      <change afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/ImplicitSearchingClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pacjent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/NowyPacjentWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Lekarz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Lekarz.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pomieszczenie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pomieszczenie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/NowePomieszczenieWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/NowePomieszczenieWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/NowyLekarzWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/NowyLekarzWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajLekarzaWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajLekarzaWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajPomieszczenieWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajPomieszczenieWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/dbutils/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/dbutils/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/MainWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +175,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680287072082</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="lekarze and pomieszczenia completed !!!">
+      <created>1680292003726</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1680292003726</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -190,6 +197,7 @@
     <MESSAGE value="TERAZ TRZEBA OBROBIC GUI DLA WYSZUKAJ POMIESZCZENIE" />
     <MESSAGE value="pomieszczenie done, lekarz in progress" />
     <MESSAGE value="lekarz insert done, wyszukaj lekarz in progress" />
-    <option name="LAST_COMMIT_MESSAGE" value="lekarz insert done, wyszukaj lekarz in progress" />
+    <MESSAGE value="lekarze and pomieszczenia completed !!!" />
+    <option name="LAST_COMMIT_MESSAGE" value="lekarze and pomieszczenia completed !!!" />
   </component>
 </project>

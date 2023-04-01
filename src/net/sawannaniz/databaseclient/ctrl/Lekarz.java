@@ -6,13 +6,26 @@ import java.sql.ResultSet;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Lekarz implements SaveableToPrzychodnia {
+public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychodnia {
     public Lekarz(String i, String n, String p, String t, String s) {
         imie = i;
         nazwisko = n;
         pwz = p;
         telefon = t;
         specjalizacje = s;
+    }
+    public Lekarz() {
+        imie = "";
+        nazwisko = "";
+        pwz = "";
+        telefon = "";
+        specjalizacje = "";
+    }
+    @Override
+    public ResultSet search(Database database, AtomicBoolean result) {
+        String table = "Lekarze";
+        String what = "id_lekarz, imie, nazwisko, pwz";
+        return (database.select(what, table, result));
     }
 
     @Override
@@ -74,7 +87,6 @@ public class Lekarz implements SaveableToPrzychodnia {
         return (Database.checkStringsForProperContent(strarr));
     }
     private String addCommas(String s) {
-        String result = "\'" + s + "\'";
-        return result;
+        return Database.addCommas(s);
     }
 }

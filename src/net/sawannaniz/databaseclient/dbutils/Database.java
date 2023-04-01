@@ -22,6 +22,10 @@ public class Database {
         }
         return true;
     }
+    public static String addCommas(String s) {
+        String result = "\'" + s + "\'";
+        return result;
+    }
     public boolean connect() {
         boolean status = true;
         try {
