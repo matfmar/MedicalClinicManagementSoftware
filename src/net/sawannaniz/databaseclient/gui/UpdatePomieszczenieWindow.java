@@ -70,6 +70,10 @@ public class UpdatePomieszczenieWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 String numer = numerTextField.getText(); numer = numer.trim();
+                if (numer.isEmpty()) {
+                    JOptionPane.showMessageDialog(null,"Za malo danych!", "ERROR",JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
                 String pietroStr = pietroTextField.getText(); pietroStr = pietroStr.trim();
                 int pietro = -1;
                 try {
