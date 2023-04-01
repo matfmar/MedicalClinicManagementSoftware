@@ -7,15 +7,23 @@ import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Pomieszczenie implements SaveableToPrzychodnia {
+    public Pomieszczenie(int idPom) {
+        numer = "";
+        pietro = -1;
+        bezPietra = false;
+        id = idPom;
+    }
     public Pomieszczenie(String nr, int p) {
         numer = nr;
         pietro = p;
         bezPietra = false;
+        id = 0;
     }
     public Pomieszczenie(String nr, int p, boolean bp) {
         numer = nr;
         pietro = p;
         bezPietra = bp;
+        id = 0;
     }
     public boolean insertToDatabase(Database database) {
         String table = "Pomieszczenia";
@@ -38,7 +46,7 @@ public class Pomieszczenie implements SaveableToPrzychodnia {
             return null;
         }
         boolean jestNumer = !(numer.isEmpty());
-        String what = "numer, pietro";
+        String what = "numer, pietro, id_pomieszczenie";
         String table = "Pomieszczenia";
         String numerPart = "", pietroPart = "", conditions = "";
         if (jestNumer) {
@@ -60,13 +68,15 @@ public class Pomieszczenie implements SaveableToPrzychodnia {
         }
     }
     public boolean removeFromDatabase(Database database) {
-        return true;
+        String table = "Pomieszczenia";
+        String where = "id_pomieszczenie = " + Integer.toString(id);
+        return (database.delete(table, where));
     }
     public boolean modifyInDatabase(Database database) {
         return true;
     }
     private String numer;
-    private int pietro;
+    private int pietro, id;
     private boolean bezPietra;
     private boolean checkNumerAndPietro() {
         Vector<String> strTable = new Vector<String>();
