@@ -50,7 +50,7 @@ public class LoginWindow extends JFrame {
         buttonClose.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                close();
+                realClose();
             }
         });
         //LAYOUT SETUP
@@ -66,5 +66,8 @@ public class LoginWindow extends JFrame {
     }
     public void close() {
         dispose();
+    }
+    public void realClose() {
+        System.exit(0);
     }
 }

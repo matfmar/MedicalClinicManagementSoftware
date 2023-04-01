@@ -30,9 +30,16 @@ public class Pacjent extends ImplicitSearchingClass implements SaveableToPrzycho
 
     @Override
     public ResultSet search(Database database, AtomicBoolean result) {
-        String table = "Pacjentci";
+        String table = "Pacjenci";
         String what = "id_pacjent, imie, nazwisko, pesel";
         return (database.select(what, table, result));
+    }
+    @Override
+    public ResultSet search(Database database, int id, AtomicBoolean result) {
+        String table = "Pacjenci";
+        String what = "id_pacjent, imie, nazwisko, pesel";
+        String condition = "id_pacjent = " + Integer.toString(id);
+        return (database.select(what, table, condition, result));
     }
 
     @Override
@@ -46,8 +53,34 @@ public class Pacjent extends ImplicitSearchingClass implements SaveableToPrzycho
                 addCommas(telefon) + "," + addCommas(adres) + "," + addCommas(upowaznienia) + "," + addCommas(flagi);
         return (database.insert(table, columns, params));
     }
-    public ResultSet searchDatabase() {
-        return null;
+    public ResultSet searchDatabase(Database database, AtomicBoolean result) {
+        if (!checkInputData()) {
+            result.set(false);
+            return null;
+        }
+        String what = "imie, nazwisko, pesel, adres, telefon, id_lekarz, osoby_upowaznione, flagi";
+        String table = "Pacjenci";
+        String imiePart, nazwiskoPart, peselPart, adresPart, telefonPart, id_lekarzPart, upowaznieniaPart, flagiPart;
+        if (!imie.isEmpty()) imiePart = "imie = " + addCommas(imie); else
+            imiePart = "imie LIKE \'%\'";
+        if (!nazwisko.isEmpty()) nazwiskoPart = "nazwisko = " + addCommas(nazwisko); else
+            nazwiskoPart = "nazwisko LIKE \'%\'";
+        if (!pesel.isEmpty()) peselPart = "pesel = " + addCommas(pesel); else
+            peselPart = "pesel LIKE \'%\'";
+        if (!adres.isEmpty()) adresPart = "adres LIKE " + addCommas("%"+adres+"%"); else
+            adresPart = "(adres LIKE \'%\' OR adres IS NULL)";
+        if (!telefon.isEmpty()) telefonPart = "telefon = " + addCommas(telefon); else
+            telefonPart = "(telefon LIKE \'%\' OR telefon IS NULL)";
+        if (lekarzProwadzacy >= 0) id_lekarzPart = "id_lekarz = " + Integer.toString(lekarzProwadzacy); else
+            id_lekarzPart = "(id_lekarz LIKE \'%\' OR id_lekarz IS NULL)";
+        if (!upowaznienia.isEmpty()) upowaznieniaPart = "osoby_upowaznione LIKE " + addCommas("%"+upowaznienia+"%"); else
+            upowaznieniaPart = "(osoby_upowaznione LIKE \'%\' OR osoby_upowaznione IS NULL)";
+        if (!flagi.isEmpty()) flagiPart = "flagi LIKE " + addCommas("%"+flagi+"%"); else
+            flagiPart = "(flagi LIKE \'%\' OR flagi IS NULL)";
+        String conditions = imiePart + " AND " + nazwiskoPart + " AND " + peselPart + " AND " +
+                adresPart + " AND " + telefonPart + " AND " + id_lekarzPart + " AND " +
+                upowaznieniaPart + " AND " + flagiPart;
+        return (database.select(what, table, conditions, result));
     }
 
     @Override

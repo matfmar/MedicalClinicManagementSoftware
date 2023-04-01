@@ -27,7 +27,13 @@ public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychod
         String what = "id_lekarz, imie, nazwisko, pwz";
         return (database.select(what, table, result));
     }
-
+    @Override
+    public ResultSet search(Database database, int id, AtomicBoolean result) {
+        String table = "Lekarze";
+        String what = "id_lekarz, imie, nazwisko, pwz";
+        String condition = "id_lekarz = " + Integer.toString(id);
+        return (database.select(what, table, condition, result));
+    }
     @Override
     public boolean insertToDatabase(Database database) {
         if (!checkInputData())

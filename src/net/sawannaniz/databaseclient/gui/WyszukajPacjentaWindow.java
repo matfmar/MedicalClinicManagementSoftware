@@ -1,8 +1,10 @@
 package net.sawannaniz.databaseclient.gui;
 
 import javax.swing.*;
-import net.sawannaniz.databaseclient.dbutils.*;
+import javax.swing.table.DefaultTableModel;
+
 import net.sawannaniz.databaseclient.ctrl.*;
+import net.sawannaniz.databaseclient.dbutils.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,9 +13,9 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class NowyPacjentWindow extends JFrame {
-    public NowyPacjentWindow(Database db) {
-        super("Dodaj nowego pacjenta");
+public class WyszukajPacjentaWindow extends JFrame {
+    public WyszukajPacjentaWindow(Database db) {
+        super("Znajdz pacjenta");
         database = db;
         id_cb = -1;
         vtIndexes = new Vector<Integer>();
@@ -30,59 +32,61 @@ public class NowyPacjentWindow extends JFrame {
         JTextField imieTextField = new JTextField(10);
         JTextField nazwiskoTextField = new JTextField(10);
         JTextField peselTextField = new JTextField(10);
-        JTextField teefonTextField = new JTextField(10);
+        JTextField telefonTextField = new JTextField(10);
         JTextField adresTextField = new JTextField(15);
         JTextField upowaznieniaTextField = new JTextField(15);
         JTextField adnotacjeTextField = new JTextField(15);
-        JButton dodajButton = new JButton("Dodaj");
-        JButton zamknijButton = new JButton("Zamknij");
-        dodajButton.setEnabled(false);
+        JButton znajdzButton = new JButton("Znajdz");
         AtomicBoolean result = new AtomicBoolean(false);
         JComboBox cb = createComboBox(result);
         if (!result.get()) {
             JOptionPane.showMessageDialog(null, "Failed to load comboBox","Error",JOptionPane.ERROR_MESSAGE);
-            dodajButton.setEnabled(false);
+            znajdzButton.setEnabled(false);
             return;
         }
         else {
-            dodajButton.setEnabled(true);
+            znajdzButton.setEnabled(true);
         }
         id_cb = cb.getSelectedIndex();
+        DefaultTableModel dtm = new DefaultTableModel();
+        JTable table = new JTable(dtm);
+        dtm.addColumn("Imie");
+        dtm.addColumn("Nazwisko");
+        dtm.addColumn("PESEL");
+        dtm.addColumn("Adres");
+        dtm.addColumn("Telefon");
+        dtm.addColumn("Lekarz prowadzący");
+        dtm.addColumn("Upowaznienia");
+        dtm.addColumn("Adnotacje");
+        JScrollPane scrTable = new JScrollPane(table);
         //PANELS
         JPanel panelImie = new JPanel();
-        JPanel panelNaziwsko = new JPanel();
+        JPanel panelNazwisko = new JPanel();
         JPanel panelPesel = new JPanel();
         JPanel panelTelefon = new JPanel();
         JPanel panelAdres = new JPanel();
         JPanel panelUpowaznienia = new JPanel();
         JPanel panelAdnotacje = new JPanel();
         JPanel panelLekarz = new JPanel();
-        JPanel panelButtons = new JPanel();
         panelImie.add(label1); panelImie.add(imieTextField);
-        panelNaziwsko.add(label2); panelNaziwsko.add(nazwiskoTextField);
+        panelNazwisko.add(label2); panelNazwisko.add(nazwiskoTextField);
         panelPesel.add(label3); panelPesel.add(peselTextField);
-        panelTelefon.add(label4); panelTelefon.add(teefonTextField);
+        panelTelefon.add(label4); panelTelefon.add(telefonTextField);
         panelAdres.add(label5); panelAdres.add(adresTextField);
         panelUpowaznienia.add(label6); panelUpowaznienia.add(upowaznieniaTextField);
         panelAdnotacje.add(label8); panelAdnotacje.add(adnotacjeTextField);
         panelLekarz.add(label7); panelLekarz.add(cb);
-        panelButtons.add(dodajButton); panelButtons.add(zamknijButton);
-        //EVENTS SETUP
+        //SETUP EVENTS
         cb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 id_cb = cb.getSelectedIndex();
             }
         });
-        zamknijButton.addActionListener(new ActionListener() {
+        znajdzButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                close();
-            }
-        });
-        dodajButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
+                dtm.setRowCount(0);
                 String imie, nazwisko, pesel, telefon, adres, upowaznienia, adnotacje;
                 int id_lekarz = -1;
                 if (id_cb < 0)
@@ -90,49 +94,56 @@ public class NowyPacjentWindow extends JFrame {
                 imie = imieTextField.getText(); imie = imie.trim();
                 nazwisko = nazwiskoTextField.getText(); nazwisko = nazwisko.trim();
                 pesel = peselTextField.getText(); pesel = pesel.trim();
-                telefon = teefonTextField.getText(); telefon = telefon.trim();
+                telefon = telefonTextField.getText(); telefon = telefon.trim();
                 adres = adresTextField.getText(); adres = adres.trim();
                 upowaznienia = upowaznieniaTextField.getText(); upowaznienia = upowaznienia.trim();
                 adnotacje = adnotacjeTextField.getText(); adnotacje = adnotacje.trim();
                 id_lekarz = vtIndexes.get(id_cb);   //powinno sie zgadzac
-                if (imie.isEmpty() || (nazwisko.isEmpty() || pesel.isEmpty())) {
-                    JOptionPane.showMessageDialog(null,"Za malo danych", "Error", JOptionPane.ERROR_MESSAGE);
+                Pacjent pacjentDoWyszukania = new Pacjent(imie, nazwisko, pesel, telefon, adres, adnotacje, upowaznienia, id_lekarz);
+                AtomicBoolean result = new AtomicBoolean(false);
+                ResultSet wynikiWyszukiwania = pacjentDoWyszukania.searchDatabase(database, result);
+                if (!result.get()) {
+                    JOptionPane.showMessageDialog(null, "Nie udalo sie odczytac danych", "Blad", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                Pacjent nowyPacjent = new Pacjent(imie, nazwisko, pesel, telefon, adres, adnotacje, upowaznienia, id_lekarz);
-                if (nowyPacjent.insertToDatabase(database)) {
-                    JOptionPane.showMessageDialog(null, "Udalo sie dodac do bazy", "OK", JOptionPane.INFORMATION_MESSAGE);
-                    imieTextField.setText("");
-                    nazwiskoTextField.setText("");
-                    peselTextField.setText("");
-                    adresTextField.setText("");
-                    teefonTextField.setText("");
-                    adnotacjeTextField.setText("");
-                    upowaznieniaTextField.setText("");
-                    id_lekarz = -1;
-                    cb.setSelectedIndex(0);
-                }
-                else {
-                    JOptionPane.showMessageDialog(null,"Nie udalo sie dodac do bazy", "Error", JOptionPane.ERROR_MESSAGE);
+                String imieRes, nazwiskoRes, peselRes, adresRes, telefonRes, upowaznieniaRes, flagiRes, lekarz;
+                int id_lekarzRes;
+                try {
+                    while (wynikiWyszukiwania.next()) {
+                        imieRes = wynikiWyszukiwania.getString(1);
+                        nazwiskoRes = wynikiWyszukiwania.getString(2);
+                        peselRes = wynikiWyszukiwania.getString(3);
+                        adresRes = wynikiWyszukiwania.getString(4);
+                        telefonRes = wynikiWyszukiwania.getString(5);
+                        id_lekarzRes = wynikiWyszukiwania.getInt(6);
+                        upowaznieniaRes = wynikiWyszukiwania.getString(7);
+                        flagiRes = wynikiWyszukiwania.getString(8);
+                        lekarz = znajdzLekarzaDoTabelki(id_lekarzRes);
+                        dtm.addRow(new Object[] {imieRes, nazwiskoRes, peselRes,
+                                adresRes, telefonRes, lekarz,
+                                upowaznieniaRes, flagiRes});
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,"Blad odczytu kursora", "Blad", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
             }
         });
-        //PACKING EVERYTHING
+
+        //GET EVERYTHING TOGETHER
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         getContentPane().add(panelImie);
-        getContentPane().add(panelNaziwsko);
+        getContentPane().add(panelNazwisko);
         getContentPane().add(panelPesel);
         getContentPane().add(panelTelefon);
         getContentPane().add(panelAdres);
         getContentPane().add(panelUpowaznienia);
         getContentPane().add(panelAdnotacje);
         getContentPane().add(panelLekarz);
-        getContentPane().add(panelButtons);
+        getContentPane().add(znajdzButton);
+        getContentPane().add(scrTable);
         pack();
         setVisible(true);
-    }
-    public void close() {
-        dispose();
     }
     private Database database;
     private int id_cb;
@@ -143,6 +154,8 @@ public class NowyPacjentWindow extends JFrame {
         if (!result.get())
             return null;
         Vector<String> vtCombo = new Vector<String>();
+        vtCombo.add("");    //pierwszy wiersz [0] pusty
+        vtIndexes.add(-1);  //tak samo - analogicznie
         String imie, nazwisko, pwz, total;
         int id_lekarz = 0;
         try {
@@ -162,5 +175,26 @@ public class NowyPacjentWindow extends JFrame {
         }
         JComboBox cb = new JComboBox(vtCombo);
         return cb;
+    }
+    private String znajdzLekarzaDoTabelki(int id) {
+        AtomicBoolean result = new AtomicBoolean(false);
+        Lekarz lekarz = new Lekarz();
+        ResultSet res = lekarz.search(database, id, result);
+        if (!result.get()) {
+            JOptionPane.showMessageDialog(null,"Blad szukania lekarza: " + Integer.toString(id) + " do tabelki",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
+            return "";
+        }
+        String s = "";
+        try {
+            while (res.next()) {
+                s = res.getString(2) + " " + res.getString(3);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Blad kursora lekarza: " + Integer.toString(id) + " do tabelki",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
+            return "";
+        }
+        return s;
     }
 }
