@@ -122,7 +122,7 @@ public class WyszukajPacjentaWindow extends JFrame {
                         id_lekarzRes = wynikiWyszukiwania.getInt(6);
                         upowaznieniaRes = wynikiWyszukiwania.getString(7);
                         flagiRes = wynikiWyszukiwania.getString(8);
-                        lekarz = znajdzLekarzaDoTabelki(id_lekarzRes);
+                        lekarz = Lekarz.znajdzLekarzaDoTabelki(database, id_lekarzRes);
                         vtIdPacjenci.add(wynikiWyszukiwania.getInt(9));
                         dtm.addRow(new Object[] {imieRes, nazwiskoRes, peselRes,
                                 adresRes, telefonRes, lekarz,
@@ -191,27 +191,6 @@ public class WyszukajPacjentaWindow extends JFrame {
         }
         JComboBox cb = new JComboBox(vtCombo);
         return cb;
-    }
-    private String znajdzLekarzaDoTabelki(int id) {
-        AtomicBoolean result = new AtomicBoolean(false);
-        Lekarz lekarz = new Lekarz();
-        ResultSet res = lekarz.search(database, id, result);
-        if (!result.get()) {
-            JOptionPane.showMessageDialog(null,"Blad szukania lekarza: " + Integer.toString(id) + " do tabelki",
-                    "ERROR", JOptionPane.ERROR_MESSAGE);
-            return "";
-        }
-        String s = "";
-        try {
-            while (res.next()) {
-                s = res.getString(2) + " " + res.getString(3);
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Blad kursora lekarza: " + Integer.toString(id) + " do tabelki",
-                    "ERROR", JOptionPane.ERROR_MESSAGE);
-            return "";
-        }
-        return s;
     }
     private class PopUp extends JPopupMenu {
         public PopUp(JTable tab, DefaultTableModel d) {

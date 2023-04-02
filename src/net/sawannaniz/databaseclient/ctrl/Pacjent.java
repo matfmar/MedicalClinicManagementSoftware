@@ -29,6 +29,17 @@ public class Pacjent extends ImplicitSearchingClass implements SaveableToPrzycho
         lekarzProwadzacy = 0;
         idPacjent = -1;
     }
+    public Pacjent(String im, String nazw, String psl) {
+        imie = im;
+        nazwisko = nazw;
+        pesel = psl;
+        telefon = "";
+        adres = "";
+        flagi = "";
+        upowaznienia = "";
+        lekarzProwadzacy = 0;
+        idPacjent = -1;
+    }
     public Pacjent(int id) {
         imie = "";
         nazwisko = "";

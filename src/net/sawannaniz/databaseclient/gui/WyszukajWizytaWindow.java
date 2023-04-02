@@ -20,6 +20,7 @@ public class WyszukajWizytaWindow extends JFrame {
         vtIdLekarze = new Vector<Integer>();
         vtIdPomieszczenia = new Vector<Integer>();
         vtIdPacjenci = new Vector<Integer>();
+        vtIdWizyty = new Vector<Integer>();
         id_cb_lek = -1;
         id_cb_pom = -1;
         id_cb_pac = -1;
@@ -78,12 +79,39 @@ public class WyszukajWizytaWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nazwisko = pacjentTextField.getText(); nazwisko = nazwisko.trim();
-                int id_lekarz, id_pomieszczenie;
+                int id_lekarz = -1, id_pomieszczenie = -1;
                 if (id_cb_lek != -1) id_lekarz = vtIdLekarze.get(id_cb_lek);
                 if (id_cb_pom != -1) id_pomieszczenie = vtIdPomieszczenia.get(id_cb_pom);
                 String dataOd = dataOdTextField.getText(); dataOd = dataOd.trim();
                 String dataDo = dataDoTextField.getText(); dataDo = dataDo.trim();
-
+                Wizyta wizytaDoZnalezienia = new Wizyta(nazwisko, id_lekarz, id_pomieszczenie);
+                AtomicBoolean result = new AtomicBoolean(false);
+                ResultSet wynikiWyszukiwania = wizytaDoZnalezienia.searchDatabase(database, dataOd, dataDo, result);
+                if (!result.get()) {
+                    JOptionPane.showMessageDialog(null, "Nie udalo sie odczytac danych", "Blad", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                String dataRes, nazwiskoRes, imieRes, peselRes, lekarzTotal, pomieszczenieTotal;
+                int id_lekarzRes, id_pomieszczenieRes, id_wizytaRes;
+                try {
+                    while (wynikiWyszukiwania.next()) {
+                        dataRes = wynikiWyszukiwania.getString(1);
+                        nazwiskoRes = wynikiWyszukiwania.getString(2);
+                        imieRes = wynikiWyszukiwania.getString(3);
+                        peselRes = wynikiWyszukiwania.getString(4);
+                        id_lekarzRes = wynikiWyszukiwania.getInt(5);
+                        id_pomieszczenieRes = wynikiWyszukiwania.getInt(6);
+                        id_wizytaRes = wynikiWyszukiwania.getInt(7);
+                        lekarzTotal = Lekarz.znajdzLekarzaDoTabelki(database, id_lekarzRes);
+                        pomieszczenieTotal = Pomieszczenie.znajdzPomieszczenieDoTabelki(database, id_pomieszczenieRes);
+                        vtIdWizyty.add(wynikiWyszukiwania.getInt(8));
+                        dtm.addRow(new Object[] {dataRes, nazwiskoRes, imieRes, peselRes,
+                                lekarzTotal, pomieszczenieTotal});
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,"Blad odczytu kursora", "Blad", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             }
         });
 
@@ -100,7 +128,7 @@ public class WyszukajWizytaWindow extends JFrame {
         setVisible(true);
     }
     private Database database;
-    private Vector<Integer> vtIdLekarze, vtIdPomieszczenia, vtIdPacjenci;
+    private Vector<Integer> vtIdLekarze, vtIdPomieszczenia, vtIdPacjenci, vtIdWizyty;
     private int id_cb_lek, id_cb_pom, id_cb_pac;
     private int comboboxCheckInfo(JComboBox cb) {
         if (cb != null) {

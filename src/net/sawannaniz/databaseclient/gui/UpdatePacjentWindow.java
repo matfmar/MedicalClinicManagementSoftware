@@ -223,25 +223,4 @@ public class UpdatePacjentWindow extends JFrame {
         }
         return 0;
     }
-    private String znajdzLekarzaDoTabelki(int id) {
-        AtomicBoolean result = new AtomicBoolean(false);
-        Lekarz lekarz = new Lekarz();
-        ResultSet res = lekarz.search(database, id, result);
-        if (!result.get()) {
-            JOptionPane.showMessageDialog(null,"Blad szukania lekarza: " + Integer.toString(id) + " do tabelki",
-                    "ERROR", JOptionPane.ERROR_MESSAGE);
-            return "";
-        }
-        String s = "";
-        try {
-            while (res.next()) {
-                s = res.getString(2) + " " + res.getString(3);
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Blad kursora lekarza: " + Integer.toString(id) + " do tabelki",
-                    "ERROR", JOptionPane.ERROR_MESSAGE);
-            return "";
-        }
-        return s;
-    }
 }

@@ -2,7 +2,9 @@ package net.sawannaniz.databaseclient.ctrl;
 
 import net.sawannaniz.databaseclient.dbutils.Database;
 
+import javax.swing.*;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -30,6 +32,27 @@ public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychod
         telefon = "";
         specjalizacje = "";
         id_lekarz = id;
+    }
+    public static String znajdzLekarzaDoTabelki(Database database, int id) {
+        AtomicBoolean result = new AtomicBoolean(false);
+        Lekarz lekarz = new Lekarz();
+        ResultSet res = lekarz.search(database, id, result);
+        if (!result.get()) {
+            JOptionPane.showMessageDialog(null,"Blad szukania lekarza: " + Integer.toString(id) + " do tabelki",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
+            return "";
+        }
+        String s = "";
+        try {
+            while (res.next()) {
+                s = res.getString(2) + " " + res.getString(3);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Blad kursora lekarza: " + Integer.toString(id) + " do tabelki",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
+            return "";
+        }
+        return s;
     }
     @Override
     public ResultSet search(Database database, AtomicBoolean result) {

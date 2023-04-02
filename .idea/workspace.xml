@@ -4,14 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="696a4dd2-2330-49db-b86d-5ee82d114f20" name="Changes" comment="now Wizyty can be handled!">
-      <change afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Wizyta.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajWizytaWindow.java" afterDir="false" />
+    <list default="true" id="696a4dd2-2330-49db-b86d-5ee82d114f20" name="Changes" comment="Started working with wizyty...">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Lekarz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Lekarz.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pacjent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pacjent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pomieszczenie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pomieszczenie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajLekarzaWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajLekarzaWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Wizyta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Wizyta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/dbutils/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/dbutils/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/UpdatePacjentWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/UpdatePacjentWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajPacjentaWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajPacjentaWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajWizytaWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajWizytaWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -259,7 +261,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680447020297</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Started working with wizyty...">
+      <created>1680461825843</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1680461825843</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -282,6 +291,7 @@
     <MESSAGE value="added some fixes with comboboxes" />
     <MESSAGE value="added update and delete on lekarz!" />
     <MESSAGE value="now Wizyty can be handled!" />
-    <option name="LAST_COMMIT_MESSAGE" value="now Wizyty can be handled!" />
+    <MESSAGE value="Started working with wizyty..." />
+    <option name="LAST_COMMIT_MESSAGE" value="Started working with wizyty..." />
   </component>
 </project>

@@ -22,6 +22,32 @@ public class Database {
         }
         return true;
     }
+    public static boolean checkStringForProperDatetime(String s) {
+        char c = ';', shouldBe = ';';
+        for (int i=0; i<s.length(); ++i) {
+            switch (i) {
+                case 4: shouldBe = '-'; break;
+                case 7: shouldBe = '-'; break;
+                case 10: shouldBe = ' '; break;
+                case 13: shouldBe = ':'; break;
+                default: shouldBe = ';'; break;
+            }
+            c = s.charAt(i);
+            if (shouldBe == ';') {
+                if (!Character.isDigit(c)) {
+                    System.out.println("Dane wejsciowe nie spelniaja kryteriow!");
+                    return false;
+                }
+            }
+            else {
+                if (Character.compare(c, shouldBe) != 0) {
+                    System.out.println("Dane wejsciowe nie spelniaja kryteriow!");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public static String addCommas(String s) {
         String result = "\'" + s + "\'";
         return result;
