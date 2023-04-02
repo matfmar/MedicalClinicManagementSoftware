@@ -1,6 +1,7 @@
 package net.sawannaniz.databaseclient.gui;
 
 import net.sawannaniz.databaseclient.ctrl.Lekarz;
+import net.sawannaniz.databaseclient.ctrl.Pomieszczenie;
 import net.sawannaniz.databaseclient.dbutils.*;
 
 import javax.swing.*;
@@ -9,12 +10,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WyszukajLekarzaWindow extends JFrame {
     public WyszukajLekarzaWindow(Database db) {
         super("Wyszukaj lekarza");
         database = db;
+        vtIdLekarze = new Vector<Integer>();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //COMPONENTS
         JLabel label1 = new JLabel("Imie: ");
@@ -70,6 +73,7 @@ public class WyszukajLekarzaWindow extends JFrame {
                         pwzRes = wynikiWyszukiwania.getString(3);
                         telefonRes = wynikiWyszukiwania.getString(4);
                         specjalizacjeRes = wynikiWyszukiwania.getString(5);
+                        vtIdLekarze.add(wynikiWyszukiwania.getInt(6));
                         dtm.addRow(new Object[] {imieRes, nazwiskoRes, pwzRes, telefonRes, specjalizacjeRes});
                     }
                 } catch (SQLException ex) {
@@ -92,4 +96,51 @@ public class WyszukajLekarzaWindow extends JFrame {
 
     }
     private Database database;
+    private Vector<Integer> vtIdLekarze;
+    private class PopUp extends JPopupMenu {
+        public PopUp(JTable tab, DefaultTableModel d) {
+            table = tab;
+            dtm = d;
+            JMenuItem updateMenuItem = new JMenuItem("Modyfikuj");
+            JMenuItem deleteMenuItem = new JMenuItem("Usun");
+            add(updateMenuItem);
+            add(deleteMenuItem);
+            updateMenuItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    UpdateLekarzeWindow updateLekarzeWindow = new UpdateLekarzeWindow(database, dtm, table, vtIdLekarze);
+                }
+            });
+            deleteMenuItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    int decision = JOptionPane.showConfirmDialog(null,
+                            "Czy na pewno chcesz usunac ten wpis?",
+                            "Usuwanie wpisu", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (decision == JOptionPane.YES_OPTION) {
+                        deleteLekarz();
+                    }
+                }
+            });
+        }
+        private JTable table;
+        private DefaultTableModel dtm;
+        private void deleteLekarz() {
+            int idSelected = table.getSelectedRow();
+            if (idSelected == -1) {
+                JOptionPane.showMessageDialog(null,"Nie wybrano lekarza","ERROR",JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            int idLekarz = vtIdLekarze.get(idSelected);
+            Lekarz lekarzDoUsuniecia = new Lekarz(idLekarz);
+            if (lekarzDoUsuniecia.removeFromDatabase(database)) {
+                JOptionPane.showMessageDialog(null,"Usunieto lekarza", "OK",JOptionPane.INFORMATION_MESSAGE);
+                dtm.removeRow(idSelected);
+                vtIdLekarze.remove(idSelected);
+            }
+            else {
+                JOptionPane.showMessageDialog(null,"Blad w usuwaniu lekarza !","ERROR",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 }

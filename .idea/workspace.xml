@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="696a4dd2-2330-49db-b86d-5ee82d114f20" name="Changes" comment="added some fixes in inserting null data">
+    <list default="true" id="696a4dd2-2330-49db-b86d-5ee82d114f20" name="Changes" comment="added some fixes with comboboxes">
+      <change afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/UpdateLekarzeWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajPacjentaWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajPacjentaWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Lekarz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Lekarz.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajLekarzaWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajLekarzaWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -226,7 +228,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680435314092</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="added some fixes with comboboxes">
+      <created>1680436679568</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1680436679568</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -246,6 +255,7 @@
     <MESSAGE value="deletes pomieszczenia !" />
     <MESSAGE value="updates Pomieszczenia !!!" />
     <MESSAGE value="added some fixes in inserting null data" />
-    <option name="LAST_COMMIT_MESSAGE" value="added some fixes in inserting null data" />
+    <MESSAGE value="added some fixes with comboboxes" />
+    <option name="LAST_COMMIT_MESSAGE" value="added some fixes with comboboxes" />
   </component>
 </project>

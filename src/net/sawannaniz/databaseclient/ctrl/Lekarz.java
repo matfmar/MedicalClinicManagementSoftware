@@ -13,6 +13,7 @@ public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychod
         pwz = p;
         telefon = t;
         specjalizacje = s;
+        id_lekarz = -1;
     }
     public Lekarz() {
         imie = "";
@@ -20,6 +21,15 @@ public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychod
         pwz = "";
         telefon = "";
         specjalizacje = "";
+        id_lekarz = -1;
+    }
+    public Lekarz(int id) {
+        imie = "";
+        nazwisko = "";
+        pwz = "";
+        telefon = "";
+        specjalizacje = "";
+        id_lekarz = id;
     }
     @Override
     public ResultSet search(Database database, AtomicBoolean result) {
@@ -55,7 +65,7 @@ public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychod
             result.set(false);
             return null;
         }
-        String what = "imie, nazwisko, pwz, telefon, specjalizacje";
+        String what = "imie, nazwisko, pwz, telefon, specjalizacje, id_lekarz";
         String table = "Lekarze";
         if ((imie.isEmpty() && nazwisko.isEmpty()) && (pwz.isEmpty() && specjalizacje.isEmpty()))
             return (database.select(what, table, result));
@@ -81,7 +91,9 @@ public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychod
 
     @Override
     public boolean removeFromDatabase(Database database) {
-        return false;
+        String table = "Lekarze";
+        String where = "id_lekarz = " + Integer.toString(id_lekarz);
+        return (database.delete(table, where));
     }
 
     @Override
@@ -89,6 +101,7 @@ public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychod
         return false;
     }
     private String imie, nazwisko, pwz, telefon, specjalizacje;
+    private int id_lekarz;
     private boolean checkInputData() {
         Vector<String> strarr = new Vector<String>();
         strarr.add(imie);
