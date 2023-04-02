@@ -41,13 +41,10 @@ public class WyszukajPacjentaWindow extends JFrame {
         JComboBox cb = createComboBox(result);
         if (!result.get()) {
             JOptionPane.showMessageDialog(null, "Failed to load comboBox","Error",JOptionPane.ERROR_MESSAGE);
-            znajdzButton.setEnabled(false);
-            return;
         }
-        else {
-            znajdzButton.setEnabled(true);
+        if (cb != null) {
+            id_cb = cb.getSelectedIndex();
         }
-        id_cb = cb.getSelectedIndex();
         DefaultTableModel dtm = new DefaultTableModel();
         JTable table = new JTable(dtm);
         dtm.addColumn("Imie");
@@ -75,22 +72,25 @@ public class WyszukajPacjentaWindow extends JFrame {
         panelAdres.add(label5); panelAdres.add(adresTextField);
         panelUpowaznienia.add(label6); panelUpowaznienia.add(upowaznieniaTextField);
         panelAdnotacje.add(label8); panelAdnotacje.add(adnotacjeTextField);
-        panelLekarz.add(label7); panelLekarz.add(cb);
+        if (cb != null) {
+            panelLekarz.add(label7);
+            panelLekarz.add(cb);
+        }
         //SETUP EVENTS
-        cb.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                id_cb = cb.getSelectedIndex();
-            }
-        });
+        if (cb != null) {
+            cb.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    id_cb = cb.getSelectedIndex();
+                }
+            });
+        }
         znajdzButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 dtm.setRowCount(0);
                 String imie, nazwisko, pesel, telefon, adres, upowaznienia, adnotacje;
                 int id_lekarz = -1;
-                if (id_cb < 0)
-                    return;
                 imie = imieTextField.getText(); imie = imie.trim();
                 nazwisko = nazwiskoTextField.getText(); nazwisko = nazwisko.trim();
                 pesel = peselTextField.getText(); pesel = pesel.trim();
@@ -98,7 +98,8 @@ public class WyszukajPacjentaWindow extends JFrame {
                 adres = adresTextField.getText(); adres = adres.trim();
                 upowaznienia = upowaznieniaTextField.getText(); upowaznienia = upowaznienia.trim();
                 adnotacje = adnotacjeTextField.getText(); adnotacje = adnotacje.trim();
-                id_lekarz = vtIndexes.get(id_cb);   //powinno sie zgadzac
+                if (id_cb >= 0)
+                    id_lekarz = vtIndexes.get(id_cb);   //powinno sie zgadzac
                 Pacjent pacjentDoWyszukania = new Pacjent(imie, nazwisko, pesel, telefon, adres, adnotacje, upowaznienia, id_lekarz);
                 AtomicBoolean result = new AtomicBoolean(false);
                 ResultSet wynikiWyszukiwania = pacjentDoWyszukania.searchDatabase(database, result);
