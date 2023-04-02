@@ -48,9 +48,18 @@ public class Pacjent extends ImplicitSearchingClass implements SaveableToPrzycho
             return false;
         String table = "Pacjenci";
         String columns = "imie, nazwisko, pesel, id_lekarz, telefon, adres, osoby_upowaznione, flagi";
-        String params = addCommas(imie) + "," + addCommas(nazwisko) + "," + addCommas(pesel) + "," +
-                Integer.toString(lekarzProwadzacy) + "," +
-                addCommas(telefon) + "," + addCommas(adres) + "," + addCommas(upowaznienia) + "," + addCommas(flagi);
+        String imiePart = addCommas(imie);
+        String nazwiskoPart = addCommas(nazwisko);
+        String peselPart = addCommas(pesel);
+        String lekarzPart, telefonPart, adresPart, upowaznieniaPart, flagiPart;
+        if (lekarzProwadzacy > 0) lekarzPart = Integer.toString(lekarzProwadzacy); else lekarzPart = "NULL";
+        if (telefon.isEmpty()) telefonPart = "NULL"; else telefonPart = addCommas(telefon);
+        if (adres.isEmpty()) adresPart = "NULL"; else adresPart = addCommas(adres);
+        if (upowaznienia.isEmpty()) upowaznieniaPart = "NULL"; else upowaznieniaPart = addCommas(upowaznienia);
+        if (flagi.isEmpty()) flagiPart = "NULL"; else flagiPart = addCommas(flagi);
+        String params = imiePart + "," + nazwiskoPart + "," + peselPart + "," +
+                lekarzPart + "," +
+                telefonPart + "," + adresPart + "," + upowaznieniaPart + "," + flagiPart;
         return (database.insert(table, columns, params));
     }
     public ResultSet searchDatabase(Database database, AtomicBoolean result) {

@@ -36,18 +36,15 @@ public class NowyPacjentWindow extends JFrame {
         JTextField adnotacjeTextField = new JTextField(15);
         JButton dodajButton = new JButton("Dodaj");
         JButton zamknijButton = new JButton("Zamknij");
-        dodajButton.setEnabled(false);
         AtomicBoolean result = new AtomicBoolean(false);
         JComboBox cb = createComboBox(result);
         if (!result.get()) {
             JOptionPane.showMessageDialog(null, "Failed to load comboBox","Error",JOptionPane.ERROR_MESSAGE);
-            dodajButton.setEnabled(false);
-            return;
         }
-        else {
-            dodajButton.setEnabled(true);
-        }
-        id_cb = cb.getSelectedIndex();
+        if (cb != null)
+            id_cb = cb.getSelectedIndex();
+        else
+            id_cb = -1;
         //PANELS
         JPanel panelImie = new JPanel();
         JPanel panelNaziwsko = new JPanel();
@@ -65,15 +62,20 @@ public class NowyPacjentWindow extends JFrame {
         panelAdres.add(label5); panelAdres.add(adresTextField);
         panelUpowaznienia.add(label6); panelUpowaznienia.add(upowaznieniaTextField);
         panelAdnotacje.add(label8); panelAdnotacje.add(adnotacjeTextField);
-        panelLekarz.add(label7); panelLekarz.add(cb);
+        if (cb != null) {
+            panelLekarz.add(label7);
+            panelLekarz.add(cb);
+        }
         panelButtons.add(dodajButton); panelButtons.add(zamknijButton);
         //EVENTS SETUP
-        cb.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                id_cb = cb.getSelectedIndex();
-            }
-        });
+        if (cb != null) {
+            cb.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    id_cb = cb.getSelectedIndex();
+                }
+            });
+        }
         zamknijButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -85,8 +87,6 @@ public class NowyPacjentWindow extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 String imie, nazwisko, pesel, telefon, adres, upowaznienia, adnotacje;
                 int id_lekarz = -1;
-                if (id_cb < 0)
-                    return;
                 imie = imieTextField.getText(); imie = imie.trim();
                 nazwisko = nazwiskoTextField.getText(); nazwisko = nazwisko.trim();
                 pesel = peselTextField.getText(); pesel = pesel.trim();
@@ -94,7 +94,10 @@ public class NowyPacjentWindow extends JFrame {
                 adres = adresTextField.getText(); adres = adres.trim();
                 upowaznienia = upowaznieniaTextField.getText(); upowaznienia = upowaznienia.trim();
                 adnotacje = adnotacjeTextField.getText(); adnotacje = adnotacje.trim();
-                id_lekarz = vtIndexes.get(id_cb);   //powinno sie zgadzac
+                if (id_cb >= 0)
+                    id_lekarz = vtIndexes.get(id_cb);   //powinno sie zgadzac
+                else
+                    id_lekarz = -1;
                 if (imie.isEmpty() || (nazwisko.isEmpty() || pesel.isEmpty())) {
                     JOptionPane.showMessageDialog(null,"Za malo danych", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -110,7 +113,8 @@ public class NowyPacjentWindow extends JFrame {
                     adnotacjeTextField.setText("");
                     upowaznieniaTextField.setText("");
                     id_lekarz = -1;
-                    cb.setSelectedIndex(0);
+                    if (cb != null)
+                        cb.setSelectedIndex(0);
                 }
                 else {
                     JOptionPane.showMessageDialog(null,"Nie udalo sie dodac do bazy", "Error", JOptionPane.ERROR_MESSAGE);
@@ -145,6 +149,8 @@ public class NowyPacjentWindow extends JFrame {
         Vector<String> vtCombo = new Vector<String>();
         String imie, nazwisko, pwz, total;
         int id_lekarz = 0;
+        vtCombo.add("");    //lekarz is not obligatory
+        vtIndexes.add(-1);  //as above
         try {
             while (resultSet.next()) {
                 id_lekarz = resultSet.getInt(1);

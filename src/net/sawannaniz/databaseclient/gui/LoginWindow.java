@@ -39,7 +39,9 @@ public class LoginWindow extends JFrame {
                 Database db = new Database(user, password);
                 if (!db.connect()) {
                     JOptionPane.showMessageDialog(new JDialog(), "Blad logowania!");
-                    System.exit(-1);
+                    //System.exit(-1);      //uncomment this !!!!!!!!!!!!!
+                    MainWindow mainWindow = new MainWindow(db); //remove this !!!!!!!!!
+                    close();    //remove this!!!!!!!!!!!
                 }
                 else {
                     MainWindow mainWindow = new MainWindow(db);
