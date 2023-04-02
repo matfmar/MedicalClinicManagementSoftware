@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="696a4dd2-2330-49db-b86d-5ee82d114f20" name="Changes" comment="added update and delete on lekarz!">
-      <change afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/UpdatePacjentWindow.java" afterDir="false" />
+    <list default="true" id="696a4dd2-2330-49db-b86d-5ee82d114f20" name="Changes" comment="now Wizyty can be handled!">
+      <change afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Wizyta.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajWizytaWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pacjent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pacjent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pomieszczenie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pomieszczenie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/MainWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajLekarzaWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajLekarzaWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajPacjentaWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajPacjentaWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -249,7 +252,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680440519325</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="now Wizyty can be handled!">
+      <created>1680447020297</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1680447020297</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -271,6 +281,7 @@
     <MESSAGE value="added some fixes in inserting null data" />
     <MESSAGE value="added some fixes with comboboxes" />
     <MESSAGE value="added update and delete on lekarz!" />
-    <option name="LAST_COMMIT_MESSAGE" value="added update and delete on lekarz!" />
+    <MESSAGE value="now Wizyty can be handled!" />
+    <option name="LAST_COMMIT_MESSAGE" value="now Wizyty can be handled!" />
   </component>
 </project>

@@ -8,6 +8,8 @@ import net.sawannaniz.databaseclient.dbutils.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -129,6 +131,16 @@ public class WyszukajPacjentaWindow extends JFrame {
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,"Blad odczytu kursora", "Blad", JOptionPane.ERROR_MESSAGE);
                     return;
+                }
+            }
+        });
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    WyszukajPacjentaWindow.PopUp menu = new WyszukajPacjentaWindow.PopUp(table, dtm);
+                    menu.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
         });

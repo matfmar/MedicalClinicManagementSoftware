@@ -132,6 +132,13 @@ public class MainWindow extends JFrame {
                 WyszukajPacjentaWindow wyszukajPacjentaWindow = new WyszukajPacjentaWindow(database);
             }
         });
+        //MENU WIZYTY
+        menuItemZnajdzWizyte.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                WyszukajWizytaWindow wyszukajWizytaWindow = new WyszukajWizytaWindow(database);
+            }
+        });
 
         pack();
         setSize(400,400);

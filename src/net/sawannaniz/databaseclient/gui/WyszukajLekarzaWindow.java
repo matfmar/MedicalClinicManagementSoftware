@@ -8,6 +8,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -50,6 +52,7 @@ public class WyszukajLekarzaWindow extends JFrame {
         panelSpecjalizacja.add(label4); panelSpecjalizacja.add(specjalizacjaTextField);
         panelTable.add(scrTable);
         //EVENTS SETUP
+
         wyszukajButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -79,6 +82,16 @@ public class WyszukajLekarzaWindow extends JFrame {
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,"Blad odczytu kursora", "Blad", JOptionPane.ERROR_MESSAGE);
                     return;
+                }
+            }
+        });
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    WyszukajLekarzaWindow.PopUp menu = new WyszukajLekarzaWindow.PopUp(table, dtm);
+                    menu.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
         });

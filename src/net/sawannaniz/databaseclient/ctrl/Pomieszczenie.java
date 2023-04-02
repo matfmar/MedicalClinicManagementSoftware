@@ -7,6 +7,12 @@ import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Pomieszczenie extends ImplicitSearchingClass implements SaveableToPrzychodnia {
+    public Pomieszczenie() {
+        numer = "";
+        pietro = -1;
+        bezPietra = false;
+        id = -1;
+    }
     public Pomieszczenie(int idPom, String nr, int p) {
         numer = nr;
         pietro = p;
