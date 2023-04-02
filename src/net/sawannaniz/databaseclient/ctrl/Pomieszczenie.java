@@ -97,7 +97,12 @@ public class Pomieszczenie extends ImplicitSearchingClass implements SaveableToP
         if (!checkNumerAndPietro())
             return false;
         String numerPart = "numer = " + Database.addCommas(numer);
-        String pietroPart = "pietro = " + Integer.toString(pietro);
+        String pietroPart;
+        if (pietro != 9876)
+            pietroPart = "pietro = " + Integer.toString(pietro);
+        else {
+            pietroPart = "pietro = NULL";
+        }
         String data = numerPart + ", " + pietroPart;
         String condition = "id_pomieszczenie = " + Integer.toString(id);
         return (database.update(table, data, condition));

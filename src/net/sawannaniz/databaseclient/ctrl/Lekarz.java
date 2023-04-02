@@ -98,7 +98,18 @@ public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychod
 
     @Override
     public boolean modifyInDatabase(Database database) {
-        return false;
+        String table = "Lekarze";
+        if (!checkInputData())
+            return false;
+        String imiePart = "", nazwiskoPart = "", pwzPart = "", specjalizacjaPart = "", telefonPart = "";
+        imiePart = "imie = " + addCommas(imie);
+        nazwiskoPart = "nazwisko = " + addCommas(nazwisko);
+        pwzPart = "pwz = " + addCommas(pwz);
+        if (!telefon.isEmpty()) telefonPart = "telefon = " + addCommas(telefon); else telefonPart = "telefon = NULL";
+        if (!specjalizacje.isEmpty()) specjalizacjaPart = "specjalizacje = " + addCommas(specjalizacje); else specjalizacjaPart = "specjalizacje = NULL";
+        String data = imiePart + ", " + nazwiskoPart + ", " + pwzPart + ", " + telefonPart + ", " + specjalizacjaPart;
+        String condition = "id_lekarz = " + Integer.toString(id_lekarz);
+        return (database.update(table, data, condition));
     }
     private String imie, nazwisko, pwz, telefon, specjalizacje;
     private int id_lekarz;

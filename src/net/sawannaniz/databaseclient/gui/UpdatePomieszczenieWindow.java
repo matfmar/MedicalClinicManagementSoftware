@@ -75,15 +75,17 @@ public class UpdatePomieszczenieWindow extends JFrame {
                     return;
                 }
                 String pietroStr = pietroTextField.getText(); pietroStr = pietroStr.trim();
-                int pietro = -1;
-                try {
-                    pietro= Integer.parseInt(pietroStr);
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null,
-                            "Conversion problem",
-                            "Conversion problem",
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
+                int pietro = 9876;
+                if (!pietroStr.isEmpty()) {
+                    try {
+                        pietro = Integer.parseInt(pietroStr);
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null,
+                                "Conversion problem",
+                                "Conversion problem",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                 }
                 Pomieszczenie pomieszczenieDoZmiany = new Pomieszczenie(idPomieszczenie, numer, pietro);
                 if (pomieszczenieDoZmiany.modifyInDatabase(database)) {
