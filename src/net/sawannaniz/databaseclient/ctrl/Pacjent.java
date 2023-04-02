@@ -16,6 +16,7 @@ public class Pacjent extends ImplicitSearchingClass implements SaveableToPrzycho
         flagi = f;
         upowaznienia = u;
         lekarzProwadzacy = lP;
+        idPacjent = -1;
     }
     public Pacjent() {
         imie = "";
@@ -26,6 +27,18 @@ public class Pacjent extends ImplicitSearchingClass implements SaveableToPrzycho
         flagi = "";
         upowaznienia = "";
         lekarzProwadzacy = 0;
+        idPacjent = -1;
+    }
+    public Pacjent(int id) {
+        imie = "";
+        nazwisko = "";
+        pesel = "";
+        telefon = "";
+        adres = "";
+        flagi = "";
+        upowaznienia = "";
+        lekarzProwadzacy = 0;
+        idPacjent = id;
     }
 
     @Override
@@ -37,7 +50,7 @@ public class Pacjent extends ImplicitSearchingClass implements SaveableToPrzycho
     @Override
     public ResultSet search(Database database, int id, AtomicBoolean result) {
         String table = "Pacjenci";
-        String what = "id_pacjent, imie, nazwisko, pesel";
+        String what = "id_pacjent, imie, nazwisko, pesel, id_lekarz, telefon, adres, osoby_upowaznione, flagi";
         String condition = "id_pacjent = " + Integer.toString(id);
         return (database.select(what, table, condition, result));
     }
@@ -47,7 +60,7 @@ public class Pacjent extends ImplicitSearchingClass implements SaveableToPrzycho
         if (!checkInputData())
             return false;
         String table = "Pacjenci";
-        String columns = "imie, nazwisko, pesel, id_lekarz, telefon, adres, osoby_upowaznione, flagi";
+        String columns = "imie, nazwisko, pesel, id_lekarz, telefon, adres, osoby_upowaznione, flagi, id_pacjent";
         String imiePart = addCommas(imie);
         String nazwiskoPart = addCommas(nazwisko);
         String peselPart = addCommas(pesel);
@@ -94,15 +107,38 @@ public class Pacjent extends ImplicitSearchingClass implements SaveableToPrzycho
 
     @Override
     public boolean removeFromDatabase(Database database) {
-        return false;
+        String table = "Pacjenci";
+        String where = "id_pacjent = " + Integer.toString(idPacjent);
+        return (database.delete(table, where));
     }
 
     @Override
     public boolean modifyInDatabase(Database database) {
-        return false;
+        if (!checkInputData())
+            return false;
+        String table = "Pacjenci";
+        String columns = "imie, nazwisko, pesel, id_lekarz, telefon, adres, osoby_upowaznione, flagi, id_pacjent";
+        String imiePart, nazwiskoPart, peselPart, lekarzPart, telefonPart, adresPart, upowaznieniaPart, flagiPart;
+        imiePart = "imie = " + addCommas(imie);
+        nazwiskoPart = "nazwisko = " + addCommas(nazwisko);
+        peselPart = "pesel = " + addCommas(pesel);
+        if (lekarzProwadzacy > 0) {
+            lekarzPart = "id_lekarz = " + Integer.toString(lekarzProwadzacy);
+        } else {
+            lekarzPart = "id_lekarz = NULL";
+        }
+        if (telefon.isEmpty()) telefonPart = "telefon = NULL"; else telefonPart = "telefon = " + addCommas(telefon);
+        if (adres.isEmpty()) adresPart = "adres = NULL"; else adresPart = "adres = " + addCommas(adres);
+        if (upowaznienia.isEmpty()) upowaznieniaPart = "osoby_upowaznione = NULL"; else upowaznieniaPart = "osoby_upowaznione = " + addCommas(upowaznienia);
+        if (flagi.isEmpty()) flagiPart = "flagi = NULL"; else flagiPart = "flagi = " + addCommas(flagi);
+        String data = imiePart + "," + nazwiskoPart + "," + peselPart + "," +
+                lekarzPart + "," +
+                telefonPart + "," + adresPart + "," + upowaznieniaPart + "," + flagiPart;
+        String condition = "id_pacjent = " + Integer.toString(idPacjent);
+        return (database.update(table, data, condition));
     }
     private String imie, nazwisko, pesel, telefon, adres, flagi, upowaznienia;
-    private int lekarzProwadzacy;
+    private int lekarzProwadzacy, idPacjent;
     private boolean checkInputData() {
         Vector<String> strarr = new Vector<String>();
         strarr.add(imie);
