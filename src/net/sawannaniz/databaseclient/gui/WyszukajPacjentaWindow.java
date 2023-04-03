@@ -16,7 +16,7 @@ import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WyszukajPacjentaWindow extends JFrame {
-    public WyszukajPacjentaWindow(Database db) {
+    public WyszukajPacjentaWindow(Database db, JTextField pesel2TextField, boolean peselReturn) {
         super("Znajdz pacjenta");
         database = db;
         id_cb = -1;
@@ -59,6 +59,10 @@ public class WyszukajPacjentaWindow extends JFrame {
         dtm.addColumn("Upowaznienia");
         dtm.addColumn("Adnotacje");
         JScrollPane scrTable = new JScrollPane(table);
+        JButton zwrocPeselButton = null;
+        //w przypadku zwracania PESEL dla potrzeb nowej wizyty
+        if (peselReturn)
+            zwrocPeselButton = new JButton("Wybierz PESEL zaznaczonego pacjenta");
         //PANELS
         JPanel panelImie = new JPanel();
         JPanel panelNazwisko = new JPanel();
@@ -134,17 +138,33 @@ public class WyszukajPacjentaWindow extends JFrame {
                 }
             }
         });
-        table.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if (SwingUtilities.isRightMouseButton(e)) {
-                    WyszukajPacjentaWindow.PopUp menu = new WyszukajPacjentaWindow.PopUp(table, dtm);
-                    menu.show(e.getComponent(), e.getX(), e.getY());
+        if (!peselReturn) {
+            table.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    if (SwingUtilities.isRightMouseButton(e)) {
+                        WyszukajPacjentaWindow.PopUp menu = new WyszukajPacjentaWindow.PopUp(table, dtm);
+                        menu.show(e.getComponent(), e.getX(), e.getY());
+                    }
                 }
-            }
-        });
-
+            });
+        }
+        else {
+            zwrocPeselButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    int id_selected = table.getSelectedRow();
+                    if (id_selected == -1) {
+                        JOptionPane.showMessageDialog(null,"nic nie wybrano!", "error", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+                    String pesel = table.getValueAt(id_selected, 2).toString();
+                    pesel2TextField.setText(pesel);
+                    close();
+                }
+            });
+        }
         //GET EVERYTHING TOGETHER
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         getContentPane().add(panelImie);
@@ -157,8 +177,13 @@ public class WyszukajPacjentaWindow extends JFrame {
         getContentPane().add(panelLekarz);
         getContentPane().add(znajdzButton);
         getContentPane().add(scrTable);
+        if (peselReturn)
+            getContentPane().add(zwrocPeselButton);
         pack();
         setVisible(true);
+    }
+    public void close() {
+        dispose();
     }
     private Database database;
     private int id_cb;

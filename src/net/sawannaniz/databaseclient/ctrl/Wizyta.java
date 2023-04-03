@@ -9,10 +9,21 @@ import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Wizyta extends ImplicitSearchingClass implements SaveableToPrzychodnia {
-    public Wizyta(String nazwisko, int id_lek, int id_pom) {
-        nazwiskoPacjent = nazwisko;
+    public Wizyta(String pesel, int id_lek, int id_pom, String d) {
+        nazwiskoPacjent = "";
+        peselPacjent = pesel;
+        data = d;
         id_lekarz = id_lek;
         id_pomieszczenie = id_pom;
+        id_pacjent = -1;
+    }
+    public Wizyta(String nazwisko, int id_lek, int id_pom) {
+        nazwiskoPacjent = nazwisko;
+        peselPacjent = "";
+        data = "";
+        id_lekarz = id_lek;
+        id_pomieszczenie = id_pom;
+        id_pacjent = -1;
     }
     @Override
     public ResultSet search(Database database, AtomicBoolean result) {
@@ -46,7 +57,25 @@ public class Wizyta extends ImplicitSearchingClass implements SaveableToPrzychod
         return (database.select(what, table, where, result));
     }
     public boolean insertToDatabase(Database database) {
-        return false;
+
+        ///////////////////////
+        if (!checkInputData())
+            return false;
+        String table = "Pacjenci";
+        String columns = "imie, nazwisko, pesel, id_lekarz, telefon, adres, osoby_upowaznione, flagi";
+        String imiePart = addCommas(imie);
+        String nazwiskoPart = addCommas(nazwisko);
+        String peselPart = addCommas(pesel);
+        String lekarzPart, telefonPart, adresPart, upowaznieniaPart, flagiPart;
+        if (lekarzProwadzacy > 0) lekarzPart = Integer.toString(lekarzProwadzacy); else lekarzPart = "NULL";
+        if (telefon.isEmpty()) telefonPart = "NULL"; else telefonPart = addCommas(telefon);
+        if (adres.isEmpty()) adresPart = "NULL"; else adresPart = addCommas(adres);
+        if (upowaznienia.isEmpty()) upowaznieniaPart = "NULL"; else upowaznieniaPart = addCommas(upowaznienia);
+        if (flagi.isEmpty()) flagiPart = "NULL"; else flagiPart = addCommas(flagi);
+        String params = imiePart + "," + nazwiskoPart + "," + peselPart + "," +
+                lekarzPart + "," +
+                telefonPart + "," + adresPart + "," + upowaznieniaPart + "," + flagiPart;
+        return (database.insert(table, columns, params));;
     }
     public boolean removeFromDatabase(Database database) {
         return false;
@@ -55,7 +84,7 @@ public class Wizyta extends ImplicitSearchingClass implements SaveableToPrzychod
         return false;
     }
     private int id_lekarz, id_pomieszczenie, id_pacjent;
-    private String nazwiskoPacjent;
+    private String nazwiskoPacjent, data, peselPacjent;
     private boolean checkInputData() {
         Vector<String> strarr = new Vector<String>();
         strarr.add(nazwiskoPacjent);

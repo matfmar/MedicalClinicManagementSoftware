@@ -129,7 +129,7 @@ public class MainWindow extends JFrame {
         menuItemZnajdzPacjenta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                WyszukajPacjentaWindow wyszukajPacjentaWindow = new WyszukajPacjentaWindow(database);
+                WyszukajPacjentaWindow wyszukajPacjentaWindow = new WyszukajPacjentaWindow(database, null, false);
             }
         });
         //MENU WIZYTY
@@ -137,6 +137,12 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 WyszukajWizytaWindow wyszukajWizytaWindow = new WyszukajWizytaWindow(database);
+            }
+        });
+        menuItemDodajWizyte.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                NowaWizytaWindow nowaWizytaWindow = new NowaWizytaWindow(database);
             }
         });
 
