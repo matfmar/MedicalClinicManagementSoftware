@@ -7,6 +7,17 @@ import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Pacjent extends ImplicitSearchingClass implements SaveableToPrzychodnia{
+    public Pacjent(String i, String n, String p, String t, String a, String f, String u, int lP, int id) {
+        imie = i;
+        nazwisko = n;
+        pesel = p;
+        telefon = t;
+        adres = a;
+        flagi = f;
+        upowaznienia = u;
+        lekarzProwadzacy = lP;
+        idPacjent = id;
+    }
     public Pacjent(String i, String n, String p, String t, String a, String f, String u, int lP) {
         imie = i;
         nazwisko = n;
@@ -71,7 +82,7 @@ public class Pacjent extends ImplicitSearchingClass implements SaveableToPrzycho
         if (!checkInputData())
             return false;
         String table = "Pacjenci";
-        String columns = "imie, nazwisko, pesel, id_lekarz, telefon, adres, osoby_upowaznione, flagi, id_pacjent";
+        String columns = "imie, nazwisko, pesel, id_lekarz, telefon, adres, osoby_upowaznione, flagi";
         String imiePart = addCommas(imie);
         String nazwiskoPart = addCommas(nazwisko);
         String peselPart = addCommas(pesel);
@@ -91,7 +102,7 @@ public class Pacjent extends ImplicitSearchingClass implements SaveableToPrzycho
             result.set(false);
             return null;
         }
-        String what = "imie, nazwisko, pesel, adres, telefon, id_lekarz, osoby_upowaznione, flagi";
+        String what = "imie, nazwisko, pesel, adres, telefon, id_lekarz, osoby_upowaznione, flagi, id_pacjent";
         String table = "Pacjenci";
         String imiePart, nazwiskoPart, peselPart, adresPart, telefonPart, id_lekarzPart, upowaznieniaPart, flagiPart;
         if (!imie.isEmpty()) imiePart = "imie = " + addCommas(imie); else

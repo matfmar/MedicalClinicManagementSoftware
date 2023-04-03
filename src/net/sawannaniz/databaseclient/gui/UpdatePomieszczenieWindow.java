@@ -21,6 +21,12 @@ public class UpdatePomieszczenieWindow extends JFrame {
         dtm = dt;
         table = t;
         vtId = vtIdPomieszczenia;
+        //BASIC TEST
+        int idSelected = table.getSelectedRow();
+        if (idSelected == -1) {
+            JOptionPane.showMessageDialog(null, "Nie wybrano nic", "error", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
         //COMPONENTS
         JLabel label1 = new JLabel("pietro: ");
         JLabel label2 = new JLabel("numer pomieszczenia: ");
@@ -39,7 +45,6 @@ public class UpdatePomieszczenieWindow extends JFrame {
         panelButtons.add(buttonUpdate);
         panelButtons.add(buttonZamknij);
         //SETTING UP DATA
-        int idSelected = table.getSelectedRow();
         int idPomieszczenie = vtId.get(idSelected);
         Pomieszczenie pomieszczenieDoZmiany = new Pomieszczenie(idPomieszczenie);
         AtomicBoolean result = new AtomicBoolean(false);
@@ -51,7 +56,7 @@ public class UpdatePomieszczenieWindow extends JFrame {
         else {
             try {
                 while (danePomieszczenia.next()) {
-                    pietroTextField.setText(Integer.toString(danePomieszczenia.getInt(3)));
+                    pietroTextField.setText(danePomieszczenia.getString(3));
                     numerTextField.setText(danePomieszczenia.getString(2));
                 }
             } catch (SQLException ex) {
@@ -76,6 +81,7 @@ public class UpdatePomieszczenieWindow extends JFrame {
                 }
                 String pietroStr = pietroTextField.getText(); pietroStr = pietroStr.trim();
                 int pietro = 9876;
+                boolean bezPietra = true;
                 if (!pietroStr.isEmpty()) {
                     try {
                         pietro = Integer.parseInt(pietroStr);
@@ -86,8 +92,10 @@ public class UpdatePomieszczenieWindow extends JFrame {
                                 JOptionPane.ERROR_MESSAGE);
                         return;
                     }
+                    bezPietra = false;
                 }
                 Pomieszczenie pomieszczenieDoZmiany = new Pomieszczenie(idPomieszczenie, numer, pietro);
+                pomieszczenieDoZmiany.setIfBezPietra(bezPietra);
                 if (pomieszczenieDoZmiany.modifyInDatabase(database)) {
                     JOptionPane.showMessageDialog(null,"Zaktualizowano pomieszczenie", "OK", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -96,7 +104,10 @@ public class UpdatePomieszczenieWindow extends JFrame {
                     return;
                 }
                 dtm.setValueAt(numer, idSelected, 0);
-                dtm.setValueAt(pietro, idSelected, 1);
+                if (!bezPietra)
+                    dtm.setValueAt(pietro, idSelected, 1);
+                else
+                    dtm.setValueAt("", idSelected, 1);
             }
         });
 

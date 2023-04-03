@@ -5,14 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="696a4dd2-2330-49db-b86d-5ee82d114f20" name="Changes" comment="Started working with wizyty...">
+      <change afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/NowaWizytaWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Lekarz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Lekarz.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pacjent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pacjent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pomieszczenie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pomieszczenie.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Wizyta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Wizyta.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/dbutils/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/dbutils/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/NowyLekarzWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/NowyLekarzWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/UpdateLekarzeWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/UpdateLekarzeWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/UpdatePacjentWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/UpdatePacjentWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajPacjentaWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajPacjentaWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/UpdatePomieszczenieWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/UpdatePomieszczenieWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajWizytaWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajWizytaWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

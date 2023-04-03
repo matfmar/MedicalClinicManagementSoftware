@@ -21,13 +21,19 @@ public class UpdateLekarzeWindow extends JFrame {
         dtm = dt;
         table = tab;
         vtId = v;
+        //necessary
+        int idSelected = table.getSelectedRow();
+        if (idSelected == -1) {
+            JOptionPane.showMessageDialog(null,"nic nie wybrano", "error", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //COMPONENTS
         JLabel label1 = new JLabel("Imie: ");
         JLabel label2 = new JLabel("Nazwisko: ");
         JLabel label3 = new JLabel("Numer PWZ: ");
-        JLabel label4 = new JLabel("Specjalizacje: ");
-        JLabel label5 = new JLabel("Telefon: ");
+        JLabel label4 = new JLabel("Telefon: ");
+        JLabel label5 = new JLabel("Specjalizacje: ");
         JTextField imieTextField = new JTextField(10);
         JTextField nazwiskoTextField = new JTextField(10);
         JTextField pwzTextField = new JTextField(10);
@@ -45,13 +51,13 @@ public class UpdateLekarzeWindow extends JFrame {
         panelImie.add(label1); panelImie.add(imieTextField);
         panelNazwisko.add(label2); panelNazwisko.add(nazwiskoTextField);
         panelPWZ.add(label3); panelPWZ.add(pwzTextField);
-        panelTelefon.add(label5); panelTelefon.add(telefonTextField);
+        panelTelefon.add(label4); panelTelefon.add(telefonTextField);
         JScrollPane scrSpecjalizacje = new JScrollPane(specjalizacjeTextArea);
-        panelSpecjalizacje.add(label4); panelSpecjalizacje.add(scrSpecjalizacje);
+        panelSpecjalizacje.add(label5); panelSpecjalizacje.add(scrSpecjalizacje);
         panelButtons.add(updateButton); panelButtons.add(zamknijButton);
         //SETTING UP DATA
-        int idSelected = table.getSelectedRow();
         int idLekarz = vtId.get(idSelected);
+        System.out.println("lekarz do zmiany " + idLekarz);
         Lekarz lekarzDoZmiany = new Lekarz(idLekarz);
         AtomicBoolean result = new AtomicBoolean(false);
         ResultSet daneLekarza = lekarzDoZmiany.search(database, idLekarz, result);
@@ -62,11 +68,11 @@ public class UpdateLekarzeWindow extends JFrame {
         else {
             try {
                 while (daneLekarza.next()) {
-                    imieTextField.setText(daneLekarza.getString(1));
-                    nazwiskoTextField.setText(daneLekarza.getString(2));
-                    pwzTextField.setText(daneLekarza.getString(3));
-                    telefonTextField.setText(daneLekarza.getString(4));
-                    specjalizacjeTextArea.setText(daneLekarza.getString(5));
+                    imieTextField.setText(daneLekarza.getString(2));
+                    nazwiskoTextField.setText(daneLekarza.getString(3));
+                    pwzTextField.setText(daneLekarza.getString(4));
+                    telefonTextField.setText(daneLekarza.getString(5));
+                    specjalizacjeTextArea.setText(daneLekarza.getString(6));
                 }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null,"Failed to read cursor","ERROR",JOptionPane.ERROR_MESSAGE);
@@ -99,7 +105,8 @@ public class UpdateLekarzeWindow extends JFrame {
                 }
                 specjalizacje = specjalizacje.replace("\r\n", " ");
                 specjalizacje = specjalizacje.replace("\n", " ");
-                Lekarz lekarzDoZmiany = new Lekarz(imie, nazwisko, pwz, telefon, specjalizacje);
+                specjalizacje = specjalizacje.trim();
+                Lekarz lekarzDoZmiany = new Lekarz(idLekarz, imie, nazwisko, pwz, telefon, specjalizacje);
                 if (lekarzDoZmiany.modifyInDatabase(database)) {
                     JOptionPane.showMessageDialog(null,"Zaktualizowano lekarza", "OK", JOptionPane.INFORMATION_MESSAGE);
                 }

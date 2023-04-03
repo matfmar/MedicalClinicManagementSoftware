@@ -66,6 +66,7 @@ public class NowyLekarzWindow extends JFrame {
                 }
                 specjalizacje = specjalizacje.replace("\r\n", " ");
                 specjalizacje = specjalizacje.replace("\n", " ");
+                specjalizacje = specjalizacje.trim();
                 Lekarz lekarz = new Lekarz(imie, nazwisko, pwz, telefon, specjalizacje);
                 if (lekarz.insertToDatabase(database)) {
                     JOptionPane.showMessageDialog(null,"Udalo sie dodac","sukces",JOptionPane.INFORMATION_MESSAGE);

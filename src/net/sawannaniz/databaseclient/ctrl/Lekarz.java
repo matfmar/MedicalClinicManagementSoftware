@@ -9,6 +9,14 @@ import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychodnia {
+    public Lekarz(int id, String i, String n, String p, String t, String s) {
+        imie = i;
+        nazwisko = n;
+        pwz = p;
+        telefon = t;
+        specjalizacje = s;
+        id_lekarz = id;
+    }
     public Lekarz(String i, String n, String p, String t, String s) {
         imie = i;
         nazwisko = n;
@@ -34,6 +42,8 @@ public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychod
         id_lekarz = id;
     }
     public static String znajdzLekarzaDoTabelki(Database database, int id) {
+        if (id <= 0)
+            return "";
         AtomicBoolean result = new AtomicBoolean(false);
         Lekarz lekarz = new Lekarz();
         ResultSet res = lekarz.search(database, id, result);
@@ -63,7 +73,7 @@ public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychod
     @Override
     public ResultSet search(Database database, int id, AtomicBoolean result) {
         String table = "Lekarze";
-        String what = "id_lekarz, imie, nazwisko, pwz";
+        String what = "id_lekarz, imie, nazwisko, pwz, telefon, specjalizacje";
         String condition = "id_lekarz = " + Integer.toString(id);
         return (database.select(what, table, condition, result));
     }

@@ -127,7 +127,7 @@ public class Pomieszczenie extends ImplicitSearchingClass implements SaveableToP
             return false;
         String numerPart = "numer = " + Database.addCommas(numer);
         String pietroPart;
-        if (pietro != 9876)
+        if (!bezPietra)
             pietroPart = "pietro = " + Integer.toString(pietro);
         else {
             pietroPart = "pietro = NULL";
@@ -135,6 +135,9 @@ public class Pomieszczenie extends ImplicitSearchingClass implements SaveableToP
         String data = numerPart + ", " + pietroPart;
         String condition = "id_pomieszczenie = " + Integer.toString(id);
         return (database.update(table, data, condition));
+    }
+    public void setIfBezPietra(boolean ifx) {
+        bezPietra = ifx;
     }
     private String numer;
     private int pietro, id;

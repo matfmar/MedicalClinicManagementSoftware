@@ -20,6 +20,14 @@ public class UpdatePacjentWindow extends JFrame {
         dtm = dt;
         table = tab;
         vtIdPacjenci = v;
+        vtIndexes = new Vector<Integer>();
+        //necessary
+        int idSelected = table.getSelectedRow();
+        if (idSelected == -1) {
+            JOptionPane.showMessageDialog(null,"Nic nie wybrano!","error",JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //COMPONENTS
         JLabel label1 = new JLabel("Imie: ");
         JLabel label2 = new JLabel("Nazwisko: ");
@@ -71,7 +79,6 @@ public class UpdatePacjentWindow extends JFrame {
         panelButtons.add(updateButton); panelButtons.add(zamknijButton);
 
         //SETTING UP DATA
-        int idSelected = table.getSelectedRow();
         int idPacjent = vtIdPacjenci.get(idSelected);
         Pacjent pacjentDoZmiany = new Pacjent(idPacjent);
         AtomicBoolean resultX = new AtomicBoolean(false);
@@ -138,7 +145,7 @@ public class UpdatePacjentWindow extends JFrame {
                     JOptionPane.showMessageDialog(null,"Za malo danych", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                Pacjent pacjentDoZmiany = new Pacjent(imie, nazwisko, pesel, telefon, adres, adnotacje, upowaznienia, id_lekarz);
+                Pacjent pacjentDoZmiany = new Pacjent(imie, nazwisko, pesel, telefon, adres, adnotacje, upowaznienia, id_lekarz, idPacjent);
                 if (pacjentDoZmiany.modifyInDatabase(database)) {
                     JOptionPane.showMessageDialog(null,"Zaktualizowano pacjenta", "OK", JOptionPane.INFORMATION_MESSAGE);
                 }
