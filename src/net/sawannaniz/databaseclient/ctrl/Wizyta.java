@@ -9,13 +9,13 @@ import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Wizyta extends ImplicitSearchingClass implements SaveableToPrzychodnia {
-    public Wizyta(String pesel, int id_lek, int id_pom, String d) {
+    public Wizyta(String pesel, int id_lek, int id_pom, String d, int id_pac) {
         nazwiskoPacjent = "";
         peselPacjent = pesel;
         data = d;
         id_lekarz = id_lek;
         id_pomieszczenie = id_pom;
-        id_pacjent = -1;
+        id_pacjent = id_pac;
     }
     public Wizyta(String nazwisko, int id_lek, int id_pom) {
         nazwiskoPacjent = nazwisko;
@@ -38,8 +38,8 @@ public class Wizyta extends ImplicitSearchingClass implements SaveableToPrzychod
             result.set(false);
             return null;
         }
-        String realDataOd = "STR_TO_DATE(" + addCommas(dataOd) + ", " + addCommas("%Y-%m-%d %h:%i") + ")";
-        String realDataDo = "STR_TO_DATE(" + addCommas(dataDo) + ", " + addCommas("%Y-%m-%d %h:%i") + ")";
+        String realDataOd = addCommas(dataOd);
+        String realDataDo = addCommas(dataDo);
         String what = "Wizyty.data, Pacjenci.nazwisko, Pacjenci.imie, Pacjenci.pesel, Wizyty.id_lekarz, Wizyty.id_pomieszczenie, Wizyty.id_wizyta";
         String table = "Wizyty INNER JOIN Pacjenci ON Wizyty.id_pacjent = Pacjenci.id_pacjent";
         String nazwiskoPart, idLekarzPart, idPomieszczeniePart, dataPart;
@@ -57,25 +57,21 @@ public class Wizyta extends ImplicitSearchingClass implements SaveableToPrzychod
         return (database.select(what, table, where, result));
     }
     public boolean insertToDatabase(Database database) {
-
-        ///////////////////////
-        if (!checkInputData())
+        if (!checkInputData() || !checkDatetime(data))
             return false;
-        String table = "Pacjenci";
-        String columns = "imie, nazwisko, pesel, id_lekarz, telefon, adres, osoby_upowaznione, flagi";
-        String imiePart = addCommas(imie);
-        String nazwiskoPart = addCommas(nazwisko);
-        String peselPart = addCommas(pesel);
-        String lekarzPart, telefonPart, adresPart, upowaznieniaPart, flagiPart;
-        if (lekarzProwadzacy > 0) lekarzPart = Integer.toString(lekarzProwadzacy); else lekarzPart = "NULL";
-        if (telefon.isEmpty()) telefonPart = "NULL"; else telefonPart = addCommas(telefon);
-        if (adres.isEmpty()) adresPart = "NULL"; else adresPart = addCommas(adres);
-        if (upowaznienia.isEmpty()) upowaznieniaPart = "NULL"; else upowaznieniaPart = addCommas(upowaznienia);
-        if (flagi.isEmpty()) flagiPart = "NULL"; else flagiPart = addCommas(flagi);
-        String params = imiePart + "," + nazwiskoPart + "," + peselPart + "," +
-                lekarzPart + "," +
-                telefonPart + "," + adresPart + "," + upowaznieniaPart + "," + flagiPart;
-        return (database.insert(table, columns, params));;
+        String table = "Wizyty";
+        String columns = "id_pacjent, id_lekarz, id_pomieszczenie, data";
+        String id_pacjentPart = Integer.toString(id_pacjent);
+        String id_lekarzPart = Integer.toString(id_lekarz);
+        //String dataPart = Database.convertStringToDatetime(data);
+        String dataPart = addCommas(data);
+        String id_pomieszczeniePart;
+        if (id_pomieszczenie > 0)
+            id_pomieszczeniePart = Integer.toString(id_pomieszczenie);
+        else
+            id_pomieszczeniePart = "NULL";
+        String params = id_pacjentPart + ", " + id_lekarzPart + ", " + id_pomieszczeniePart + ", " + dataPart;
+        return (database.insert(table, columns, params));
     }
     public boolean removeFromDatabase(Database database) {
         return false;
@@ -88,6 +84,7 @@ public class Wizyta extends ImplicitSearchingClass implements SaveableToPrzychod
     private boolean checkInputData() {
         Vector<String> strarr = new Vector<String>();
         strarr.add(nazwiskoPacjent);
+        strarr.add(peselPacjent);
         return (Database.checkStringsForProperContent(strarr));
     }
     private boolean checkDatetime(String s) {

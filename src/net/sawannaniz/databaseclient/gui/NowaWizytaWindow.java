@@ -10,6 +10,8 @@ import net.sawannaniz.databaseclient.dbutils.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -77,6 +79,13 @@ public class NowaWizytaWindow extends JFrame {
                 }
             });
         }
+        dataTextField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                dataTextField.setText("");
+            }
+        });
         dodajButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -84,6 +93,7 @@ public class NowaWizytaWindow extends JFrame {
                 int id_lekarz = -1, id_pomieszczenie = -1;
                 pesel = peselTextField.getText(); pesel = pesel.trim();
                 data = dataTextField.getText(); data = data.trim();
+                data = data + ":00";    //update o sekundy
                 if (id_cb_lek >= 0)
                     id_lekarz = vt_id_lek.get(id_cb_lek);   //powinno sie zgadzac
                 else
@@ -96,20 +106,15 @@ public class NowaWizytaWindow extends JFrame {
                     JOptionPane.showMessageDialog(null,"Za malo danych", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                Wizyta nowaWizyta = new Wizyta(pesel, id_lekarz, id_pomieszczenie, data);
+                int id_pacjent = Pacjent.znajdzPacjentaPoPeselu(database, pesel);
+                if (id_pacjent == 0) {
+                    JOptionPane.showMessageDialog(null, "Blad odczytu pacjenta", "error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                Wizyta nowaWizyta = new Wizyta(pesel, id_lekarz, id_pomieszczenie, data, id_pacjent);
                 if (nowaWizyta.insertToDatabase(database)) {
-                    ////////////
                     JOptionPane.showMessageDialog(null, "Udalo sie dodac do bazy", "OK", JOptionPane.INFORMATION_MESSAGE);
-                    imieTextField.setText("");
-                    nazwiskoTextField.setText("");
                     peselTextField.setText("");
-                    adresTextField.setText("");
-                    teefonTextField.setText("");
-                    adnotacjeTextField.setText("");
-                    upowaznieniaTextField.setText("");
-                    id_lekarz = -1;
-                    if (cb != null)
-                        cb.setSelectedIndex(0);
                 }
                 else {
                     JOptionPane.showMessageDialog(null,"Nie udalo sie dodac do bazy", "Error", JOptionPane.ERROR_MESSAGE);

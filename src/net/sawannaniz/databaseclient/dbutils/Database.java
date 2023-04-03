@@ -22,6 +22,17 @@ public class Database {
         }
         return true;
     }
+    public static boolean checkStringsForProperContent(String s) {
+        char c=';';
+            for (int i = 0; i < s.length(); ++i) {
+                c = s.charAt(i);
+                if (!((Character.isLetter(c) || Character.isDigit(c)) || Character.isSpaceChar(c))) {
+                    System.out.println("Dane wejsciowe nie spelniaja kryteriow!");
+                    return false;
+                }
+            }
+        return true;
+    }
     public static boolean checkStringForProperDatetime(String s) {
         char c = ';', shouldBe = ';';
         for (int i=0; i<s.length(); ++i) {
@@ -30,6 +41,7 @@ public class Database {
                 case 7: shouldBe = '-'; break;
                 case 10: shouldBe = ' '; break;
                 case 13: shouldBe = ':'; break;
+                case 16: shouldBe = ':'; break;
                 default: shouldBe = ';'; break;
             }
             c = s.charAt(i);
@@ -51,6 +63,10 @@ public class Database {
     public static String addCommas(String s) {
         String result = "\'" + s + "\'";
         return result;
+    }
+    public static String convertStringToDatetime(String s) {
+        String realDataOd = "STR_TO_DATE(" + addCommas(s) + ", " + addCommas("%Y-%m-%d %h:%i:%s") + ")";
+        return realDataOd;
     }
     public boolean connect() {
         boolean status = true;

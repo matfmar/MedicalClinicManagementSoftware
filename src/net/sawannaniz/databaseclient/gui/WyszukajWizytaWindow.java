@@ -8,6 +8,8 @@ import net.sawannaniz.databaseclient.dbutils.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -37,8 +39,8 @@ public class WyszukajWizytaWindow extends JFrame {
         id_cb_pom = comboboxCheckInfo(cbPomieszczenie);
         JLabel label4 = new JLabel("data od: ");
         JLabel label5 = new JLabel("data do: ");
-        JTextField dataOdTextField = new JTextField("RRRR-MM-DD");
-        JTextField dataDoTextField = new JTextField("RRRR-MM-DD");
+        JTextField dataOdTextField = new JTextField("RRRR-MM-DD HH:MM");
+        JTextField dataDoTextField = new JTextField("RRRR-MM-DD HH:MM");
         JButton szukajButton = new JButton("Szukaj");
         DefaultTableModel dtm = new DefaultTableModel();
         JTable table = new JTable(dtm);
@@ -75,6 +77,20 @@ public class WyszukajWizytaWindow extends JFrame {
                 }
             });
         }
+        dataOdTextField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                dataOdTextField.setText("");
+            }
+        });
+        dataDoTextField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                dataDoTextField.setText("");
+            }
+        });
         szukajButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -83,7 +99,9 @@ public class WyszukajWizytaWindow extends JFrame {
                 if (id_cb_lek != -1) id_lekarz = vtIdLekarze.get(id_cb_lek);
                 if (id_cb_pom != -1) id_pomieszczenie = vtIdPomieszczenia.get(id_cb_pom);
                 String dataOd = dataOdTextField.getText(); dataOd = dataOd.trim();
+                if (!dataOd.isEmpty()) dataOd = dataOd + ":00";
                 String dataDo = dataDoTextField.getText(); dataDo = dataDo.trim();
+                if (!dataDo.isEmpty()) dataDo = dataDo + ":00";
                 Wizyta wizytaDoZnalezienia = new Wizyta(nazwisko, id_lekarz, id_pomieszczenie);
                 AtomicBoolean result = new AtomicBoolean(false);
                 ResultSet wynikiWyszukiwania = wizytaDoZnalezienia.searchDatabase(database, dataOd, dataDo, result);
@@ -104,7 +122,7 @@ public class WyszukajWizytaWindow extends JFrame {
                         id_wizytaRes = wynikiWyszukiwania.getInt(7);
                         lekarzTotal = Lekarz.znajdzLekarzaDoTabelki(database, id_lekarzRes);
                         pomieszczenieTotal = Pomieszczenie.znajdzPomieszczenieDoTabelki(database, id_pomieszczenieRes);
-                        vtIdWizyty.add(wynikiWyszukiwania.getInt(8));
+                        vtIdWizyty.add(id_wizytaRes);
                         dtm.addRow(new Object[] {dataRes, nazwiskoRes, imieRes, peselRes,
                                 lekarzTotal, pomieszczenieTotal});
                     }

@@ -2,7 +2,9 @@ package net.sawannaniz.databaseclient.ctrl;
 
 import net.sawannaniz.databaseclient.dbutils.Database;
 
+import javax.swing.*;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -61,6 +63,29 @@ public class Pacjent extends ImplicitSearchingClass implements SaveableToPrzycho
         upowaznienia = "";
         lekarzProwadzacy = 0;
         idPacjent = id;
+    }
+
+    public static int znajdzPacjentaPoPeselu(Database database, String pesel) {
+        if (!Database.checkStringsForProperContent(pesel))
+            return 0;
+        String table = "Pacjenci";
+        String what = "id_pacjent";
+        String condition = "pesel = " + Database.addCommas(pesel);
+        AtomicBoolean result = new AtomicBoolean(false);
+        ResultSet res = database.select(what, table, condition, result);
+        if (!result.get()) {
+            return 0;
+        }
+        int id = 0;
+        try {
+            while (res.next()) {
+                id = res.getInt(1);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Blad odczytu kursora", "error", JOptionPane.ERROR_MESSAGE);
+            return 0;
+        }
+        return id;
     }
 
     @Override
