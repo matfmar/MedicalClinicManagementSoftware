@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="696a4dd2-2330-49db-b86d-5ee82d114f20" name="Changes" comment="Pending Wizyta.insertToDatabase and NowaWizytaWindow.dodajButton.Click(cd.)">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pacjent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Pacjent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Wizyta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/ctrl/Wizyta.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/dbutils/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/dbutils/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/NowaWizytaWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/NowaWizytaWindow.java" afterDir="false" />
+    <list default="true" id="696a4dd2-2330-49db-b86d-5ee82d114f20" name="Changes" comment="Dodawanie wizyt i szukanie wizyt - DONE !">
       <change beforePath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajWizytaWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sawannaniz/databaseclient/gui/WyszukajWizytaWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -279,7 +274,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680540023724</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Dodawanie wizyt i szukanie wizyt - DONE !">
+      <created>1680554129334</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1680554129334</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -304,6 +306,7 @@
     <MESSAGE value="now Wizyty can be handled!" />
     <MESSAGE value="Started working with wizyty..." />
     <MESSAGE value="Pending Wizyta.insertToDatabase and NowaWizytaWindow.dodajButton.Click(cd.)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Pending Wizyta.insertToDatabase and NowaWizytaWindow.dodajButton.Click(cd.)" />
+    <MESSAGE value="Dodawanie wizyt i szukanie wizyt - DONE !" />
+    <option name="LAST_COMMIT_MESSAGE" value="Dodawanie wizyt i szukanie wizyt - DONE !" />
   </component>
 </project>

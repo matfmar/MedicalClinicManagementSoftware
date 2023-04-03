@@ -94,6 +94,7 @@ public class WyszukajWizytaWindow extends JFrame {
         szukajButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                dtm.setRowCount(0);
                 String nazwisko = pacjentTextField.getText(); nazwisko = nazwisko.trim();
                 int id_lekarz = -1, id_pomieszczenie = -1;
                 if (id_cb_lek != -1) id_lekarz = vtIdLekarze.get(id_cb_lek);
