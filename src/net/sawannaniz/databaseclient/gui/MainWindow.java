@@ -3,14 +3,15 @@ package net.sawannaniz.databaseclient.gui;
 import net.sawannaniz.databaseclient.dbutils.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainWindow extends JFrame {
-    public MainWindow(Database db) {
+    public MainWindow(Database db, String loginName) {
         super("Main Window");
         database = db;
+        user = null;
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowHandler(this, database));
-
         //PASEK MENU
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
@@ -136,7 +137,7 @@ public class MainWindow extends JFrame {
         menuItemZnajdzWizyte.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                WyszukajWizytaWindow wyszukajWizytaWindow = new WyszukajWizytaWindow(database);
+                WyszukajWizytaWindow wyszukajWizytaWindow = new WyszukajWizytaWindow(database, false, user);
             }
         });
         menuItemDodajWizyte.addActionListener(new ActionListener() {
@@ -145,7 +146,26 @@ public class MainWindow extends JFrame {
                 NowaWizytaWindow nowaWizytaWindow = new NowaWizytaWindow(database);
             }
         });
-
+        menuItemWizytyDzisiejsze.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                WyszukajWizytaWindow dzisiejszeWizytyWindow = new WyszukajWizytaWindow(database, true, user);
+            }
+        });
+        //CREATE USER OF A PROGRAM
+        AtomicBoolean result1 = new AtomicBoolean(false);
+        user = new User(loginName, database.determineCurrentRole(result1));
+        if (!result1.get()) {
+            JOptionPane.showMessageDialog(null,"nie moge okreslic uzytkownika","error",JOptionPane.ERROR_MESSAGE);
+            menuPacjenci.setEnabled(false);
+            menuWizyty.setEnabled(false);
+            menuLekarze.setEnabled(false);
+            menuPomieszczenia.setEnabled(false);
+        }
+        else {
+            String message = "Twoja rola: " + user.getRole().toString();
+            JOptionPane.showMessageDialog(null, message, "ok", JOptionPane.INFORMATION_MESSAGE);
+        }
         pack();
         setSize(400,400);
         setVisible(true);
@@ -154,4 +174,5 @@ public class MainWindow extends JFrame {
         dispose();
     }
     private Database database;
+    private User user;
 }

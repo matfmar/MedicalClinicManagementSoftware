@@ -57,6 +57,7 @@ public class WyszukajLekarzaWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 dtm.setRowCount(0);
+                vtIdLekarze.clear();
                 String imie = imieTextField.getText(); imie = imie.trim();
                 String nazwisko = nazwiskoTextField.getText(); nazwisko = nazwisko.trim();
                 String pwz = pwzTextField.getText(); pwz = pwz.trim();

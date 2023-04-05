@@ -46,6 +46,7 @@ public class WyszukajPomieszczenieWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 dtm.setRowCount(0);     //clears table
+                vtIdPomieszczenia.clear();
                 String numerPomieszczenia = numerTextField.getText();
                 String pietroPomieszczeniaStr = pietroTextField.getText();
                 pietroPomieszczeniaStr = pietroPomieszczeniaStr.trim();

@@ -9,6 +9,28 @@ import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Wizyta extends ImplicitSearchingClass implements SaveableToPrzychodnia {
+    public Wizyta(int id) {
+        nazwiskoPacjent = "";
+        peselPacjent = "";
+        data = "";
+        id_lekarz = -1;
+        id_pomieszczenie = -1;
+        id_pacjent = -1;
+        id_wizyta = id;
+        wpis = "";
+        icd10 = "";
+    }
+    public Wizyta(String w, String i, int id_w) {
+        nazwiskoPacjent = "";
+        peselPacjent = "";
+        data = "";
+        id_lekarz = -1;
+        id_pomieszczenie = -1;
+        id_pacjent = -1;
+        id_wizyta = id_w;
+        wpis = w;
+        icd10 = i;
+    }
     public Wizyta(String pesel, int id_lek, int id_pom, String d, int id_pac) {
         nazwiskoPacjent = "";
         peselPacjent = pesel;
@@ -16,6 +38,9 @@ public class Wizyta extends ImplicitSearchingClass implements SaveableToPrzychod
         id_lekarz = id_lek;
         id_pomieszczenie = id_pom;
         id_pacjent = id_pac;
+        id_wizyta = -1;
+        wpis = "";
+        icd10 = "";
     }
     public Wizyta(String nazwisko, int id_lek, int id_pom) {
         nazwiskoPacjent = nazwisko;
@@ -24,6 +49,9 @@ public class Wizyta extends ImplicitSearchingClass implements SaveableToPrzychod
         id_lekarz = id_lek;
         id_pomieszczenie = id_pom;
         id_pacjent = -1;
+        id_wizyta = -1;
+        wpis = "";
+        icd10 = "";
     }
     @Override
     public ResultSet search(Database database, AtomicBoolean result) {
@@ -31,7 +59,10 @@ public class Wizyta extends ImplicitSearchingClass implements SaveableToPrzychod
     }
     @Override
     public ResultSet search(Database database, int id, AtomicBoolean result) {
-        return null;
+        String table = "Wizyty";
+        String what = "opis_wizyty, icd10, id_lekarz, zrealizowana";
+        String condition = "id_wizyta = " + id_wizyta;
+        return (database.select(what, table, condition, result));
     }
     public ResultSet searchDatabase(Database database, String dataOd, String dataDo, AtomicBoolean result) {
         if ((!checkInputData()) || ((!checkDatetime(dataOd)) || (!checkDatetime(dataDo)))) {
@@ -40,7 +71,7 @@ public class Wizyta extends ImplicitSearchingClass implements SaveableToPrzychod
         }
         String realDataOd = addCommas(dataOd);
         String realDataDo = addCommas(dataDo);
-        String what = "Wizyty.data, Pacjenci.nazwisko, Pacjenci.imie, Pacjenci.pesel, Wizyty.id_lekarz, Wizyty.id_pomieszczenie, Wizyty.id_wizyta";
+        String what = "Wizyty.data, Pacjenci.nazwisko, Pacjenci.imie, Pacjenci.pesel, Wizyty.id_lekarz, Wizyty.id_pomieszczenie, Wizyty.id_wizyta, Wizyty.zrealizowana";
         String table = "Wizyty INNER JOIN Pacjenci ON Wizyty.id_pacjent = Pacjenci.id_pacjent";
         String nazwiskoPart, idLekarzPart, idPomieszczeniePart, dataPart;
         if (nazwiskoPacjent.isEmpty()) nazwiskoPart = "Pacjenci.nazwisko LIKE \'%\'";
@@ -73,14 +104,22 @@ public class Wizyta extends ImplicitSearchingClass implements SaveableToPrzychod
         String params = id_pacjentPart + ", " + id_lekarzPart + ", " + id_pomieszczeniePart + ", " + dataPart;
         return (database.insert(table, columns, params));
     }
+    public boolean realize(Database database) {
+        if (!Database.checkStringForICD10(icd10))
+            return false;
+        String command = "UPDATE Wizyty SET opis_wizyty = ?, icd10 = ?, data_modyfikacji = now(), zrealizowana = 1 WHERE id_wizyta = ?";
+        return (database.update(command, wpis, icd10, id_wizyta));
+    }
     public boolean removeFromDatabase(Database database) {
-        return false;
+        String table = "Wizyty";
+        String where = "id_wizyta = " + Integer.toString(id_wizyta);
+        return (database.delete(table, where));
     }
     public boolean modifyInDatabase(Database database) {
         return false;
     }
-    private int id_lekarz, id_pomieszczenie, id_pacjent;
-    private String nazwiskoPacjent, data, peselPacjent;
+    private int id_lekarz, id_pomieszczenie, id_pacjent, id_wizyta;
+    private String nazwiskoPacjent, data, peselPacjent, wpis, icd10;
     private boolean checkInputData() {
         Vector<String> strarr = new Vector<String>();
         strarr.add(nazwiskoPacjent);

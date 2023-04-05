@@ -13,7 +13,7 @@ public class LoginWindow extends JFrame {
         JLabel label1 = new JLabel("Zaloguj sie do bazy danych: ", JLabel.LEFT);
         JLabel label2 = new JLabel("Login:", JLabel.RIGHT);
         JTextField loginTextField = new JTextField(10);
-        loginTextField.setText("nosorozek");
+        loginTextField.setText("L3121148");
         JLabel label3 = new JLabel("Haslo:", JLabel.RIGHT);
         JPasswordField passwordField = new JPasswordField(10);
         passwordField.setText("!M1o2r3f5i8n13A20");
@@ -39,12 +39,10 @@ public class LoginWindow extends JFrame {
                 Database db = new Database(user, password);
                 if (!db.connect()) {
                     JOptionPane.showMessageDialog(new JDialog(), "Blad logowania!");
-                    //System.exit(-1);      //uncomment this !!!!!!!!!!!!!
-                    MainWindow mainWindow = new MainWindow(db); //remove this !!!!!!!!!
-                    close();    //remove this!!!!!!!!!!!
+                    System.exit(-1);
                 }
                 else {
-                    MainWindow mainWindow = new MainWindow(db);
+                    MainWindow mainWindow = new MainWindow(db, user);
                     close();
                 }
             }

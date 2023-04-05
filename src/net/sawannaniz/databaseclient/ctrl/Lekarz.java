@@ -41,6 +41,31 @@ public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychod
         specjalizacje = "";
         id_lekarz = id;
     }
+    public static int znajdzLekarzaPoPWZ(Database database, String pwz) {
+        pwz = pwz.trim();
+        if (pwz.isEmpty())
+            return -1;
+        AtomicBoolean result = new AtomicBoolean(false);
+        Lekarz lekarz = new Lekarz();
+        ResultSet res = lekarz.searchPWZ(database, pwz, result);
+        if (!result.get()) {
+            JOptionPane.showMessageDialog(null,"Blad szukania lekarza",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
+            return -1;
+        }
+        int i = -1;
+        try {
+            while (res.next()) {
+                i = res.getInt(1);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Blad kursora lekarza",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
+            return -1;
+        }
+        return i;
+
+    }
     public static String znajdzLekarzaDoTabelki(Database database, int id) {
         if (id <= 0)
             return "";
@@ -75,6 +100,12 @@ public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychod
         String table = "Lekarze";
         String what = "id_lekarz, imie, nazwisko, pwz, telefon, specjalizacje";
         String condition = "id_lekarz = " + Integer.toString(id);
+        return (database.select(what, table, condition, result));
+    }
+    public ResultSet searchPWZ(Database database, String pwz, AtomicBoolean result) {
+        String table = "Lekarze";
+        String what = "id_lekarz";
+        String condition = "pwz = " + addCommas(pwz);
         return (database.select(what, table, condition, result));
     }
     @Override

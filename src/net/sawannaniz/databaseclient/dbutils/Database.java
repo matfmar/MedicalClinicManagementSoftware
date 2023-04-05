@@ -3,11 +3,18 @@ package net.sawannaniz.databaseclient.dbutils;
 import java.sql.*;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 public class Database {
     public Database(String us, String pwd) {
         user = us;
         password = pwd;
+    }
+    public static String getCurrentDate() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime now = LocalDateTime.now();
+        return (dtf.format(now));
     }
     public static boolean checkStringsForProperContent(Vector<String> strTable) {
         char c=';';
@@ -32,6 +39,12 @@ public class Database {
                 }
             }
         return true;
+    }
+    public static String removeSecondsFromDatetime(String s) {
+        if (s.isEmpty())
+            return "";
+        s = s.substring(0, s.length()-3);
+        return s;
     }
     public static boolean checkStringForProperDatetime(String s) {
         char c = ';', shouldBe = ';';
@@ -60,8 +73,32 @@ public class Database {
         }
         return true;
     }
+    public static boolean checkStringForICD10(String s) {
+        if (s.length() == 5) {
+            char l1, c1, c2, c3, k;
+            l1 = s.charAt(0);
+            c1 = s.charAt(1);
+            c2 = s.charAt(2);
+            c3 = s.charAt(4);
+            k = s.charAt(3);
+            if (Character.isDigit(c1) && (Character.isDigit(c2) && Character.isDigit(c3))) {
+                if (Character.isLetter(l1) && (Character.compare(k, '.') == 0)) {
+                    return true;
+                }
+            }
+        }
+        if (s.length() == 3) {
+            char l1, c1, c2;
+            l1 = s.charAt(0);
+            c1 = s.charAt(1);
+            c2 = s.charAt(2);
+            if (Character.isLetter(c1) && (Character.isDigit(c1) && Character.isDigit(c2)))
+                return true;
+        }
+        return false;
+    }
     public static String addCommas(String s) {
-        String result = "\'" + s + "\'";
+        String result = "'" + s + "'";
         return result;
     }
     public static String convertStringToDatetime(String s) {
@@ -91,6 +128,36 @@ public class Database {
         System.out.println("Connection established.");
         return true;
     }
+    public Role determineCurrentRole(AtomicBoolean result) {
+        String command = "SELECT CURRENT_ROLE;";
+        Role role = null;
+        try {
+            ResultSet resultSet = statement.executeQuery(command);
+            while (resultSet.next()) {
+                String s = resultSet.getString(1);
+                System.out.println("Role: " + s);
+                if (s == null) {
+                    role = Role.NO_ROLE;
+                    break;
+                }
+                switch (s) {
+                    case "lekarz": role = Role.LEKARZ; break;
+                    default: role = Role.NO_ROLE; break;
+                }
+                System.out.println(role.toString());
+            }
+        } catch (SQLException ex) {
+            System.out.println("Failed to create insert data: " + ex.getMessage());
+            result.set(false);
+            return null;
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+            result.set(false);
+            return null;
+        }
+        result.set(true);
+        return role;
+    }
     public boolean insert(String table, String columns, String values) {
         String command = "INSERT INTO " + table + " (" + columns + ") " + "VALUES (" + values + ");";
         System.out.println(command);
@@ -114,6 +181,30 @@ public class Database {
             resultInt = statement.executeUpdate(command);
         } catch (SQLException ex) {
             System.out.println("Failed to delete data: " + ex.getMessage());
+            return false;
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+            return false;
+        }
+        return true;
+    }
+    public boolean update(String command, String s1, String s2, int i1) {        //ps for wpis z wizyty - safer
+        PreparedStatement st;
+        try {
+            st = connection.prepareStatement(command);
+            st.setString(1, s1);
+            st.setString(2, s2);
+            st.setInt(3, i1);
+        } catch (SQLException ex) {
+            System.out.println("Failed to prepare statement");
+            return false;
+        }
+        System.out.println(statement.toString());
+        int resultInt = 0;
+        try {
+            resultInt = st.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Failed to update data: " + ex.getMessage());
             return false;
         } catch (Exception ex) {
             System.out.println("Error: " + ex.getMessage());
@@ -184,6 +275,10 @@ public class Database {
             return;
         }
         System.out.println("Connection closed successfully");
+    }
+    public enum Role {
+        NO_ROLE,
+        LEKARZ
     }
     private final String JDBC_URL = "jdbc:mariadb://localhost:3306/Przychodnia";
     private String user, password;
