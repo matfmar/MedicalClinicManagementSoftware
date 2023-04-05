@@ -110,6 +110,12 @@ public class Wizyta extends ImplicitSearchingClass implements SaveableToPrzychod
         String command = "UPDATE Wizyty SET opis_wizyty = ?, icd10 = ?, data_modyfikacji = now(), zrealizowana = 1 WHERE id_wizyta = ?";
         return (database.update(command, wpis, icd10, id_wizyta));
     }
+    public boolean edit(Database database) {
+        if (!Database.checkStringForICD10(icd10))
+            return false;
+        String command = "UPDATE Wizyty SET opis_wizyty = ?, icd10 = ?, data_modyfikacji = now() WHERE id_wizyta = ?";
+        return (database.update(command, wpis, icd10, id_wizyta));
+    }
     public boolean removeFromDatabase(Database database) {
         String table = "Wizyty";
         String where = "id_wizyta = " + Integer.toString(id_wizyta);

@@ -285,12 +285,14 @@ public class WyszukajWizytaWindow extends JFrame {
             dtm = d;
             JMenuItem deleteMenuItem = new JMenuItem("Usun");
             JMenuItem realizujMenuItem = new JMenuItem("Realizuj wizyte");
+            JMenuItem przegladajWizyte = new JMenuItem("Przegladaj");
             if (czyDzisiejsze) {
                 add(realizujMenuItem);
             }
             else {
                 add(deleteMenuItem);
             }
+            add(przegladajWizyte);
             deleteMenuItem.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -306,6 +308,12 @@ public class WyszukajWizytaWindow extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     RealizujWizyteWindow realizujWizyteWindow = new RealizujWizyteWindow(database, dtm, table, vtIdWizyty, user);
+                }
+            });
+            przegladajWizyte.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    PrzegladajWizyteWindow przegladajWizyteWindow = new PrzegladajWizyteWindow(database, dtm, table, vtIdWizyty, user);
                 }
             });
         }
