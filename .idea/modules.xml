@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DatabaseClient.iml" filepath="$PROJECT_DIR$/DatabaseClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PrzychodniaCrusher.iml" filepath="$PROJECT_DIR$/PrzychodniaCrusher.iml" />
     </modules>
   </component>
 </project>

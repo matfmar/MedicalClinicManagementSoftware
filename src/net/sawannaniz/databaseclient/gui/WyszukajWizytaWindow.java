@@ -1,10 +1,8 @@
 package net.sawannaniz.databaseclient.gui;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
+import javax.swing.table.*;
+import javax.tools.Tool;
 
 import net.sawannaniz.databaseclient.ctrl.*;
 import net.sawannaniz.databaseclient.dbutils.*;
@@ -197,7 +195,6 @@ public class WyszukajWizytaWindow extends JFrame {
             }
         });
 
-
         //GET EVERYTHING TOGETHER
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         getContentPane().add(panelPacjent);
@@ -207,7 +204,13 @@ public class WyszukajWizytaWindow extends JFrame {
         getContentPane().add(szukajButton);
         getContentPane().add(scrTable);
         pack();
+        Dimension dimScreen = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension dimFrame = new Dimension(dimScreen.width/2, dimScreen.height/2);
+        setSize(dimFrame);
+        setLocationRelativeTo(null);
         setVisible(true);
+        if (czyDzisiejsze)
+            szukajButton.doClick();
     }
     private Database database;
     private Vector<Integer> vtIdLekarze, vtIdPomieszczenia, vtIdPacjenci, vtIdWizyty;
@@ -249,6 +252,20 @@ public class WyszukajWizytaWindow extends JFrame {
             return null;
         }
         JComboBox cb = new JComboBox(vtCombo);
+        //get selected by current user if a physician and wizyty sa szukane tylko dzisiejsze
+        if (czyDzisiejsze && user.getRole() == Database.Role.LEKARZ) {
+            String pwz_user = user.getLogin().substring(1);
+            int id_lekarz_user = Lekarz.znajdzLekarzaPoPWZ(database, pwz_user);
+            if (id_lekarz_user > 0) {
+                int i = 0;
+                for (int id : vtIdLekarze) {
+                    if (id == id_lekarz_user)
+                        break;
+                    i++;
+                }
+                cb.setSelectedIndex(i);
+            }
+        }
         return cb;
     }
     private JComboBox createComboBoxPomieszczenie(AtomicBoolean result) {

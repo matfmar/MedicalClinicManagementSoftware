@@ -1,5 +1,6 @@
 package net.sawannaniz.databaseclient.dbutils;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -10,6 +11,30 @@ public class Database {
     public Database(String us, String pwd) {
         user = us;
         password = pwd;
+        address = "";
+        port = "";
+        db_name = "";
+        //JDBC_URL = "jdbc:mariadb://localhost:3306/Przychodnia";
+        JDBC_URL = "jdbc:mariadb://localhost:3306/Przychodnia?user=" + user + "&password=" + password;
+    }
+    public Database(String us, String pwd, String ad, String p, String db, String sslStr) {
+        user = us;
+        password = pwd;
+        address = ad;
+        port = p;
+        db_name = db;
+        String ssl = "";
+        if (sslStr == "YES")
+            ssl = "&trustStore=myTrustStore.jks&trustStorePassword=password";
+        JDBC_URL = "jdbc:mariadb://" + address + ":" + port + "/" + db_name +
+                "?user=" + user + "&password=" + password +
+                ssl;
+
+        //jdbc:mariadb://localhost/myDb?user=myUser&password=MyPwd&trustStore=/pathToTrustStore/myTrustStore.jks&trustStorePassword=mypwd
+        //JDBC_URL = "jdbc:mariadb://" + address + ":" + port + "/" + db_name +
+        //        "?user=" + user + "&password=" + password;
+        //JDBC_URL = "jdbc:mariadb://" + address + ":" + port + "/" + db_name;
+        //JDBC_URL = "jdbc:mariadb://localhost:3306/Przychodnia";
     }
     public static String getCurrentDate() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -97,6 +122,17 @@ public class Database {
         }
         return false;
     }
+    public static boolean checkStringForIP(String s) {
+        char c;
+        char dot = '.';
+        for (int i=0; i<s.length(); ++i) {
+            c = s.charAt(i);
+            if (!Character.isDigit(c))
+                if (Character.compare(c, dot) != 0)
+                    return false;
+        }
+        return true;
+    }
     public static String addCommas(String s) {
         String result = "'" + s + "'";
         return result;
@@ -107,8 +143,13 @@ public class Database {
     }
     public boolean connect() {
         boolean status = true;
+        if (!checkLoginParameters()) {
+            JOptionPane.showMessageDialog(null, "Zle wpisane parametry polaczenia", "error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         try {
-            connection = DriverManager.getConnection(JDBC_URL, user, password);
+            //connection = DriverManager.getConnection(JDBC_URL, user, password);
+            connection = DriverManager.getConnection(JDBC_URL);
         } catch (SQLException ex) {
             System.out.println("Failed to get connection: " + ex.getMessage());
             return false;
@@ -280,8 +321,18 @@ public class Database {
         NO_ROLE,
         LEKARZ
     }
-    private final String JDBC_URL = "jdbc:mariadb://localhost:3306/Przychodnia";
-    private String user, password;
+    private String JDBC_URL = "jdbc:mariadb://localhost:3306/Przychodnia";
+    private String user, password, address, port, db_name;
     private Connection connection;
     private Statement statement;
+    private boolean checkLoginParameters() {
+        Vector<String> v = new Vector<String>();
+        v.add(port);
+        v.add(db_name);
+        if (!checkStringsForProperContent(v))
+            return false;
+        if (!checkStringForIP(address))
+            return false;
+        return true;
+    }
 }

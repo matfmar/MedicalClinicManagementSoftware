@@ -1,8 +1,8 @@
 import net.sawannaniz.databaseclient.gui.*;
 import javax.swing.*;
-public class DatabaseClient extends JFrame {
+public class PrzychodniaCrusher extends JFrame {
     public static void main(String args[]) {
-        System.out.println("Klient rozpoczal dzialanie");
+        System.out.println("Start programu");
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         LoginWindow loginWindow = new LoginWindow();

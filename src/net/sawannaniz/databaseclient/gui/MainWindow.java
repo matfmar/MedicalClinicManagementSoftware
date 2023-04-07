@@ -2,12 +2,13 @@ package net.sawannaniz.databaseclient.gui;
 
 import net.sawannaniz.databaseclient.dbutils.*;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainWindow extends JFrame {
     public MainWindow(Database db, String loginName) {
-        super("Main Window");
+        super("Przychodnia Crusher v1.0");
         database = db;
         user = null;
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -27,8 +28,8 @@ public class MainWindow extends JFrame {
         menuBar.add(menuPomoc);
         //MENU: WIZYTY
         JMenuItem menuItemWizytyDzisiejsze = new JMenuItem("Dzisiejsze wizyty");
-        JMenuItem menuItemDodajWizyte = new JMenuItem("Dodaj nowa wizyte");
-        JMenuItem menuItemZnajdzWizyte = new JMenuItem("Wyszukaj wizyte...");
+        JMenuItem menuItemDodajWizyte = new JMenuItem("Dodaj now\u0105 wizyt\u0119");
+        JMenuItem menuItemZnajdzWizyte = new JMenuItem("Wyszukaj wizyt\u0119...");
         menuWizyty.add(menuItemWizytyDzisiejsze);
         menuWizyty.add(menuItemDodajWizyte);
         menuWizyty.add(menuItemZnajdzWizyte);
@@ -55,8 +56,8 @@ public class MainWindow extends JFrame {
         menuPomoc.add(menuItemWyloguj);
         menuPomoc.add(menuItemZamknij);
         //OTHER COMPONENTS
-        JLabel label1 = new JLabel("To jest glowne okno programu", JLabel.CENTER);
-        add(label1);
+        this.add(new JLabel(new ImageIcon("pic.png")));
+
 
         //EVENT SETUP
         //MENU POMOC
@@ -65,7 +66,7 @@ public class MainWindow extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 JFrame frame = new JFrame();
                 if (JOptionPane.showConfirmDialog(frame,
-                        "Czy zakonczyc program?",
+                        "Czy zako\u0144czy\u0119 program?",
                         "Pytanie",
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     database.close();
@@ -78,7 +79,7 @@ public class MainWindow extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 JFrame frame = new JFrame();
                 if (JOptionPane.showConfirmDialog(frame,
-                        "Czy chcesz sie wylogowac?",
+                        "Czy chcesz si\u0119 wylogowa\u0107?",
                         "Pytanie",
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     database.close();
@@ -91,7 +92,7 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 JFrame frame = new JFrame();
-                JOptionPane.showMessageDialog(frame, "DatabaseClient v1.0", "HAHAHA !!!", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "Przychodnia Crusher v1.0", "INFO", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         //MENU POMIESZCZENIA
@@ -156,7 +157,7 @@ public class MainWindow extends JFrame {
         AtomicBoolean result1 = new AtomicBoolean(false);
         user = new User(loginName, database.determineCurrentRole(result1));
         if (!result1.get()) {
-            JOptionPane.showMessageDialog(null,"nie moge okreslic uzytkownika","error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Nie mog\u0119 okresli\u0107 u\u017cytkownika!","ERROR",JOptionPane.ERROR_MESSAGE);
             menuPacjenci.setEnabled(false);
             menuWizyty.setEnabled(false);
             menuLekarze.setEnabled(false);
@@ -164,10 +165,13 @@ public class MainWindow extends JFrame {
         }
         else {
             String message = "Twoja rola: " + user.getRole().toString();
-            JOptionPane.showMessageDialog(null, message, "ok", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, message, "INFO", JOptionPane.INFORMATION_MESSAGE);
         }
         pack();
-        setSize(400,400);
+        setSize(400, 400);
+        setResizable(false);
+        Dimension dimScreen = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation(dimScreen.width/6, dimScreen.height/6);
         setVisible(true);
     }
     public void close() {

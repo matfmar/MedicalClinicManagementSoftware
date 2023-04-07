@@ -7,6 +7,7 @@ import net.sawannaniz.databaseclient.dbutils.User;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -113,6 +114,7 @@ public class RealizujWizyteWindow extends JFrame {
                     return;
                 }
                 JOptionPane.showMessageDialog(null,"Poprawnie dodano wpis z wizyty.","OK",JOptionPane.INFORMATION_MESSAGE);
+                table.setValueAt("TAK", idSelected, 6);
                 close();
             }
         });
@@ -126,6 +128,11 @@ public class RealizujWizyteWindow extends JFrame {
         getContentPane().add(panelIcd);
         getContentPane().add(panelButtons);
         pack();
+        Dimension dimScreen = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension dimFrame = new Dimension(dimScreen.width/3, dimScreen.height/3);
+        setSize(dimFrame);
+        setLocation(dimScreen.width/4, dimScreen.height/4);
+        //setLocationRelativeTo(null);
         setVisible(true);
     }
     public void close() {
