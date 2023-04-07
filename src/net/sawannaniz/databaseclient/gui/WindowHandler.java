@@ -13,8 +13,8 @@ public class WindowHandler extends WindowAdapter {
     @Override
     public void windowClosing(WindowEvent event) {
         if (JOptionPane.showConfirmDialog(frame,
-                "Czy zakonczyc program?",
-                "Pytanie",
+                "Czy zako\u0144czy\u0107 program?",
+                "PYTANIE",
                 JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             database.close();
             System.exit(0);

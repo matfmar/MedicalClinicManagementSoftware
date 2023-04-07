@@ -16,14 +16,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.sql.ResultSet;
 public class WyszukajPomieszczenieWindow extends JFrame {
     public WyszukajPomieszczenieWindow(Database db) {
-        super("Znajdz pomieszczenie");
+        super("Znajd\u017a pomieszczenie");
         database = db;
         vtIdPomieszczenia = new Vector<Integer>();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         //COMPONENTS
-        JLabel label1 = new JLabel("numer: ");
-        JLabel label2 = new JLabel("pietro: ");
+        JLabel label1 = new JLabel("Numer: ");
+        JLabel label2 = new JLabel("Pi\u0119tro: ");
         JTextField numerTextField = new JTextField(5);
         JTextField pietroTextField = new JTextField(5);
         JButton buttonSzukaj = new JButton("Szukaj");
@@ -31,7 +31,7 @@ public class WyszukajPomieszczenieWindow extends JFrame {
         DefaultTableModel dtm = new DefaultTableModel();
         JTable table = new JTable(dtm);
         dtm.addColumn("numer");
-        dtm.addColumn("pietro");
+        dtm.addColumn("pi\u0119tro");
         JScrollPane scrollPane1 = new JScrollPane(table);
         //PANELS
         JPanel panel1 = new JPanel();
@@ -40,6 +40,8 @@ public class WyszukajPomieszczenieWindow extends JFrame {
         JPanel panel2 = new JPanel();
         panel2.add(label2);
         panel2.add(pietroTextField);
+        JPanel panelButton = new JPanel();
+        panelButton.add(buttonSzukaj);
 
         //EVENTS SETUP
         buttonSzukaj.addActionListener(new ActionListener() {
@@ -58,8 +60,8 @@ public class WyszukajPomieszczenieWindow extends JFrame {
                         pietroPomieszczenia = Integer.parseInt(pietroPomieszczeniaStr);
                     } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(null,
-                                "Conversion problem",
-                                "Conversion problem",
+                                "Chyba wpisano liczb\u0119 nieprawid\u0142owo.",
+                                "Chyba wpisano liczb\u0119 nieprawid\u0142owo.",
                                 JOptionPane.ERROR_MESSAGE);
                         return;
                     }
@@ -72,7 +74,7 @@ public class WyszukajPomieszczenieWindow extends JFrame {
                 AtomicBoolean result = new AtomicBoolean(true);
                 ResultSet wynikiWyszukiwania = pomieszczenieDoWyszukania.searchDatabase(database, jestPietro, result);
                 if (!result.get()) {
-                    JOptionPane.showMessageDialog(null,"Nie udalo sie odczytac danych", "Blad", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"B\u0142\u0105d w odczycie danych z bazy!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 String pietroRes="", numerRes="";
@@ -84,7 +86,7 @@ public class WyszukajPomieszczenieWindow extends JFrame {
                         dtm.addRow(new Object[] {numerRes, pietroRes});
                     }
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Blad odczytu z kursora", "Blad", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "B\u0142\u0105d odczytu z kursora!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -104,9 +106,11 @@ public class WyszukajPomieszczenieWindow extends JFrame {
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         getContentPane().add(panel1);
         getContentPane().add(panel2);
-        getContentPane().add(buttonSzukaj);
+        getContentPane().add(panelButton);
         getContentPane().add(scrollPane1);
         pack();
+        setSize(300,400);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
     private Database database;
@@ -116,7 +120,7 @@ public class WyszukajPomieszczenieWindow extends JFrame {
             table = tab;
             dtm = d;
             JMenuItem updateMenuItem = new JMenuItem("Modyfikuj");
-            JMenuItem deleteMenuItem = new JMenuItem("Usun");
+            JMenuItem deleteMenuItem = new JMenuItem("Usu\u0144");
             add(updateMenuItem);
             add(deleteMenuItem);
             updateMenuItem.addActionListener(new ActionListener() {
@@ -129,8 +133,8 @@ public class WyszukajPomieszczenieWindow extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     int decision = JOptionPane.showConfirmDialog(null,
-                            "Czy na pewno chcesz usunac ten wpis?",
-                            "Usuwanie wpisu", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                            "Czy na pewno chcesz usun\u0105\u0107 ten wpis?",
+                            "PYTANIE", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (decision == JOptionPane.YES_OPTION) {
                         deletePomieszczenie();
                     }

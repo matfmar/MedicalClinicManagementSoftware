@@ -9,15 +9,15 @@ import net.sawannaniz.databaseclient.dbutils.*;
 import net.sawannaniz.databaseclient.ctrl.Pomieszczenie;
 public class NowePomieszczenieWindow extends JFrame {
     public NowePomieszczenieWindow(Database db) {
-        super("Dodaj nowe pomieszczenie");
+        super("Dodawanie nowego pomieszczenia");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         database = db;
         //COMPONENTS
-        JLabel label1 = new JLabel("pietro: ");
-        JLabel label2 = new JLabel("numer pomieszczenia: ");
+        JLabel label1 = new JLabel("Pi\u0119tro: ");
+        JLabel label2 = new JLabel("Numer pomieszczenia: ");
         JTextField pietroTextField = new JTextField(5);
         JTextField numerTextField = new JTextField(5);
-        JButton buttonDodaj = new JButton("Dodaj !");
+        JButton buttonDodaj = new JButton("Dodaj");
         JButton buttonZamknij = new JButton("Zamknij");
         //PANELS
         JPanel panelPietro = new JPanel();
@@ -71,8 +71,8 @@ public class NowePomieszczenieWindow extends JFrame {
                         pietroPomieszczenia = Integer.parseInt(pietroPomieszczeniaStr);
                     } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(null,
-                                "Conversion problem",
-                                "Conversion problem",
+                                "Chyba nie wpisano liczby. Wskazana poprawa.",
+                                "ERROR",
                                 JOptionPane.ERROR_MESSAGE);
                         return;
                     }
@@ -81,15 +81,15 @@ public class NowePomieszczenieWindow extends JFrame {
                 Pomieszczenie nowePomieszczenie = new Pomieszczenie(numerPomieszczenia, pietroPomieszczenia, bezPietra);
                 if (nowePomieszczenie.insertToDatabase(database)) {
                     JOptionPane.showMessageDialog(null,
-                            "udalo sie dodac pomieszczenie do bazy",
-                            "udalo sie!",JOptionPane.INFORMATION_MESSAGE);
+                            "Dodano pomieszczenie do bazy.",
+                            "INFO",JOptionPane.INFORMATION_MESSAGE);
                     numerTextField.setText("");
                     pietroTextField.setText("");
                 }
                 else {
                     JOptionPane.showMessageDialog(null,
-                            "nie udalo sie dodac pomieszczenia do bazy",
-                            "nie udalo sie!",JOptionPane.ERROR_MESSAGE);
+                            "B\u0142\u0105d w dodawaniu pomieszczenia do bazy.",
+                            "ERROR",JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -100,6 +100,9 @@ public class NowePomieszczenieWindow extends JFrame {
         getContentPane().add(panelPietro);
         getContentPane().add(panelButtons);
         pack();
+        setSize(350, 150);
+        setResizable(false);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
     public void close() {
