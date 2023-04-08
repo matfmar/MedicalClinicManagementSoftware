@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class UpdateLekarzeWindow extends JFrame {
     public UpdateLekarzeWindow(Database d, DefaultTableModel dt, JTable tab, Vector<Integer> v) {
-        super("Aktualizacja danych lekarza");
+        super("Edycja danych");
         database = d;
         dtm = dt;
         table = tab;
@@ -24,12 +24,12 @@ public class UpdateLekarzeWindow extends JFrame {
         //necessary
         int idSelected = table.getSelectedRow();
         if (idSelected == -1) {
-            JOptionPane.showMessageDialog(null,"nic nie wybrano", "error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Nic nie wybrano!", "ERROR", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //COMPONENTS
-        JLabel label1 = new JLabel("Imie: ");
+        JLabel label1 = new JLabel("Imi\u0119: ");
         JLabel label2 = new JLabel("Nazwisko: ");
         JLabel label3 = new JLabel("Numer PWZ: ");
         JLabel label4 = new JLabel("Telefon: ");
@@ -62,7 +62,7 @@ public class UpdateLekarzeWindow extends JFrame {
         AtomicBoolean result = new AtomicBoolean(false);
         ResultSet daneLekarza = lekarzDoZmiany.search(database, idLekarz, result);
         if (!result.get()) {
-            JOptionPane.showMessageDialog(null,"Failed to get data","ERROR",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"B\u0142\u0105d szukania danych!","ERROR",JOptionPane.ERROR_MESSAGE);
             updateButton.setEnabled(false);
         }
         else {
@@ -75,7 +75,7 @@ public class UpdateLekarzeWindow extends JFrame {
                     specjalizacjeTextArea.setText(daneLekarza.getString(6));
                 }
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null,"Failed to read cursor","ERROR",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Błąd szukania danych!","ERROR",JOptionPane.ERROR_MESSAGE);
                 updateButton.setEnabled(false);
             }
         }
@@ -100,7 +100,7 @@ public class UpdateLekarzeWindow extends JFrame {
                 telefon = telefon.trim();
                 specjalizacje = specjalizacje.trim();
                 if ((imie.isEmpty() || nazwisko.isEmpty()) || pwz.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Za malo danych!", "Blad", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Za malo danych!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 specjalizacje = specjalizacje.replace("\r\n", " ");
@@ -108,10 +108,10 @@ public class UpdateLekarzeWindow extends JFrame {
                 specjalizacje = specjalizacje.trim();
                 Lekarz lekarzDoZmiany = new Lekarz(idLekarz, imie, nazwisko, pwz, telefon, specjalizacje);
                 if (lekarzDoZmiany.modifyInDatabase(database)) {
-                    JOptionPane.showMessageDialog(null,"Zaktualizowano lekarza", "OK", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Zaktualizowano dane lekarza", "INFO", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "Blad aktualizacji lekarza", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "B\u0142\u0105d aktualizacji danych lekarza!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 dtm.setValueAt(imie, idSelected, 0);
@@ -130,7 +130,10 @@ public class UpdateLekarzeWindow extends JFrame {
         getContentPane().add(panelTelefon);
         getContentPane().add(panelSpecjalizacje);
         getContentPane().add(panelButtons);
+        setSize(350,300);
+        setResizable(false);
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
     public void close() {

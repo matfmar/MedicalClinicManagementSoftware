@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WyszukajWizytaWindow extends JFrame {
     public WyszukajWizytaWindow(Database db, boolean cd, User us) {
-        super("Wyszukiwanie wizyty...");
+        super("Wyszukaj wizyt\u0119");
         database = db;
         vtIdLekarze = new Vector<Integer>();
         vtIdPomieszczenia = new Vector<Integer>();
@@ -63,7 +63,7 @@ public class WyszukajWizytaWindow extends JFrame {
         JTable table = new JTable(dtm);
         dtm.addColumn("Data");
         dtm.addColumn("Nazwisko pacjenta");
-        dtm.addColumn("Imie pacjenta");
+        dtm.addColumn("Imi\u0119 pacjenta");
         dtm.addColumn("PESEL pacjenta");
         dtm.addColumn("Lekarz");
         dtm.addColumn("Pomieszczenie");
@@ -160,7 +160,7 @@ public class WyszukajWizytaWindow extends JFrame {
                 AtomicBoolean result = new AtomicBoolean(false);
                 ResultSet wynikiWyszukiwania = wizytaDoZnalezienia.searchDatabase(database, dataOd, dataDo, result);
                 if (!result.get()) {
-                    JOptionPane.showMessageDialog(null, "Nie udalo sie odczytac danych", "Blad", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Nie uda\u0142o si\u0119 odczyta\u0107 danych!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 String dataRes, nazwiskoRes, imieRes, peselRes, lekarzTotal, pomieszczenieTotal, zrealizowanaTekst;
@@ -184,7 +184,7 @@ public class WyszukajWizytaWindow extends JFrame {
                                 lekarzTotal, pomieszczenieTotal, zrealizowanaTekst});
                     }
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null,"Blad odczytu kursora", "Blad", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Nie uda\u0142o si\u0119 odczyta\u0107 danych!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -222,7 +222,7 @@ public class WyszukajWizytaWindow extends JFrame {
             return cb.getSelectedIndex();
         }
         else {
-            JOptionPane.showMessageDialog(null,"fail to load combobox", "error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Nie uda\u0142o si\u0119 odczyta\u0107 danych!", "ERROR",JOptionPane.ERROR_MESSAGE);
             return -1;
         }
     }
@@ -248,7 +248,7 @@ public class WyszukajWizytaWindow extends JFrame {
             }
         }
         catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Fail to read cursor", "Blad", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nie uda\u0142o si\u0119 odczyta\u0107 danych!", "ERROR", JOptionPane.ERROR_MESSAGE);
             return null;
         }
         JComboBox cb = new JComboBox(vtCombo);
@@ -290,7 +290,7 @@ public class WyszukajWizytaWindow extends JFrame {
             }
         }
         catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Fail to read cursor", "Blad", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nie uda\u0142o si\u0119 odczyta\u0107 danych!", "ERROR", JOptionPane.ERROR_MESSAGE);
             return null;
         }
         JComboBox cb = new JComboBox(vtCombo);
@@ -300,9 +300,9 @@ public class WyszukajWizytaWindow extends JFrame {
         public PopUp(JTable tab, DefaultTableModel d) {
             table = tab;
             dtm = d;
-            JMenuItem deleteMenuItem = new JMenuItem("Usun");
-            JMenuItem realizujMenuItem = new JMenuItem("Realizuj wizyte");
-            JMenuItem przegladajWizyte = new JMenuItem("Przegladaj");
+            JMenuItem deleteMenuItem = new JMenuItem("Usu\u0144");
+            JMenuItem realizujMenuItem = new JMenuItem("Realizuj wizyt\u0119");
+            JMenuItem przegladajWizyte = new JMenuItem("Przegl\u0105daj");
             if (czyDzisiejsze) {
                 add(realizujMenuItem);
             }
@@ -314,8 +314,8 @@ public class WyszukajWizytaWindow extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     int decision = JOptionPane.showConfirmDialog(null,
-                            "Czy na pewno chcesz usunac ta wizyte z systemu?",
-                            "Usuwanie wpisu", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                            "Czy na pewno chcesz usun\u0105\u0107 t\u0105 wizyt\u0119 z systemu?",
+                            "PYTANIE", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (decision == JOptionPane.YES_OPTION) {
                         deleteWizyta();
                     }
@@ -339,18 +339,18 @@ public class WyszukajWizytaWindow extends JFrame {
         private void deleteWizyta() {
             int idSelected = table.getSelectedRow();
             if (idSelected == -1) {
-                JOptionPane.showMessageDialog(null,"Nie wybrano wizyty","ERROR",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Nie wybrano wizyty!","ERROR",JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
             int idWizyta = vtIdWizyty.get(idSelected);
             Wizyta wizytaDoUsuniecia = new Wizyta(idWizyta);
             if (wizytaDoUsuniecia.removeFromDatabase(database)) {
-                JOptionPane.showMessageDialog(null,"Usunieto wizyte", "OK",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Usuni\u0119to wizyt\u0119.", "INFO",JOptionPane.INFORMATION_MESSAGE);
                 dtm.removeRow(idSelected);
                 vtIdWizyty.remove(idSelected);
             }
             else {
-                JOptionPane.showMessageDialog(null,"Blad w usuwaniu wizyty !","ERROR",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"B\u0142\u0105d w usuwaniu wizyty!","ERROR",JOptionPane.ERROR_MESSAGE);
             }
         }
     }

@@ -48,10 +48,17 @@ public class Pomieszczenie extends ImplicitSearchingClass implements SaveableToP
                     "ERROR", JOptionPane.ERROR_MESSAGE);
             return "";
         }
-        String s = "";
+        String s = "", s2 = "";
         try {
             while (res.next()) {
-                s = res.getString(2) + ", pietro: " +  res.getString(3);
+                s2 = res.getString(3);
+                if (s2 == null)
+                    s2 = new String("--");
+                else if (s2.isEmpty())
+                    s2 = "--";
+                else if (s2 == "null" || s2 == "NULL")
+                    s2 = "--";
+                s = res.getString(2) + ", pietro: " +  s2;
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"Blad kursora pomieszczenia: " + Integer.toString(id) + " do tabelki",

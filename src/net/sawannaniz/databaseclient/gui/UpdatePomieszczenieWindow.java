@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class UpdatePomieszczenieWindow extends JFrame {
     public UpdatePomieszczenieWindow(Database db, DefaultTableModel dt, JTable t, Vector<Integer> vtIdPomieszczenia) {
-        super("Aktualizuj pomieszczenie");
+        super("Edycja danych");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         database = db;
         dtm = dt;
@@ -24,15 +24,15 @@ public class UpdatePomieszczenieWindow extends JFrame {
         //BASIC TEST
         int idSelected = table.getSelectedRow();
         if (idSelected == -1) {
-            JOptionPane.showMessageDialog(null, "Nie wybrano nic", "error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nie wybrano nic!", "ERROR", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         //COMPONENTS
-        JLabel label1 = new JLabel("pietro: ");
-        JLabel label2 = new JLabel("numer pomieszczenia: ");
+        JLabel label1 = new JLabel("Pi\u0119tro: ");
+        JLabel label2 = new JLabel("Numer: ");
         JTextField pietroTextField = new JTextField(5);
         JTextField numerTextField = new JTextField(5);
-        JButton buttonUpdate = new JButton("Aktualizuj !");
+        JButton buttonUpdate = new JButton("Aktualizuj");
         JButton buttonZamknij = new JButton("Zamknij");
         //PANELS
         JPanel panelPietro = new JPanel();
@@ -50,7 +50,7 @@ public class UpdatePomieszczenieWindow extends JFrame {
         AtomicBoolean result = new AtomicBoolean(false);
         ResultSet danePomieszczenia = pomieszczenieDoZmiany.search(database, idPomieszczenie, result);
         if (!result.get()) {
-            JOptionPane.showMessageDialog(null,"Failed to get data","ERROR",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"B\u0142\u0105d dodawania danych!","ERROR",JOptionPane.ERROR_MESSAGE);
             buttonUpdate.setEnabled(false);
         }
         else {
@@ -60,7 +60,7 @@ public class UpdatePomieszczenieWindow extends JFrame {
                     numerTextField.setText(danePomieszczenia.getString(2));
                 }
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null,"Failed to read cursor","ERROR",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"B\u0142\u0105d dodawania danych!","ERROR",JOptionPane.ERROR_MESSAGE);
                 buttonUpdate.setEnabled(false);
             }
         }
@@ -87,8 +87,8 @@ public class UpdatePomieszczenieWindow extends JFrame {
                         pietro = Integer.parseInt(pietroStr);
                     } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(null,
-                                "Conversion problem",
-                                "Conversion problem",
+                                "Chyba wpisano z\u0142\u0105 liczb\u0119.",
+                                "ERROR",
                                 JOptionPane.ERROR_MESSAGE);
                         return;
                     }
@@ -97,10 +97,10 @@ public class UpdatePomieszczenieWindow extends JFrame {
                 Pomieszczenie pomieszczenieDoZmiany = new Pomieszczenie(idPomieszczenie, numer, pietro);
                 pomieszczenieDoZmiany.setIfBezPietra(bezPietra);
                 if (pomieszczenieDoZmiany.modifyInDatabase(database)) {
-                    JOptionPane.showMessageDialog(null,"Zaktualizowano pomieszczenie", "OK", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Zaktualizowano pomieszczenie", "INFO", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "Blad aktualizacji pomieszczenia", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "B\u0142\u0105d aktualizacji pomieszczenia!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 dtm.setValueAt(numer, idSelected, 0);
@@ -112,11 +112,14 @@ public class UpdatePomieszczenieWindow extends JFrame {
         });
 
         //PACKING EVERYTHING
+        setSize(550, 150);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         getContentPane().add(panelNumer);
         getContentPane().add(panelPietro);
         getContentPane().add(panelButtons);
+        setResizable(false);
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
     public void close() {

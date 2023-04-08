@@ -11,12 +11,15 @@ public class Database {
     public Database(String us, String pwd) {
         user = us;
         password = pwd;
-        address = "127.0.0.1";
-        port = "3306";
+        address = "172.106.0.62";
+        port = "18601";
         db_name = "Przychodnia";
-        pwdEntry = "";
+        pwdEntry = "password";
         //JDBC_URL = "jdbc:mariadb://localhost:3306/Przychodnia";
-        JDBC_URL = "jdbc:mariadb://localhost:3306/Przychodnia?user=" + user + "&password=" + password;
+        String ssl = "&trustStore=myTrustStore.jks&trustStorePassword=" + pwdEntry;
+        JDBC_URL = "jdbc:mariadb://" + address + ":" + port + "/" + db_name +
+                "?user=" + user + "&password=" + password +
+                ssl;
     }
     public Database(String us, String pwd, String ad, String p, String db, String sslStr, String pE) {
         user = us;

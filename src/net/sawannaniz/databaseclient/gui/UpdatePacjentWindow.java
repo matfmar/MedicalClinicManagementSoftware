@@ -15,7 +15,7 @@ import net.sawannaniz.databaseclient.dbutils.*;
 
 public class UpdatePacjentWindow extends JFrame {
     public UpdatePacjentWindow(Database db, DefaultTableModel dt, JTable tab, Vector<Integer> v) {
-        super("Aktualizuj dane pacjenta");
+        super("Edycja danych");
         database = db;
         dtm = dt;
         table = tab;
@@ -24,18 +24,18 @@ public class UpdatePacjentWindow extends JFrame {
         //necessary
         int idSelected = table.getSelectedRow();
         if (idSelected == -1) {
-            JOptionPane.showMessageDialog(null,"Nic nie wybrano!","error",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Nic nie wybrano!","ERROR",JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //COMPONENTS
-        JLabel label1 = new JLabel("Imie: ");
+        JLabel label1 = new JLabel("Imi\u0107: ");
         JLabel label2 = new JLabel("Nazwisko: ");
         JLabel label3 = new JLabel("PESEL: ");
         JLabel label4 = new JLabel("Telefon: ");
         JLabel label5 = new JLabel("Adres: ");
-        JLabel label6 = new JLabel("Osoby upowaznione: ");
-        JLabel label7 = new JLabel("Lekarz prowadzacy: ");
+        JLabel label6 = new JLabel("Osoby upowa\u017cnione: ");
+        JLabel label7 = new JLabel("Lekarz prowadz\u0105cy: ");
         JLabel label8 = new JLabel("Adnotacje specjalne: ");
         JTextField imieTextField = new JTextField(10);
         JTextField nazwiskoTextField = new JTextField(10);
@@ -49,7 +49,7 @@ public class UpdatePacjentWindow extends JFrame {
         AtomicBoolean result = new AtomicBoolean(false);
         JComboBox cb = createComboBox(result);
         if (!result.get()) {
-            JOptionPane.showMessageDialog(null, "Failed to load comboBox","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "B\u0142\u0105d szukania danych!","ERROR",JOptionPane.ERROR_MESSAGE);
         }
         if (cb != null)
             id_cb = cb.getSelectedIndex();
@@ -84,7 +84,7 @@ public class UpdatePacjentWindow extends JFrame {
         AtomicBoolean resultX = new AtomicBoolean(false);
         ResultSet danePacjenta = pacjentDoZmiany.search(database, idPacjent, resultX);
         if (!resultX.get()) {
-            JOptionPane.showMessageDialog(null,"Failed to get data","ERROR",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"B\u0142\u0105d szukania danych!","ERROR",JOptionPane.ERROR_MESSAGE);
             updateButton.setEnabled(false);
         }
         else {
@@ -104,7 +104,7 @@ public class UpdatePacjentWindow extends JFrame {
                     }
                 }
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null,"Failed to read in filling combobox","ERROR",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"B\u0142\u0105d szukania danych!","ERROR",JOptionPane.ERROR_MESSAGE);
                 updateButton.setEnabled(false);
             }
         }
@@ -142,15 +142,15 @@ public class UpdatePacjentWindow extends JFrame {
                 else
                     id_lekarz = -1;
                 if (imie.isEmpty() || (nazwisko.isEmpty() || pesel.isEmpty())) {
-                    JOptionPane.showMessageDialog(null,"Za malo danych", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Za ma\u0142o danych!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 Pacjent pacjentDoZmiany = new Pacjent(imie, nazwisko, pesel, telefon, adres, adnotacje, upowaznienia, id_lekarz, idPacjent);
                 if (pacjentDoZmiany.modifyInDatabase(database)) {
-                    JOptionPane.showMessageDialog(null,"Zaktualizowano pacjenta", "OK", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Zaktualizowano dane pacjenta.", "INFO", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "Blad aktualizacji pacjenta", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "B\u0142\u0105d aktualizacji danych pacjenta!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 String znalezionyLekarz;
@@ -181,7 +181,10 @@ public class UpdatePacjentWindow extends JFrame {
         getContentPane().add(panelAdnotacje);
         getContentPane().add(panelLekarz);
         getContentPane().add(panelButtons);
+        setSize(600,400);
+        setResizable(false);
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
     public void close() {
@@ -215,7 +218,7 @@ public class UpdatePacjentWindow extends JFrame {
             }
         }
         catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Fail to read cursor", "Blad", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "B\u0142\u0105d szukania danych!", "ERROR", JOptionPane.ERROR_MESSAGE);
             return null;
         }
         JComboBox cb = new JComboBox(vtCombo);

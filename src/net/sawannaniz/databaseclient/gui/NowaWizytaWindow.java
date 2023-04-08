@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class NowaWizytaWindow extends JFrame {
     public NowaWizytaWindow(Database db) {
-        super("Tworzenie nowej wizyty");
+        super("Dodawanie nowej wizyty");
         database = db;
         id_cb_lek = -1;
         id_cb_pom = -1;
@@ -29,7 +29,7 @@ public class NowaWizytaWindow extends JFrame {
         //COMPONENTS
         JLabel label1 = new JLabel("PESEL pacjenta: ");
         JTextField peselTextField = new JTextField(10);
-        JButton peselButton = new JButton("Znajdz PESEL pacjenta");
+        JButton peselButton = new JButton("Wyszukaj PESEL pacjenta");
         JLabel label2 = new JLabel("Lekarz: ");
         AtomicBoolean result = new AtomicBoolean(false);
         JComboBox cbLekarz = createComboBoxLekarz(result);
@@ -103,21 +103,21 @@ public class NowaWizytaWindow extends JFrame {
                 else
                     id_pomieszczenie = -1;
                 if (data.isEmpty() || (id_lekarz <= 0 || pesel.isEmpty())) {
-                    JOptionPane.showMessageDialog(null,"Za malo danych", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Za ma\u0142o danych!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 int id_pacjent = Pacjent.znajdzPacjentaPoPeselu(database, pesel);
                 if (id_pacjent == 0) {
-                    JOptionPane.showMessageDialog(null, "Blad odczytu pacjenta", "error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "B\u0142\u0105d odczytu danych pacjenta!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 Wizyta nowaWizyta = new Wizyta(pesel, id_lekarz, id_pomieszczenie, data, id_pacjent);
                 if (nowaWizyta.insertToDatabase(database)) {
-                    JOptionPane.showMessageDialog(null, "Udalo sie dodac do bazy", "OK", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Pomy\u015blnie dodano now\u0105 wizyt\u0119.", "INFO", JOptionPane.INFORMATION_MESSAGE);
                     peselTextField.setText("");
                 }
                 else {
-                    JOptionPane.showMessageDialog(null,"Nie udalo sie dodac do bazy", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"B\u0142\u0105d w dodawaniu wizyty do bazy!", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -129,7 +129,10 @@ public class NowaWizytaWindow extends JFrame {
         getContentPane().add(panelPomieszczenie);
         getContentPane().add(panelData);
         getContentPane().add(panelButtons);
+        setSize(300, 500);
+        setResizable(false);
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
 
     }
@@ -141,14 +144,14 @@ public class NowaWizytaWindow extends JFrame {
     private int id_cb_lek, id_cb_pom;
     private int comboboxCheckInfo(JComboBox cb, AtomicBoolean result) {
         if (!result.get()) {
-            JOptionPane.showMessageDialog(null,"fail to load combobox", "error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"B\u0142\u0105d w dodawaniu danych!", "ERROR",JOptionPane.ERROR_MESSAGE);
             return -1;
         }
         if (cb != null) {
             return cb.getSelectedIndex();
         }
         else {
-            JOptionPane.showMessageDialog(null,"fail to load combobox", "error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"B\u0142\u0105d w dodawaniu danych!", "ERROR",JOptionPane.ERROR_MESSAGE);
             return -1;
         }
     }
@@ -174,7 +177,7 @@ public class NowaWizytaWindow extends JFrame {
             }
         }
         catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Fail to read cursor", "Blad", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "B\u0142\u0105d w dodawaniu danych!", "ERROR", JOptionPane.ERROR_MESSAGE);
             return null;
         }
         JComboBox cb = new JComboBox(vtCombo);
@@ -202,7 +205,7 @@ public class NowaWizytaWindow extends JFrame {
             }
         }
         catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Fail to read cursor", "Blad", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "B\u0142\u0105d w dodawaniu danych!", "ERROR", JOptionPane.ERROR_MESSAGE);
             return null;
         }
         JComboBox cb = new JComboBox(vtCombo);

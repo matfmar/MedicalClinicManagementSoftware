@@ -183,7 +183,12 @@ public class WyszukajPacjentaWindow extends JFrame {
                     JOptionPane.showMessageDialog(null, "Nie nie zaznaczono!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                String spec = table.getValueAt(idSelected, 6).toString();
+                String spec;
+                try {
+                    spec = table.getValueAt(idSelected, 6).toString();
+                } catch (NullPointerException ex) {
+                    spec = "";
+                }
                 JOptionPane.showMessageDialog(null, spec, "UPOWA\u017bNIENIA", JOptionPane.INFORMATION_MESSAGE);
             }
         });
@@ -195,7 +200,12 @@ public class WyszukajPacjentaWindow extends JFrame {
                     JOptionPane.showMessageDialog(null, "Nie nie zaznaczono!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                String spec = table.getValueAt(idSelected, 7).toString();
+                String spec;
+                try {
+                    spec = table.getValueAt(idSelected, 7).toString();
+                } catch (NullPointerException ex) {
+                    spec = "";
+                }
                 JOptionPane.showMessageDialog(null, spec, "ADNOTACJE", JOptionPane.INFORMATION_MESSAGE);
             }
         });

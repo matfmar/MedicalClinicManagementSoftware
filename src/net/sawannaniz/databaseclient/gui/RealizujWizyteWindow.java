@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RealizujWizyteWindow extends JFrame {
     public RealizujWizyteWindow(Database db, DefaultTableModel dt, JTable t, Vector<Integer> vtWiz, User us) {
-        super("Realizacja wizyty...");
+        super("Realizacja wizyty");
         database = db;
         dtm = dt;
         table = t;
@@ -27,17 +27,17 @@ public class RealizujWizyteWindow extends JFrame {
         //BASIC TEST
         int idSelected = table.getSelectedRow();
         if (idSelected == -1) {
-            JOptionPane.showMessageDialog(null, "Nie wybrano nic", "error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nie wybrano nic!", "ERROR", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         id_wizyta = vt_id_wiz.get(idSelected);
         //TEST FOR USER
         if (user.getRole() != Database.Role.LEKARZ) {
-            JOptionPane.showMessageDialog(null, "Brak uprawnien do realizacji wizyt! ", "error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Brak uprawnie\u0144 do realizacji wizyt! ", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
         if (!verifyIfGoodPhysician(user.getLogin().substring(1))) {
-            JOptionPane.showMessageDialog(null, "Nie jestes lekarzem od tej wizyty !", "error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nie jeste\u015b lekarzem od tej wizyty !", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
         //COMPONENTS
@@ -77,8 +77,8 @@ public class RealizujWizyteWindow extends JFrame {
         if (wizytyResults.get(0) != null && wizytyResults.get(1) != null) {
             if (!wizytyResults.get(0).isEmpty() || !wizytyResults.get(1).isEmpty()) {
                 int decision = JOptionPane.showConfirmDialog(null,
-                        "Wpis juz jest w bazie. Czy chcesz go edytowac?",
-                        "Dodawanie wpisu z wizyty", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        "Wpis ju\u017c jest w bazie. Czy chcesz go edytowa\u0107?",
+                        "PYTANIE", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (decision == JOptionPane.NO_OPTION) {
                     return;
                 }
@@ -97,23 +97,23 @@ public class RealizujWizyteWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 int decision = JOptionPane.showConfirmDialog(null,
-                        "Czy na pewno chcesz dodac wpis z wizyty w takiej postaci?",
-                        "Dodawanie wpisu z wizyty", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        "Czy na pewno chcesz doda\u0107 wpis z wizyty w takiej postaci?",
+                        "PYTANIE", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (decision == JOptionPane.NO_OPTION) {
                     return;
                 }
                 String wpis = wizytaTextArea.getText(); wpis = wpis.trim();
                 if (wpis.isEmpty()) {
-                    JOptionPane.showMessageDialog(null,"Nic nie wpisano!", "error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Nic nie wpisano!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 String icd10 = icdTextField.getText(); icd10 = icd10.trim();
                 Wizyta wizyta = new Wizyta(wpis, icd10, id_wizyta);
                 if (!wizyta.realize(database)) {
-                    JOptionPane.showMessageDialog(null,"Nie mozna dodac wpisu. Blad.", "error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Nie mo\u017cna doda\u0107 wpisu!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                JOptionPane.showMessageDialog(null,"Poprawnie dodano wpis z wizyty.","OK",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Poprawnie dodano wpis z wizyty.","INFO",JOptionPane.INFORMATION_MESSAGE);
                 table.setValueAt("TAK", idSelected, 6);
                 close();
             }
@@ -149,7 +149,7 @@ public class RealizujWizyteWindow extends JFrame {
         AtomicBoolean result = new AtomicBoolean(false);
         ResultSet resultSet = wizytaDoSprawdzenia.search(database, id_wizyta, result);
         if (!result.get()) {
-            JOptionPane.showMessageDialog(null, "nie mozna sprawdzic wizyty !", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nie mozna sprawdzi\u0107 wizyty !", "ERROR", JOptionPane.ERROR_MESSAGE);
             resultX.set(false);
             return null;
         }
@@ -160,7 +160,7 @@ public class RealizujWizyteWindow extends JFrame {
                 s2 = resultSet.getString(2);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "failed to read cursor", "error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "B\u0142\u0105d szukania danych!", "ERROR",JOptionPane.ERROR_MESSAGE);
             resultX.set(false);
             return null;
         }
@@ -182,7 +182,7 @@ public class RealizujWizyteWindow extends JFrame {
                 id_lek_shouldBe = resultSet.getInt(3);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "fail to read cursor", "error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "B\u0142\u0105d szukania danych!", "ERROR", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         int id_lek_aktualne = Lekarz.znajdzLekarzaPoPWZ(database, lekarzPWZ);

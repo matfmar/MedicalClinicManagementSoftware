@@ -7,6 +7,7 @@ import net.sawannaniz.databaseclient.ctrl.Lekarz;
 import net.sawannaniz.databaseclient.ctrl.Wizyta;
 import net.sawannaniz.databaseclient.dbutils.*;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -16,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PrzegladajWizyteWindow extends JFrame {
     public PrzegladajWizyteWindow(Database db, DefaultTableModel dt, JTable t, Vector<Integer> vtWiz, User us) {
-        super("Przegladanie wizyty");
+        super("Edycja wizyty");
         database = db;
         dtm = dt;
         table = t;
@@ -27,7 +28,12 @@ public class PrzegladajWizyteWindow extends JFrame {
         //BASIC TEST
         int idSelected = table.getSelectedRow();
         if (idSelected == -1) {
-            JOptionPane.showMessageDialog(null, "Nie wybrano nic", "error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nie wybrano nic!", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        String zrealizowana = table.getValueAt(idSelected, 6).toString();
+        if (zrealizowana == "NIE") {
+            JOptionPane.showMessageDialog(null, "Nie mo\u017cna edytowa\u0107 wizyty bez jej wcze\u015bniejszej realizacji!", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
         id_wizyta = vt_id_wiz.get(idSelected);
@@ -69,7 +75,7 @@ public class PrzegladajWizyteWindow extends JFrame {
         labelPesel.setText(labPesel);
         labelLekarz.setText(labLekarz);
         if (!getWpisAndIcd(wizytaTextArea, icdTextField)) {
-            JOptionPane.showMessageDialog(null, "nie udalo sie uzyskac wpisu", "error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nie uda\u0142o si\u0119 uzyska\u0105 wpisu!", "ERROR", JOptionPane.ERROR_MESSAGE);
             edytujButton.setEnabled(false);
         }
         //EVENTS
@@ -83,23 +89,23 @@ public class PrzegladajWizyteWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 int decision = JOptionPane.showConfirmDialog(null,
-                        "Czy na pewno chcesz dodac wpis z wizyty w takiej postaci?",
-                        "Dodawanie wpisu z wizyty", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        "Czy na pewno chcesz doda\u0107 wpis z wizyty w takiej postaci?",
+                        "PYTANIE", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (decision == JOptionPane.NO_OPTION) {
                     return;
                 }
                 String wpis = wizytaTextArea.getText(); wpis = wpis.trim();
                 if (wpis.isEmpty()) {
-                    JOptionPane.showMessageDialog(null,"Nic nie wpisano!", "error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Nic nie wpisano!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 String icd10 = icdTextField.getText(); icd10 = icd10.trim();
                 Wizyta wizyta = new Wizyta(wpis, icd10, id_wizyta);
                 if (!wizyta.edit(database)) {
-                    JOptionPane.showMessageDialog(null,"Nie mozna zapisac edytowanej wpisu. Blad.", "error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Nie mozna zapisa\u0107 edytowanego wpisu!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                JOptionPane.showMessageDialog(null,"Poprawnie edytowano wpis z wizyty.","OK",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Poprawnie edytowano wpis z wizyty.","INFO",JOptionPane.INFORMATION_MESSAGE);
                 zapiszButton.setEnabled(false);
                 wizytaTextArea.setEditable(false);
                 icdTextField.setEditable(false);
@@ -126,6 +132,11 @@ public class PrzegladajWizyteWindow extends JFrame {
         getContentPane().add(panelIcd);
         getContentPane().add(panelButtons);
         pack();
+        Dimension dimScreen = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension dimFrame = new Dimension(dimScreen.width/3, dimScreen.height/3);
+        setSize(dimFrame);
+        setLocation(dimScreen.width/4, dimScreen.height/4);
+        //setLocationRelativeTo(null);
         setVisible(true);
     }
     public void close() {
@@ -143,7 +154,7 @@ public class PrzegladajWizyteWindow extends JFrame {
         AtomicBoolean result = new AtomicBoolean(false);
         ResultSet resSet = wizyta.search(database, id_wizyta, result);
         if (!result.get()) {
-            JOptionPane.showMessageDialog(null, "fail", "error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "ERROR", "ERROR", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         String wpis = "",icd = "";
@@ -153,7 +164,7 @@ public class PrzegladajWizyteWindow extends JFrame {
                 icd = resSet.getString(2);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Failed to read cursos", "error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "ERROR", "ERROR", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         wpisAream.setText(wpis);
@@ -172,7 +183,7 @@ public class PrzegladajWizyteWindow extends JFrame {
                 id_lek_shouldBe = resultSet.getInt(3);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "fail to read cursor", "error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "ERROR", "ERROR", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         int id_lek_aktualne = Lekarz.znajdzLekarzaPoPWZ(database, lekarzPWZ);
