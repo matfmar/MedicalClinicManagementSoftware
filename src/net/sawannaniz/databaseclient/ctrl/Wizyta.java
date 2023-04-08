@@ -1,14 +1,12 @@
 package net.sawannaniz.databaseclient.ctrl;
 
-import net.sawannaniz.databaseclient.ctrl.*;
 import net.sawannaniz.databaseclient.dbutils.Database;
 
-import javax.swing.*;
 import java.sql.ResultSet;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Wizyta extends ImplicitSearchingClass implements SaveableToPrzychodnia {
+public class Wizyta extends Searching implements SaveableToPrzychodnia {
     public Wizyta(int id) {
         nazwiskoPacjent = "";
         peselPacjent = "";

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Pomieszczenie extends ImplicitSearchingClass implements SaveableToPrzychodnia {
+public class Pomieszczenie extends Searching implements SaveableToPrzychodnia {
     public Pomieszczenie() {
         numer = "";
         pietro = -1;
@@ -44,7 +44,7 @@ public class Pomieszczenie extends ImplicitSearchingClass implements SaveableToP
         Pomieszczenie pomieszczenie = new Pomieszczenie();
         ResultSet res = pomieszczenie.search(database, id, result);
         if (!result.get()) {
-            JOptionPane.showMessageDialog(null,"Blad szukania pomieszczenia: " + Integer.toString(id) + " do tabelki",
+            JOptionPane.showMessageDialog(null,"B\u0142\u0105 szukania pomieszczenia: " + Integer.toString(id) + " do tabelki!",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
             return "";
         }
@@ -61,7 +61,7 @@ public class Pomieszczenie extends ImplicitSearchingClass implements SaveableToP
                 s = res.getString(2) + ", pietro: " +  s2;
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Blad kursora pomieszczenia: " + Integer.toString(id) + " do tabelki",
+            JOptionPane.showMessageDialog(null,"B\u0142\u0105 szukania pomieszczenia: " + Integer.toString(id) + " do tabelki",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
             return "";
         }

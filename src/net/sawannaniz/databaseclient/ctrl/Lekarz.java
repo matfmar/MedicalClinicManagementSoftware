@@ -1,14 +1,13 @@
 package net.sawannaniz.databaseclient.ctrl;
 
 import net.sawannaniz.databaseclient.dbutils.Database;
-
 import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychodnia {
+public class Lekarz extends Searching implements SaveableToPrzychodnia {
     public Lekarz(int id, String i, String n, String p, String t, String s) {
         imie = i;
         nazwisko = n;
@@ -49,7 +48,7 @@ public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychod
         Lekarz lekarz = new Lekarz();
         ResultSet res = lekarz.searchPWZ(database, pwz, result);
         if (!result.get()) {
-            JOptionPane.showMessageDialog(null,"Blad szukania lekarza",
+            JOptionPane.showMessageDialog(null,"B\u0142\u0105d szukania lekarza!",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
             return -1;
         }
@@ -59,7 +58,7 @@ public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychod
                 i = res.getInt(1);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Blad kursora lekarza",
+            JOptionPane.showMessageDialog(null,"B\u0142\u0105d szukania lekarza!",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
             return -1;
         }
@@ -73,7 +72,7 @@ public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychod
         Lekarz lekarz = new Lekarz();
         ResultSet res = lekarz.search(database, id, result);
         if (!result.get()) {
-            JOptionPane.showMessageDialog(null,"Blad szukania lekarza: " + Integer.toString(id) + " do tabelki",
+            JOptionPane.showMessageDialog(null,"B\u0142\u0105d szukania lekarza: " + Integer.toString(id) + " do tabelki!",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
             return "";
         }
@@ -83,7 +82,7 @@ public class Lekarz extends ImplicitSearchingClass implements SaveableToPrzychod
                 s = res.getString(2) + " " + res.getString(3);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Blad kursora lekarza: " + Integer.toString(id) + " do tabelki",
+            JOptionPane.showMessageDialog(null,"B\u0142\u0105d szukania lekarza: " + Integer.toString(id) + " do tabelki!",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
             return "";
         }

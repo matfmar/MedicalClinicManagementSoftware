@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Pacjent extends ImplicitSearchingClass implements SaveableToPrzychodnia{
+public class Pacjent extends Searching implements SaveableToPrzychodnia{
     public Pacjent(String i, String n, String p, String t, String a, String f, String u, int lP, int id) {
         imie = i;
         nazwisko = n;
@@ -35,17 +35,6 @@ public class Pacjent extends ImplicitSearchingClass implements SaveableToPrzycho
         imie = "";
         nazwisko = "";
         pesel = "";
-        telefon = "";
-        adres = "";
-        flagi = "";
-        upowaznienia = "";
-        lekarzProwadzacy = 0;
-        idPacjent = -1;
-    }
-    public Pacjent(String im, String nazw, String psl) {
-        imie = im;
-        nazwisko = nazw;
-        pesel = psl;
         telefon = "";
         adres = "";
         flagi = "";
@@ -82,7 +71,7 @@ public class Pacjent extends ImplicitSearchingClass implements SaveableToPrzycho
                 id = res.getInt(1);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Blad odczytu kursora", "error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "B\u0142\u0105d odczytu danych!", "ERROR", JOptionPane.ERROR_MESSAGE);
             return 0;
         }
         return id;

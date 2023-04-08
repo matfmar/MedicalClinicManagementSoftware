@@ -52,7 +52,7 @@ public class Database {
             for (int i = 0; i < s.length(); ++i) {
                 c = s.charAt(i);
                 if (!((Character.isLetter(c) || Character.isDigit(c)) || Character.isSpaceChar(c))) {
-                    System.out.println("Dane wejsciowe nie spelniaja kryteriow!");
+                    JOptionPane.showMessageDialog(null, "B\u0142\u0105d danych wej\u015bciowych!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return false;
                 }
             }
@@ -64,7 +64,7 @@ public class Database {
             for (int i = 0; i < s.length(); ++i) {
                 c = s.charAt(i);
                 if (!((Character.isLetter(c) || Character.isDigit(c)) || Character.isSpaceChar(c))) {
-                    System.out.println("Dane wejsciowe nie spelniaja kryteriow!");
+                    JOptionPane.showMessageDialog(null, "B\u0142\u0105d danych wej\u015bciowych!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return false;
                 }
             }
@@ -90,13 +90,13 @@ public class Database {
             c = s.charAt(i);
             if (shouldBe == ';') {
                 if (!Character.isDigit(c)) {
-                    System.out.println("Dane wejsciowe nie spelniaja kryteriow!");
+                    JOptionPane.showMessageDialog(null, "B\u0142\u0105d danych wej\u015bciowych!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return false;
                 }
             }
             else {
                 if (Character.compare(c, shouldBe) != 0) {
-                    System.out.println("Dane wejsciowe nie spelniaja kryteriow!");
+                    JOptionPane.showMessageDialog(null, "B\u0142\u0105d danych wej\u015bciowych!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return false;
                 }
             }
@@ -149,26 +149,26 @@ public class Database {
     public boolean connect() {
         boolean status = true;
         if (!checkLoginParameters()) {
-            JOptionPane.showMessageDialog(null, "Zle wpisane parametry polaczenia", "error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "\u0179le wpisane parametry po\u0142\u0105czenia!", "ERROR", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         try {
             //connection = DriverManager.getConnection(JDBC_URL, user, password);
             connection = DriverManager.getConnection(JDBC_URL);
         } catch (SQLException ex) {
-            System.out.println("Failed to get connection: " + ex.getMessage());
+            System.out.println("B\u0142\u0105d po\u0142\u0105czenia: " + ex.getMessage());
             return false;
         } catch (Exception ex) {
-            System.out.println("Error: " + ex.getMessage());
+            System.out.println("ERROR: " + ex.getMessage());
             return false;
         }
         try {
             statement = connection.createStatement();
         } catch (SQLException ex) {
-            System.out.println("Failed to create statement: " + ex.getMessage());
+            System.out.println("B\u0142\u0105d po\u0142\u0105czenia: " + ex.getMessage());
             return false;
         } catch (Exception ex) {
-            System.out.println("Error: " + ex.getMessage());
+            System.out.println("ERROR: " + ex.getMessage());
             return false;
         }
         System.out.println("Connection established.");
@@ -181,7 +181,7 @@ public class Database {
             ResultSet resultSet = statement.executeQuery(command);
             while (resultSet.next()) {
                 String s = resultSet.getString(1);
-                System.out.println("Role: " + s);
+                //System.out.println("Role: " + s);
                 if (s == null) {
                     role = Role.NO_ROLE;
                     break;
@@ -190,7 +190,7 @@ public class Database {
                     case "lekarz": role = Role.LEKARZ; break;
                     default: role = Role.NO_ROLE; break;
                 }
-                System.out.println(role.toString());
+                //System.out.println(role.toString());
             }
         } catch (SQLException ex) {
             System.out.println("Failed to create insert data: " + ex.getMessage());
@@ -206,7 +206,7 @@ public class Database {
     }
     public boolean insert(String table, String columns, String values) {
         String command = "INSERT INTO " + table + " (" + columns + ") " + "VALUES (" + values + ");";
-        System.out.println(command);
+        //System.out.println(command);
         int resultInt = 0;
         try {
             resultInt = statement.executeUpdate(command);
@@ -221,7 +221,7 @@ public class Database {
     }
     public boolean delete(String table, String where) {
         String command = "DELETE FROM " + table + " WHERE " + where + ";";
-        System.out.println(command);
+        //System.out.println(command);
         int resultInt = 0;
         try {
             resultInt = statement.executeUpdate(command);
@@ -245,7 +245,7 @@ public class Database {
             System.out.println("Failed to prepare statement");
             return false;
         }
-        System.out.println(statement.toString());
+        //System.out.println(statement.toString());
         int resultInt = 0;
         try {
             resultInt = st.executeUpdate();
@@ -260,7 +260,7 @@ public class Database {
     }
     public boolean update(String table, String data, String condition) {
         String command = "UPDATE " + table + " SET " + data + " WHERE " + condition + ";";
-        System.out.println(command);
+        //System.out.println(command);
         int resultInt = 0;
         try {
             resultInt = statement.executeUpdate(command);
@@ -275,7 +275,7 @@ public class Database {
     }
     public ResultSet select(String what, String table, String condition, AtomicBoolean result) {
         String command = "SELECT " + what + " FROM " + table + " WHERE " + condition + " ;";
-        System.out.println(command);
+        //System.out.println(command);
         ResultSet resultSet;
         try {
             resultSet = statement.executeQuery(command);
@@ -294,7 +294,25 @@ public class Database {
     //overloaded for no conditions
     public ResultSet select(String what, String table, AtomicBoolean result) {
         String command = "SELECT " + what + " FROM " + table + " ;";
-        System.out.println(command);
+        //System.out.println(command);
+        ResultSet resultSet;
+        try {
+            resultSet = statement.executeQuery(command);
+        } catch (SQLException ex) {
+            System.out.println("Failed to create insert data: " + ex.getMessage());
+            result.set(false);
+            return null;
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+            result.set(false);
+            return null;
+        }
+        result.set(true);
+        return resultSet;
+    }
+    public ResultSet select(String cmd, AtomicBoolean result) {
+        String command = cmd;
+        //System.out.println(command);
         ResultSet resultSet;
         try {
             resultSet = statement.executeQuery(command);
