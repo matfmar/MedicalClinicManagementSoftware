@@ -10,11 +10,11 @@ import java.awt.event.ActionListener;
 
 public class NowyLekarzWindow extends JFrame {
     public NowyLekarzWindow(Database db) {
-        super("Dodaj nowego lekarza");
+        super("Dodawanie nowego lekarza");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         database = db;
         //COMPONENTS
-        JLabel label1 = new JLabel("Imie: ");
+        JLabel label1 = new JLabel("Imi\u0119: ");
         JLabel label2 = new JLabel("Nazwisko: ");
         JLabel label3 = new JLabel("Numer PWZ: ");
         JLabel label4 = new JLabel("Specjalizacje: ");
@@ -90,6 +90,9 @@ public class NowyLekarzWindow extends JFrame {
         getContentPane().add(panelSpecjalizacje);
         getContentPane().add(panelButtons);
         pack();
+        setSize(350, 300);
+        setResizable(false);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
     public void close() {

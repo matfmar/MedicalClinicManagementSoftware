@@ -11,21 +11,23 @@ public class Database {
     public Database(String us, String pwd) {
         user = us;
         password = pwd;
-        address = "";
-        port = "";
-        db_name = "";
+        address = "127.0.0.1";
+        port = "3306";
+        db_name = "Przychodnia";
+        pwdEntry = "";
         //JDBC_URL = "jdbc:mariadb://localhost:3306/Przychodnia";
         JDBC_URL = "jdbc:mariadb://localhost:3306/Przychodnia?user=" + user + "&password=" + password;
     }
-    public Database(String us, String pwd, String ad, String p, String db, String sslStr) {
+    public Database(String us, String pwd, String ad, String p, String db, String sslStr, String pE) {
         user = us;
         password = pwd;
         address = ad;
         port = p;
         db_name = db;
+        pwdEntry = pE;
         String ssl = "";
         if (sslStr == "YES")
-            ssl = "&trustStore=myTrustStore.jks&trustStorePassword=password";
+            ssl = "&trustStore=myTrustStore.jks&trustStorePassword=" + pwdEntry;
         JDBC_URL = "jdbc:mariadb://" + address + ":" + port + "/" + db_name +
                 "?user=" + user + "&password=" + password +
                 ssl;
@@ -322,7 +324,7 @@ public class Database {
         LEKARZ
     }
     private String JDBC_URL = "jdbc:mariadb://localhost:3306/Przychodnia";
-    private String user, password, address, port, db_name;
+    private String user, password, address, port, db_name, pwdEntry;
     private Connection connection;
     private Statement statement;
     private boolean checkLoginParameters() {

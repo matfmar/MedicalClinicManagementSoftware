@@ -17,20 +17,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WyszukajPacjentaWindow extends JFrame {
     public WyszukajPacjentaWindow(Database db, JTextField pesel2TextField, boolean peselReturn) {
-        super("Znajdz pacjenta");
+        super("Wyszukaj pacjenta");
         database = db;
         id_cb = -1;
         vtIndexes = new Vector<Integer>();
         vtIdPacjenci = new Vector<Integer>();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //COMPONENTS
-        JLabel label1 = new JLabel("Imie: ");
+        JLabel label1 = new JLabel("Imi\u0119: ");
         JLabel label2 = new JLabel("Nazwisko: ");
         JLabel label3 = new JLabel("PESEL: ");
         JLabel label4 = new JLabel("Telefon: ");
         JLabel label5 = new JLabel("Adres: ");
-        JLabel label6 = new JLabel("Osoby upowaznione: ");
-        JLabel label7 = new JLabel("Lekarz prowadzacy: ");
+        JLabel label6 = new JLabel("Osoby upowa\u017cnione: ");
+        JLabel label7 = new JLabel("Lekarz prowadz\u0105cy: ");
         JLabel label8 = new JLabel("Adnotacje specjalne: ");
         JTextField imieTextField = new JTextField(10);
         JTextField nazwiskoTextField = new JTextField(10);
@@ -39,24 +39,26 @@ public class WyszukajPacjentaWindow extends JFrame {
         JTextField adresTextField = new JTextField(15);
         JTextField upowaznieniaTextField = new JTextField(15);
         JTextField adnotacjeTextField = new JTextField(15);
-        JButton znajdzButton = new JButton("Znajdz");
+        JButton znajdzButton = new JButton("Szukaj");
+        JButton zobaczUpowaznieniaButton = new JButton("Zobacz upowa\u017cnienia");
+        JButton zobaczAdnotacjeButton = new JButton("Zobacz adnotacje");
         AtomicBoolean result = new AtomicBoolean(false);
         JComboBox cb = createComboBox(result);
         if (!result.get()) {
-            JOptionPane.showMessageDialog(null, "Failed to load comboBox","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "B\u0142\u0105d znalezienia danych lekarzy!","ERROR",JOptionPane.ERROR_MESSAGE);
         }
         if (cb != null) {
             id_cb = cb.getSelectedIndex();
         }
         DefaultTableModel dtm = new DefaultTableModel();
         JTable table = new JTable(dtm);
-        dtm.addColumn("Imie");
+        dtm.addColumn("Imi\u0119");
         dtm.addColumn("Nazwisko");
         dtm.addColumn("PESEL");
         dtm.addColumn("Adres");
         dtm.addColumn("Telefon");
-        dtm.addColumn("Lekarz prowadzący");
-        dtm.addColumn("Upowaznienia");
+        dtm.addColumn("Lekarz prowadz\u0105cy");
+        dtm.addColumn("Upowa\u017cnienia");
         dtm.addColumn("Adnotacje");
         JScrollPane scrTable = new JScrollPane(table);
         JButton zwrocPeselButton = null;
@@ -72,6 +74,9 @@ public class WyszukajPacjentaWindow extends JFrame {
         JPanel panelUpowaznienia = new JPanel();
         JPanel panelAdnotacje = new JPanel();
         JPanel panelLekarz = new JPanel();
+        JPanel panelButtonSzukaj = new JPanel();
+        JPanel panelButtonPodaj = new JPanel();
+        JPanel panelZobaczButtons = new JPanel();
         panelImie.add(label1); panelImie.add(imieTextField);
         panelNazwisko.add(label2); panelNazwisko.add(nazwiskoTextField);
         panelPesel.add(label3); panelPesel.add(peselTextField);
@@ -79,6 +84,10 @@ public class WyszukajPacjentaWindow extends JFrame {
         panelAdres.add(label5); panelAdres.add(adresTextField);
         panelUpowaznienia.add(label6); panelUpowaznienia.add(upowaznieniaTextField);
         panelAdnotacje.add(label8); panelAdnotacje.add(adnotacjeTextField);
+        panelButtonSzukaj.add(znajdzButton);
+        panelZobaczButtons.add(zobaczUpowaznieniaButton); panelZobaczButtons.add(zobaczAdnotacjeButton);
+        if (peselReturn)
+            panelButtonPodaj.add(zwrocPeselButton);
         if (cb != null) {
             panelLekarz.add(label7);
             panelLekarz.add(cb);
@@ -112,7 +121,7 @@ public class WyszukajPacjentaWindow extends JFrame {
                 AtomicBoolean result = new AtomicBoolean(false);
                 ResultSet wynikiWyszukiwania = pacjentDoWyszukania.searchDatabase(database, result);
                 if (!result.get()) {
-                    JOptionPane.showMessageDialog(null, "Nie udalo sie odczytac danych", "Blad", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Nie udalo si\u0119 odczyta\u0107 danych", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 String imieRes, nazwiskoRes, peselRes, adresRes, telefonRes, upowaznieniaRes, flagiRes, lekarz;
@@ -134,7 +143,7 @@ public class WyszukajPacjentaWindow extends JFrame {
                                 upowaznieniaRes, flagiRes});
                     }
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null,"Blad odczytu kursora", "Blad", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"B\u0142\u0105d odczytu danych!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
@@ -157,7 +166,7 @@ public class WyszukajPacjentaWindow extends JFrame {
                 public void actionPerformed(ActionEvent actionEvent) {
                     int id_selected = table.getSelectedRow();
                     if (id_selected == -1) {
-                        JOptionPane.showMessageDialog(null,"nic nie wybrano!", "error", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null,"Nic nie wybrano!", "ERROR", JOptionPane.INFORMATION_MESSAGE);
                         return;
                     }
                     String pesel = table.getValueAt(id_selected, 2).toString();
@@ -166,6 +175,30 @@ public class WyszukajPacjentaWindow extends JFrame {
                 }
             });
         }
+        zobaczUpowaznieniaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                int idSelected = table.getSelectedRow();
+                if (idSelected == -1) {
+                    JOptionPane.showMessageDialog(null, "Nie nie zaznaczono!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                String spec = table.getValueAt(idSelected, 6).toString();
+                JOptionPane.showMessageDialog(null, spec, "UPOWA\u017bNIENIA", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        zobaczAdnotacjeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                int idSelected = table.getSelectedRow();
+                if (idSelected == -1) {
+                    JOptionPane.showMessageDialog(null, "Nie nie zaznaczono!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                String spec = table.getValueAt(idSelected, 7).toString();
+                JOptionPane.showMessageDialog(null, spec, "ADNOTACJE", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
         //GET EVERYTHING TOGETHER
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         getContentPane().add(panelImie);
@@ -176,11 +209,14 @@ public class WyszukajPacjentaWindow extends JFrame {
         getContentPane().add(panelUpowaznienia);
         getContentPane().add(panelAdnotacje);
         getContentPane().add(panelLekarz);
-        getContentPane().add(znajdzButton);
+        getContentPane().add(panelButtonSzukaj);
         getContentPane().add(scrTable);
+        getContentPane().add(panelZobaczButtons);
         if (peselReturn)
-            getContentPane().add(zwrocPeselButton);
+            getContentPane().add(panelButtonPodaj);
         pack();
+        setSize(1000, 800);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
     public void close() {
@@ -212,7 +248,7 @@ public class WyszukajPacjentaWindow extends JFrame {
             }
         }
         catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Fail to read cursor", "Blad", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "B\u0142\u0105d odczytu kursora", "ERROR", JOptionPane.ERROR_MESSAGE);
             return null;
         }
         JComboBox cb = new JComboBox(vtCombo);
@@ -223,7 +259,7 @@ public class WyszukajPacjentaWindow extends JFrame {
             table = tab;
             dtm = d;
             JMenuItem updateMenuItem = new JMenuItem("Modyfikuj");
-            JMenuItem deleteMenuItem = new JMenuItem("Usun");
+            JMenuItem deleteMenuItem = new JMenuItem("Usu\u0144");
             add(updateMenuItem);
             add(deleteMenuItem);
             updateMenuItem.addActionListener(new ActionListener() {
@@ -236,8 +272,8 @@ public class WyszukajPacjentaWindow extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     int decision = JOptionPane.showConfirmDialog(null,
-                            "Czy na pewno chcesz usunac ten wpis?",
-                            "Usuwanie wpisu", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                            "Czy na pewno chcesz usun\u0105\u0107 ten wpis?",
+                            "INFO", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (decision == JOptionPane.YES_OPTION) {
                         deletePacjent();
                     }
@@ -249,18 +285,18 @@ public class WyszukajPacjentaWindow extends JFrame {
         private void deletePacjent() {
             int idSelected = table.getSelectedRow();
             if (idSelected == -1) {
-                JOptionPane.showMessageDialog(null,"Nie wybrano pacjenta","ERROR",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Nie wybrano pacjenta!","ERROR",JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
             int idPacjent = vtIdPacjenci.get(idSelected);
             Pacjent pacjentDoUsuniecia = new Pacjent(idPacjent);
             if (pacjentDoUsuniecia.removeFromDatabase(database)) {
-                JOptionPane.showMessageDialog(null,"Usunieto pacjenta", "OK",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Usuni\u0119to pacjenta.", "INFO",JOptionPane.INFORMATION_MESSAGE);
                 dtm.removeRow(idSelected);
                 vtIdPacjenci.remove(idSelected);
             }
             else {
-                JOptionPane.showMessageDialog(null,"Blad w usuwaniu pacjenta !","ERROR",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"B\u0142\u0105d w usuwaniu pacjenta !","ERROR",JOptionPane.ERROR_MESSAGE);
             }
         }
     }

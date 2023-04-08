@@ -19,7 +19,7 @@ public class LoginWindow extends JFrame {
         JLabel label1 = new JLabel("Zaloguj si\u0119 do bazy danych: ");
         JLabel label2 = new JLabel("Login: ");
         JTextField loginTextField = new JTextField(10);
-        loginTextField.setText("L3121148");
+        loginTextField.setText("L3121126");
         JLabel label3 = new JLabel("Has\u0142o: ");
         JPasswordField passwordField = new JPasswordField(10);
         passwordField.setText("12345678");
@@ -54,7 +54,7 @@ public class LoginWindow extends JFrame {
                 if (!used.get())
                     db = new Database(user, password);
                 else
-                    db = new Database(user, password, vt.get(0), vt.get(1), vt.get(2), vt.get(3));
+                    db = new Database(user, password, vt.get(0), vt.get(1), vt.get(2), vt.get(3), vt.get(4));
                 if (!db.connect()) {
                     JOptionPane.showMessageDialog(null, "B\u0142\u0105d logowania!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     no_login++;

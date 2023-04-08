@@ -6,6 +6,10 @@ import javax.xml.crypto.Data;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.security.MessageDigest;
+import java.util.Scanner;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -19,9 +23,11 @@ public class LoginSettingsWindow  extends JFrame {
         JLabel label1 = new JLabel("Adres hosta: ");
         JLabel label2 = new JLabel("Port: ");
         JLabel label3 = new JLabel("Baza danych: ");
+        JLabel label4 = new JLabel("Has\u0142o zmiany: ");
         JTextField adresTextField = new JTextField("172.106.0.62", 15);
         JTextField portTextField = new JTextField("18601", 15);
         JTextField bazaTextField = new JTextField("Przychodnia", 15);
+        JPasswordField hasloPasswordField = new JPasswordField("password", 15);
         JCheckBox sslCheckBox = new JCheckBox("SSL/TLS", true);
         JButton okButton = new JButton("OK");
         JButton closeButton = new JButton("Zamknij");
@@ -34,6 +40,7 @@ public class LoginSettingsWindow  extends JFrame {
         JPanel panelButtons = new JPanel();
         panelButtons.add(okButton); panelButtons.add(closeButton);
         JPanel panelCheck = new JPanel(); panelCheck.add(sslCheckBox);
+        JPanel panelPassword = new JPanel(); panelPassword.add(label4); panelPassword.add(hasloPasswordField);
         //EVENTS
         closeButton.addActionListener(new ActionListener() {
             @Override
@@ -48,6 +55,7 @@ public class LoginSettingsWindow  extends JFrame {
                 String adres = adresTextField.getText(); adres = adres.trim();
                 String port = portTextField.getText(); port = port.trim();
                 String baza = bazaTextField.getText(); baza = baza.trim();
+                String password = new String(hasloPasswordField.getPassword());
                 boolean ssl = sslCheckBox.isSelected();
                 String sslStr = "";
                 if (ssl)
@@ -60,10 +68,15 @@ public class LoginSettingsWindow  extends JFrame {
                 }
                 if (!ssl)
                     JOptionPane.showMessageDialog(null,"Odradzam \u0142\u0105czenie bez SSL !", "UWAGA", JOptionPane.WARNING_MESSAGE);
+                if (!passwordVerification(password)) {
+                    JOptionPane.showMessageDialog(null,"Z\u0142e has\u0142o!");
+                    return;
+                }
                 vt.add(adres);
                 vt.add(port);
                 vt.add(baza);
                 vt.add(sslStr);
+                vt.add(password);
                 used.set(true);
                 close();
             }
@@ -73,9 +86,10 @@ public class LoginSettingsWindow  extends JFrame {
         getContentPane().add(panelPort);
         getContentPane().add(panelBaza);
         getContentPane().add(panelCheck);
+        getContentPane().add(panelPassword);
         getContentPane().add(panelButtons);
         pack();
-        setSize(500, 240);
+        setSize(500, 270);
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -85,4 +99,11 @@ public class LoginSettingsWindow  extends JFrame {
     }
     private Vector<String> vt;
     private AtomicBoolean used;
+    private int HASH = 1216985755;
+    private boolean passwordVerification(String s) {
+        String stringToHash = s;
+        int hash = 0;
+        hash = stringToHash.hashCode();
+        return (hash == HASH);
+    }
 }

@@ -13,24 +13,24 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class NowyPacjentWindow extends JFrame {
     public NowyPacjentWindow(Database db) {
-        super("Dodaj nowego pacjenta");
+        super("Dodawanie nowego pacjenta");
         database = db;
         id_cb = -1;
         vtIndexes = new Vector<Integer>();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //COMPONENTS
-        JLabel label1 = new JLabel("Imie: ");
+        JLabel label1 = new JLabel("Imi\u0119: ");
         JLabel label2 = new JLabel("Nazwisko: ");
         JLabel label3 = new JLabel("PESEL: ");
         JLabel label4 = new JLabel("Telefon: ");
         JLabel label5 = new JLabel("Adres: ");
-        JLabel label6 = new JLabel("Osoby upowaznione: ");
-        JLabel label7 = new JLabel("Lekarz prowadzacy: ");
+        JLabel label6 = new JLabel("Osoby upowa\u017cnione: ");
+        JLabel label7 = new JLabel("Lekarz prowadz\u0105cy: ");
         JLabel label8 = new JLabel("Adnotacje specjalne: ");
-        JTextField imieTextField = new JTextField(10);
-        JTextField nazwiskoTextField = new JTextField(10);
-        JTextField peselTextField = new JTextField(10);
-        JTextField teefonTextField = new JTextField(10);
+        JTextField imieTextField = new JTextField(15);
+        JTextField nazwiskoTextField = new JTextField(15);
+        JTextField peselTextField = new JTextField(15);
+        JTextField teefonTextField = new JTextField(15);
         JTextField adresTextField = new JTextField(15);
         JTextField upowaznieniaTextField = new JTextField(15);
         JTextField adnotacjeTextField = new JTextField(15);
@@ -39,7 +39,7 @@ public class NowyPacjentWindow extends JFrame {
         AtomicBoolean result = new AtomicBoolean(false);
         JComboBox cb = createComboBox(result);
         if (!result.get()) {
-            JOptionPane.showMessageDialog(null, "Failed to load comboBox","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "B\u0142\u0105d \u0142adowania danych lekarzy!","ERROR",JOptionPane.ERROR_MESSAGE);
         }
         if (cb != null)
             id_cb = cb.getSelectedIndex();
@@ -99,12 +99,12 @@ public class NowyPacjentWindow extends JFrame {
                 else
                     id_lekarz = -1;
                 if (imie.isEmpty() || (nazwisko.isEmpty() || pesel.isEmpty())) {
-                    JOptionPane.showMessageDialog(null,"Za malo danych", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Za ma\u0142o danych!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 Pacjent nowyPacjent = new Pacjent(imie, nazwisko, pesel, telefon, adres, adnotacje, upowaznienia, id_lekarz);
                 if (nowyPacjent.insertToDatabase(database)) {
-                    JOptionPane.showMessageDialog(null, "Udalo sie dodac do bazy", "OK", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Pomy\u015blnie dodano pacjenta do bazy.", "INFO", JOptionPane.INFORMATION_MESSAGE);
                     imieTextField.setText("");
                     nazwiskoTextField.setText("");
                     peselTextField.setText("");
@@ -117,7 +117,7 @@ public class NowyPacjentWindow extends JFrame {
                         cb.setSelectedIndex(0);
                 }
                 else {
-                    JOptionPane.showMessageDialog(null,"Nie udalo sie dodac do bazy", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Nie udalo si\u0119 doda\u0107 pacjenta do bazy.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -133,6 +133,9 @@ public class NowyPacjentWindow extends JFrame {
         getContentPane().add(panelLekarz);
         getContentPane().add(panelButtons);
         pack();
+        setSize(600, 400);
+        setResizable(false);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
     public void close() {
@@ -163,7 +166,7 @@ public class NowyPacjentWindow extends JFrame {
             }
         }
         catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Fail to read cursor", "Blad", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "B\u0105\u0142d odczytu kursora!", "ERROR", JOptionPane.ERROR_MESSAGE);
             return null;
         }
         JComboBox cb = new JComboBox(vtCombo);

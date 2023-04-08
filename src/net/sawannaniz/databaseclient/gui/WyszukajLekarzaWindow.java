@@ -31,6 +31,7 @@ public class WyszukajLekarzaWindow extends JFrame {
         JTextField pwzTextField = new JTextField(10);
         JTextField specjalizacjaTextField = new JTextField(10);
         JButton wyszukajButton = new JButton("Wyszukaj");
+        JButton zobaczSpecjalizacje = new JButton("Zobacz specjalizacje zaznaczonego lekarza");
         //TABLE
         DefaultTableModel dtm = new DefaultTableModel();
         JTable table = new JTable(dtm);
@@ -45,12 +46,12 @@ public class WyszukajLekarzaWindow extends JFrame {
         JPanel panelNazwisko = new JPanel();
         JPanel panelPWZ = new JPanel();
         JPanel panelSpecjalizacja = new JPanel();
-        JPanel panelTable = new JPanel();
+        JPanel panelButtons = new JPanel(); panelButtons.add(wyszukajButton);
+        JPanel panelButtons2 = new JPanel(); panelButtons2.add(zobaczSpecjalizacje);
         panelImie.add(label1); panelImie.add(imieTextField);
         panelNazwisko.add(label2); panelNazwisko.add(nazwiskoTextField);
         panelPWZ.add(label3); panelPWZ.add(pwzTextField);
         panelSpecjalizacja.add(label4); panelSpecjalizacja.add(specjalizacjaTextField);
-        panelTable.add(scrTable);
         //EVENTS SETUP
 
         wyszukajButton.addActionListener(new ActionListener() {
@@ -66,7 +67,7 @@ public class WyszukajLekarzaWindow extends JFrame {
                 AtomicBoolean result = new AtomicBoolean(false);
                 ResultSet wynikiWyszukiwania = lekarzDoWyszukania.searchDatabase(database, result);
                 if (!result.get()) {
-                    JOptionPane.showMessageDialog(null, "Nie udalo sie odczytac danych", "Blad", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Nie uda\u0142o si\u0119 odczyta\u0107 danych!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 String imieRes, nazwiskoRes, pwzRes, telefonRes, specjalizacjeRes;
@@ -81,7 +82,7 @@ public class WyszukajLekarzaWindow extends JFrame {
                         dtm.addRow(new Object[] {imieRes, nazwiskoRes, pwzRes, telefonRes, specjalizacjeRes});
                     }
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null,"Blad odczytu kursora", "Blad", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"B\u0142\u0105d odczytu kursora!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
@@ -96,6 +97,18 @@ public class WyszukajLekarzaWindow extends JFrame {
                 }
             }
         });
+        zobaczSpecjalizacje.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                int idSelected = table.getSelectedRow();
+                if (idSelected == -1) {
+                    JOptionPane.showMessageDialog(null, "Nie nie zaznaczono!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                String spec = table.getValueAt(idSelected, 4).toString();
+                JOptionPane.showMessageDialog(null, spec, "SPECJALIZACJE", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
 
         //PACK EVERYTHING TOGETHER
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
@@ -103,9 +116,12 @@ public class WyszukajLekarzaWindow extends JFrame {
         getContentPane().add(panelNazwisko);
         getContentPane().add(panelPWZ);
         getContentPane().add(panelSpecjalizacja);
-        getContentPane().add(wyszukajButton);
-        getContentPane().add(panelTable);
+        getContentPane().add(panelButtons);
+        getContentPane().add(scrTable);
+        getContentPane().add(panelButtons2);
         pack();
+        setSize(700,400);
+        setLocationRelativeTo(null);
         setVisible(true);
 
     }
@@ -116,7 +132,7 @@ public class WyszukajLekarzaWindow extends JFrame {
             table = tab;
             dtm = d;
             JMenuItem updateMenuItem = new JMenuItem("Modyfikuj");
-            JMenuItem deleteMenuItem = new JMenuItem("Usun");
+            JMenuItem deleteMenuItem = new JMenuItem("Usu\u0144");
             add(updateMenuItem);
             add(deleteMenuItem);
             updateMenuItem.addActionListener(new ActionListener() {
@@ -129,8 +145,8 @@ public class WyszukajLekarzaWindow extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     int decision = JOptionPane.showConfirmDialog(null,
-                            "Czy na pewno chcesz usunac ten wpis?",
-                            "Usuwanie wpisu", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                            "Czy na pewno chcesz usun\u0105\u0107 ten wpis?",
+                            "PYTANIE", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (decision == JOptionPane.YES_OPTION) {
                         deleteLekarz();
                     }
@@ -142,18 +158,18 @@ public class WyszukajLekarzaWindow extends JFrame {
         private void deleteLekarz() {
             int idSelected = table.getSelectedRow();
             if (idSelected == -1) {
-                JOptionPane.showMessageDialog(null,"Nie wybrano lekarza","ERROR",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Nie wybrano lekarza!","ERROR",JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
             int idLekarz = vtIdLekarze.get(idSelected);
             Lekarz lekarzDoUsuniecia = new Lekarz(idLekarz);
             if (lekarzDoUsuniecia.removeFromDatabase(database)) {
-                JOptionPane.showMessageDialog(null,"Usunieto lekarza", "OK",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Pomy\u015blnie Usuni\u0119to lekarza.", "INFO",JOptionPane.INFORMATION_MESSAGE);
                 dtm.removeRow(idSelected);
                 vtIdLekarze.remove(idSelected);
             }
             else {
-                JOptionPane.showMessageDialog(null,"Blad w usuwaniu lekarza !","ERROR",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"B\u0142\u0105d w usuwaniu lekarza !","ERROR",JOptionPane.ERROR_MESSAGE);
             }
         }
     }
