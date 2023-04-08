@@ -1,13 +1,15 @@
 package net.sawannaniz.databaseclient.ctrl;
 
 import net.sawannaniz.databaseclient.dbutils.*;
-
 import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ *
+ */
 public class Pomieszczenie extends Searching implements SaveableToPrzychodnia {
     public Pomieszczenie() {
         numer = "";
