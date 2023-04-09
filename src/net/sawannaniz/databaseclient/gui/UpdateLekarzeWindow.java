@@ -71,7 +71,6 @@ public class UpdateLekarzeWindow extends JFrame {
         panelButtons.add(updateButton); panelButtons.add(zamknijButton);
         //SETTING UP DATA
         int idLekarz = vtId.get(idSelected);
-        System.out.println("lekarz do zmiany " + idLekarz);
         Lekarz lekarzDoZmiany = new Lekarz(idLekarz);
         AtomicBoolean result = new AtomicBoolean(false);
         ResultSet daneLekarza = lekarzDoZmiany.search(database, idLekarz, result);
