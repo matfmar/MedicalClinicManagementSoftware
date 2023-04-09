@@ -6,7 +6,18 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Class responsible for main application window.
+ * Appears after successful login.
+ * All major operations are started here.
+ */
 public class MainWindow extends JFrame {
+    /**
+     * Creates the main window of the application.
+     *
+     * @param db    database with which connection was set before, see  {@link net.sawannaniz.databaseclient.dbutils.Database Database}
+     * @param loginName username which was used for login to the database
+     */
     public MainWindow(Database db, String loginName) {
         super("Przychodnia Crusher v1.0");
         database = db;
@@ -174,6 +185,10 @@ public class MainWindow extends JFrame {
         setLocation(dimScreen.width/6, dimScreen.height/6);
         setVisible(true);
     }
+
+    /**
+     * Closes the main window.
+     */
     public void close() {
         dispose();
     }

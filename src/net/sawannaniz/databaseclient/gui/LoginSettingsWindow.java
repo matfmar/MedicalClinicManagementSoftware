@@ -1,19 +1,21 @@
 package net.sawannaniz.databaseclient.gui;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
-
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.security.MessageDigest;
-import java.util.Scanner;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Class for a window which opens before login and enables setting connection parameters
+ */
 public class LoginSettingsWindow  extends JFrame {
+    /**
+     * Opens a window which enables setting of connection-related parameters.
+     *
+     * @param v the parameters will be stored in this object
+     * @param u the result of setting the parameters will be stored here
+     */
     public LoginSettingsWindow(Vector<String> v, AtomicBoolean u) {
         super("Ustawienia po\u0142\u0105czenia");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -94,12 +96,25 @@ public class LoginSettingsWindow  extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    /**
+     * Closes the window.
+     */
     public void close() {
         dispose();
     }
     private Vector<String> vt;
     private AtomicBoolean used;
     private int HASH = 1216985755;
+
+    /**
+     * Checks whether the provided password for Java keystore is correct.
+     * Uses very simple hashing algorithm - only provided as an example.
+     * Should be improved before real use.
+     *
+     * @param s the password to be checked
+     * @return  whether the password is correct
+     */
     private boolean passwordVerification(String s) {
         String stringToHash = s;
         int hash = 0;

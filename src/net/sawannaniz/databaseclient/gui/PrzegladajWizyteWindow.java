@@ -15,7 +15,19 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * This class is responsible for a window which enables finding details of a particular appointment and editing them, if possible.
+ */
 public class PrzegladajWizyteWindow extends JFrame {
+    /**
+     * Creates a window.
+     *
+     * @param db database with opened connection, see  {@link net.sawannaniz.databaseclient.dbutils.Database Database}
+     * @param dt DefaultTableModel object used as a starting point to open this window from
+     * @param t JTable object used as a starting point to open this window from
+     * @param vtWiz Vector of integers (ids of appointments)
+     * @param us user who opens the window
+     */
     public PrzegladajWizyteWindow(Database db, DefaultTableModel dt, JTable t, Vector<Integer> vtWiz, User us) {
         super("Edycja wizyty");
         database = db;
@@ -139,6 +151,10 @@ public class PrzegladajWizyteWindow extends JFrame {
         //setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    /**
+     * Closes the window
+     */
     public void close() {
         dispose();
     }
@@ -149,6 +165,14 @@ public class PrzegladajWizyteWindow extends JFrame {
     private User user;
     private int id_wizyta;
     private boolean editable;
+
+    /**
+     * Gets appointment's description and ICD-10 code from the database.
+     *
+     * @param wpisAream description is placed here
+     * @param icdField  ICD-10 code is placed here
+     * @return  whether operation was successful.
+     */
     private boolean getWpisAndIcd(JTextArea wpisAream, JTextField icdField) {
         Wizyta wizyta = new Wizyta(id_wizyta);
         AtomicBoolean result = new AtomicBoolean(false);
@@ -171,6 +195,14 @@ public class PrzegladajWizyteWindow extends JFrame {
         icdField.setText(icd);
         return true;
     }
+
+    /**
+     * Verifies if a logged user is a physician who can edit the appointment's details.
+     * Only a physician who realized an appointment can edit its details.
+     *
+     * @param lekarzPWZ licence number of a logged user (physician account)
+     * @return whether the user is a valid physician with required permissions
+     */
     private boolean verifyIfGoodPhysician(String lekarzPWZ) {
         Wizyta wizytaDoWeryfikacji = new Wizyta(id_wizyta);
         AtomicBoolean result = new AtomicBoolean(false);

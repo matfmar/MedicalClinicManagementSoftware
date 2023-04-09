@@ -17,7 +17,16 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Class responsible for window which provides making new appointments.
+ * Opens from the level of main window.
+ */
 public class NowaWizytaWindow extends JFrame {
+    /**
+     * Creates the window.
+     *
+     * @param db database with opened connection, see  {@link net.sawannaniz.databaseclient.dbutils.Database Database}
+     */
     public NowaWizytaWindow(Database db) {
         super("Dodawanie nowej wizyty");
         database = db;
@@ -136,12 +145,24 @@ public class NowaWizytaWindow extends JFrame {
         setVisible(true);
 
     }
+
+    /**
+     * Closes the window.
+     */
     public void close() {
         dispose();
     }
     private Database database;
     private Vector<Integer> vt_id_lek, vt_id_pom;
     private int id_cb_lek, id_cb_pom;
+
+    /**
+     * Checks whether the created JComboBox instance is valid
+     *
+     * @param cb    JComboBox to check
+     * @param result    Result of the operation, whether successful or not
+     * @return  index which selected in the JComboBox by default
+     */
     private int comboboxCheckInfo(JComboBox cb, AtomicBoolean result) {
         if (!result.get()) {
             JOptionPane.showMessageDialog(null,"B\u0142\u0105d w dodawaniu danych!", "ERROR",JOptionPane.ERROR_MESSAGE);
@@ -155,6 +176,13 @@ public class NowaWizytaWindow extends JFrame {
             return -1;
         }
     }
+
+    /**
+     * Creates JComboBox object with list of physicians to choose from.
+     *
+     * @param result result of the operation is stored here
+     * @return  JComboBox object with list of physicians
+     */
     private JComboBox createComboBoxLekarz(AtomicBoolean result) {
         Lekarz lekarz = new Lekarz();
         ResultSet resultSet = lekarz.search(database, result);
@@ -183,6 +211,13 @@ public class NowaWizytaWindow extends JFrame {
         JComboBox cb = new JComboBox(vtCombo);
         return cb;
     }
+
+    /**
+     * Creates JComboBox object with rooms to choose from.
+     *
+     * @param result result of the operation, whether successful or not
+     * @return  JComboBox object filled with rooms
+     */
     private JComboBox createComboBoxPomieszczenie(AtomicBoolean result) {
         Pomieszczenie pomieszczenie = new Pomieszczenie();
         ResultSet resultSet = pomieszczenie.search(database, result);

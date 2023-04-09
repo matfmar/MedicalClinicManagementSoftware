@@ -11,7 +11,15 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * This class is responsible for a window which enables a user to add new patients.
+ */
 public class NowyPacjentWindow extends JFrame {
+    /**
+     * Creataes a new window.
+     *
+     * @param db database with opened connection, see  {@link net.sawannaniz.databaseclient.dbutils.Database Database}
+     */
     public NowyPacjentWindow(Database db) {
         super("Dodawanie nowego pacjenta");
         database = db;
@@ -138,12 +146,23 @@ public class NowyPacjentWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    /**
+     * Closes the window.
+     */
     public void close() {
         dispose();
     }
     private Database database;
     private int id_cb;
     private Vector<Integer> vtIndexes;
+
+    /**
+     * Creates JComboBox object filled with a list of physicians to choose from.
+     *
+     * @param result the result of the operation is stored here
+     * @return  a JComboBox object filled with a list of physicians.
+     */
     private JComboBox createComboBox(AtomicBoolean result) {
         Lekarz lekarz = new Lekarz();
         ResultSet resultSet = lekarz.search(database, result);

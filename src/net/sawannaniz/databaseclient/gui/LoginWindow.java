@@ -7,7 +7,14 @@ import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 import net.sawannaniz.databaseclient.dbutils.*;
 
+/**
+ * Class for login window.
+ * Login window is the first window that appears after starting the application.
+ */
 public class LoginWindow extends JFrame {
+    /**
+     * Creates the login window.
+     */
     public LoginWindow() {
         super("Logowanie");
         db = null;
@@ -94,9 +101,17 @@ public class LoginWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    /**
+     * Closes the login window.
+     */
     public void close() {
         dispose();
     }
+
+    /**
+     * Shuts down the application
+     */
     public void realClose() {
         System.exit(0);
     }

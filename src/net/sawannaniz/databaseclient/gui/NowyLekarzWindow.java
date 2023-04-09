@@ -8,7 +8,15 @@ import net.sawannaniz.databaseclient.dbutils.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This class is responsible for a window which enables the user to add new physicians to the database.
+ */
 public class NowyLekarzWindow extends JFrame {
+    /**
+     * Creates a new window.
+     *
+     * @param db database with opened connection, see  {@link net.sawannaniz.databaseclient.dbutils.Database Database}
+     */
     public NowyLekarzWindow(Database db) {
         super("Dodawanie nowego lekarza");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -95,6 +103,10 @@ public class NowyLekarzWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    /**
+     * Closes the window.
+     */
     public void close() {
         dispose();
     }

@@ -7,7 +7,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import net.sawannaniz.databaseclient.dbutils.*;
 import net.sawannaniz.databaseclient.ctrl.Pomieszczenie;
+
+/**
+ * This class is responsible for a window which enables adding new rooms to the database.
+ */
 public class NowePomieszczenieWindow extends JFrame {
+    /**
+     * Creates a new window.
+     *
+     * @param db database with opened connection, see  {@link net.sawannaniz.databaseclient.dbutils.Database Database}
+     */
     public NowePomieszczenieWindow(Database db) {
         super("Dodawanie nowego pomieszczenia");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -105,6 +114,10 @@ public class NowePomieszczenieWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    /**
+     * Closes the window.
+     */
     public void close() {
         dispose();
     }
