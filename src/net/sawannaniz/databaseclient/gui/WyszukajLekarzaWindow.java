@@ -116,8 +116,12 @@ public class WyszukajLekarzaWindow extends JFrame {
                     JOptionPane.showMessageDialog(null, "Nie nie zaznaczono!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                String spec = table.getValueAt(idSelected, 4).toString();
-                JOptionPane.showMessageDialog(null, spec, "SPECJALIZACJE", JOptionPane.INFORMATION_MESSAGE);
+                try {
+                    String spec = table.getValueAt(idSelected, 4).toString();
+                    JOptionPane.showMessageDialog(null, spec, "SPECJALIZACJE", JOptionPane.INFORMATION_MESSAGE);
+                } catch (NullPointerException ex) {
+                    JOptionPane.showMessageDialog(null, "", "SPECJALIZACJE", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         });
 

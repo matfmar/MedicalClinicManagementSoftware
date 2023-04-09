@@ -73,7 +73,7 @@ public class NowyLekarzWindow extends JFrame {
                 telefon = telefon.trim();
                 specjalizacje = specjalizacje.trim();
                 if ((imie.isEmpty() || nazwisko.isEmpty()) || pwz.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Za malo danych!", "Blad", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Zbyt ma\u0142o danych!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 specjalizacje = specjalizacje.replace("\r\n", " ");
@@ -81,7 +81,7 @@ public class NowyLekarzWindow extends JFrame {
                 specjalizacje = specjalizacje.trim();
                 Lekarz lekarz = new Lekarz(imie, nazwisko, pwz, telefon, specjalizacje);
                 if (lekarz.insertToDatabase(database)) {
-                    JOptionPane.showMessageDialog(null,"Udalo sie dodac","sukces",JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Dodano nowego lekarza.","INFO",JOptionPane.INFORMATION_MESSAGE);
                     imieTextField.setText("");
                     nazwiskoTextField.setText("");
                     pwzTextField.setText("");
@@ -89,7 +89,7 @@ public class NowyLekarzWindow extends JFrame {
                     specjalizacjeTextArea.setText("");
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "Nie udalo sie", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "B\u0142\u0105d w dodawaniu lekarza do bazy!", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
