@@ -15,7 +15,19 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Responsible for a window which enables searching for a patient in a database.
+ * This will be opened both when looking for a patient and when looking for a specific PESEL number when making and appointment.
+ * The choice will be set based on the parameters.
+ */
 public class WyszukajPacjentaWindow extends JFrame {
+    /**
+     * Opens a window.
+     *
+     * @param db database with opened connection, see  {@link net.sawannaniz.databaseclient.dbutils.Database Database}
+     * @param pesel2TextField only important when peselReturn = true; then, the searched PESEL number will be placed in this JTextField object.
+     * @param peselReturn if true, the window is opened to find PESEL number of a patient; if false - to look for the patients
+     */
     public WyszukajPacjentaWindow(Database db, JTextField pesel2TextField, boolean peselReturn) {
         super("Wyszukaj pacjenta");
         database = db;
@@ -229,6 +241,10 @@ public class WyszukajPacjentaWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    /**
+     * Closes the window.
+     */
     public void close() {
         dispose();
     }
@@ -236,6 +252,13 @@ public class WyszukajPacjentaWindow extends JFrame {
     private int id_cb;
     private Vector<Integer> vtIndexes;
     private Vector<Integer> vtIdPacjenci;
+
+    /**
+     * Creates JComboBox filled with physicians to choose from.
+     *
+     * @param result result of the operation is placed here
+     * @return JComboBox object filled with physicians
+     */
     private JComboBox createComboBox(AtomicBoolean result) {
         Lekarz lekarz = new Lekarz();
         ResultSet resultSet = lekarz.search(database, result);
@@ -264,7 +287,17 @@ public class WyszukajPacjentaWindow extends JFrame {
         JComboBox cb = new JComboBox(vtCombo);
         return cb;
     }
+
+    /**
+     * Responsible for pop-up window which appears after right-mouse-click on the selected row.
+     */
     private class PopUp extends JPopupMenu {
+        /**
+         * Opens a pop-up.
+         *
+         * @param tab JTable which was clicked
+         * @param d Default Table Model that this JTable contains
+         */
         public PopUp(JTable tab, DefaultTableModel d) {
             table = tab;
             dtm = d;
@@ -292,6 +325,11 @@ public class WyszukajPacjentaWindow extends JFrame {
         }
         private JTable table;
         private DefaultTableModel dtm;
+
+        /**
+         * Removes a patient from the database.
+         * Calls relevant method from Pacjent class.
+         */
         private void deletePacjent() {
             int idSelected = table.getSelectedRow();
             if (idSelected == -1) {

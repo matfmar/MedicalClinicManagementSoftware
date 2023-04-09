@@ -13,7 +13,18 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Responsible for a window which enables updating information about rooms.
+ */
 public class UpdatePomieszczenieWindow extends JFrame {
+    /**
+     * Creates the window.
+     *
+     * @param db database with opened connection, see  {@link net.sawannaniz.databaseclient.dbutils.Database Database}
+     * @param dt DefaultTableModel object, a starting point from which room was selected
+     * @param t JTable object, from which room was selected
+     * @param vtIdPomieszczenia a vector of Integers - ids of rooms
+     */
     public UpdatePomieszczenieWindow(Database db, DefaultTableModel dt, JTable t, Vector<Integer> vtIdPomieszczenia) {
         super("Edycja danych");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -122,6 +133,10 @@ public class UpdatePomieszczenieWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    /**
+     * CLoses the window.
+     */
     public void close() {
         dispose();
     }

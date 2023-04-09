@@ -3,7 +3,6 @@ package net.sawannaniz.databaseclient.gui;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import net.sawannaniz.databaseclient.ctrl.Pomieszczenie;
 import net.sawannaniz.databaseclient.dbutils.*;
 import net.sawannaniz.databaseclient.ctrl.Lekarz;
 
@@ -14,7 +13,18 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Responsible for a window which enables updating data about physicians.
+ */
 public class UpdateLekarzeWindow extends JFrame {
+    /**
+     * Creates a window.
+     *
+     * @param d database with opened connection, see  {@link net.sawannaniz.databaseclient.dbutils.Database Database}
+     * @param dt DefaultTableModel, a starting point from which physician was selected
+     * @param tab JTable object, a starting point from which physician was selected
+     * @param v vector of integers representing ids of physicians.
+     */
     public UpdateLekarzeWindow(Database d, DefaultTableModel dt, JTable tab, Vector<Integer> v) {
         super("Edycja danych");
         database = d;
@@ -136,6 +146,10 @@ public class UpdateLekarzeWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    /**
+     * Closes the window
+     */
     public void close() {
         dispose();
     }

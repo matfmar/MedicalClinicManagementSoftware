@@ -1,7 +1,6 @@
 package net.sawannaniz.databaseclient.gui;
 
 import net.sawannaniz.databaseclient.ctrl.Lekarz;
-import net.sawannaniz.databaseclient.ctrl.Pomieszczenie;
 import net.sawannaniz.databaseclient.dbutils.*;
 
 import javax.swing.*;
@@ -15,7 +14,15 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Responsible for a window which enables searching for a physician in a database.
+ */
 public class WyszukajLekarzaWindow extends JFrame {
+    /**
+     * Creates a window.
+     *
+     * @param db database with opened connection, see  {@link net.sawannaniz.databaseclient.dbutils.Database Database}
+     */
     public WyszukajLekarzaWindow(Database db) {
         super("Wyszukaj lekarza");
         database = db;
@@ -127,7 +134,17 @@ public class WyszukajLekarzaWindow extends JFrame {
     }
     private Database database;
     private Vector<Integer> vtIdLekarze;
+
+    /**
+     * Reponsible for pop-up menu which opens after right-mouse-click on a selected row.
+     */
     private class PopUp extends JPopupMenu {
+        /**
+         * Opens a pop-up.
+         *
+         * @param tab JTable object - transfers data of selected item
+         * @param d DefaultTableModel object - transfers data of selected item
+         */
         public PopUp(JTable tab, DefaultTableModel d) {
             table = tab;
             dtm = d;
@@ -155,6 +172,10 @@ public class WyszukajLekarzaWindow extends JFrame {
         }
         private JTable table;
         private DefaultTableModel dtm;
+
+        /**
+         * Invokes proper methods from Lekarz class to delete the selected item from the database.
+         */
         private void deleteLekarz() {
             int idSelected = table.getSelectedRow();
             if (idSelected == -1) {

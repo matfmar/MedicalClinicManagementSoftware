@@ -14,7 +14,16 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.sql.ResultSet;
+
+/**
+ * Responsible for window which enables the user to look for rooms in the database.
+ */
 public class WyszukajPomieszczenieWindow extends JFrame {
+    /**
+     * Opens the window.
+     *
+     * @param db database with opened connection, see  {@link net.sawannaniz.databaseclient.dbutils.Database Database}
+     */
     public WyszukajPomieszczenieWindow(Database db) {
         super("Znajd\u017a pomieszczenie");
         database = db;
@@ -115,7 +124,17 @@ public class WyszukajPomieszczenieWindow extends JFrame {
     }
     private Database database;
     private Vector<Integer> vtIdPomieszczenia;
+
+    /**
+     * Responsible for pop-up window which appears after right-mouse-click on the selected row.
+     */
     private class PopUp extends JPopupMenu {
+        /**
+         * Opens a pop-up.
+         *
+         * @param tab JTable object with selected row
+         * @param d Default Table Model object that this JTable contains
+         */
         public PopUp(JTable tab, DefaultTableModel d) {
             table = tab;
             dtm = d;
@@ -143,6 +162,11 @@ public class WyszukajPomieszczenieWindow extends JFrame {
         }
         private JTable table;
         private DefaultTableModel dtm;
+
+        /**
+         * Removes the room from the database.
+         * Actually call relevant method from Pomieszczenie class.
+         */
         private void deletePomieszczenie() {
             int idSelected = table.getSelectedRow();
             if (idSelected == -1) {

@@ -15,7 +15,21 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Responsible for a window which enables realization of appointments by physicians.
+ * Only a physician who is mentioned in the appointment can realize this appointment.
+ * When the appointment is tried to be realized many times, a prompt appears which warns that there is some data already written.
+ */
 public class RealizujWizyteWindow extends JFrame {
+    /**
+     * Creates the window.
+     *
+     * @param db database with opened connection, see  {@link net.sawannaniz.databaseclient.dbutils.Database Database}
+     * @param dt DefaultTableModel object, as a starting point for a selected appointment to realize
+     * @param t JTable object, as a starting point for a selected appointment to realize
+     * @param vtWiz vector of integers representing ids of appointments
+     * @param us    user viewing the data (opening the window)
+     */
     public RealizujWizyteWindow(Database db, DefaultTableModel dt, JTable t, Vector<Integer> vtWiz, User us) {
         super("Realizacja wizyty");
         database = db;
@@ -135,6 +149,10 @@ public class RealizujWizyteWindow extends JFrame {
         //setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    /**
+     * Closes the window.
+     */
     public void close() {
         dispose();
     }
@@ -144,6 +162,13 @@ public class RealizujWizyteWindow extends JFrame {
     private JTable table;
     private Vector<Integer> vt_id_wiz;
     private int id_wizyta;
+
+    /**
+     * Checks whether the selected appointment has already been realized.
+     *
+     * @param resultX the result of the operation is stored here
+     * @return  when yes, appointment's description and icd-10 code are placed to this vector of Strings.
+     */
     private Vector<String> checkIfWasRealizedBefore(AtomicBoolean resultX) {    //jak false to ok
         Wizyta wizytaDoSprawdzenia = new Wizyta(id_wizyta);
         AtomicBoolean result = new AtomicBoolean(false);
@@ -170,6 +195,17 @@ public class RealizujWizyteWindow extends JFrame {
         resultX.set(true);
         return v;
     }
+
+    /**
+     * Checks if a user which tries to realize the appointment:
+     * <ul>
+     *     <li>Is a physician (i.e., has a role of physicians)</li>
+     *     <li>If a physician, whether the correct one, i.e., the one responsible for the appointment</li>
+     * </ul>
+     *
+     * @param lekarzPWZ licence number of a physician who tries to realize the appointment
+     * @return  whether the user is a valid physician or not
+     */
     private boolean verifyIfGoodPhysician(String lekarzPWZ) {
         Wizyta wizytaDoWeryfikacji = new Wizyta(id_wizyta);
         AtomicBoolean result = new AtomicBoolean(false);

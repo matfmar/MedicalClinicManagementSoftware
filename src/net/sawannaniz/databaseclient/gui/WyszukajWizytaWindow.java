@@ -2,7 +2,6 @@ package net.sawannaniz.databaseclient.gui;
 
 import javax.swing.*;
 import javax.swing.table.*;
-import javax.tools.Tool;
 
 import net.sawannaniz.databaseclient.ctrl.*;
 import net.sawannaniz.databaseclient.dbutils.*;
@@ -17,7 +16,18 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Responsible for window which enables to search for appointments in the database.
+ * Can be used both when finding today's appointments and making general search.
+ */
 public class WyszukajWizytaWindow extends JFrame {
+    /**
+     * Opens the window.
+     *
+     * @param db database with opened connection, see  {@link net.sawannaniz.databaseclient.dbutils.Database Database}
+     * @param cd true when just looking for today's appointments
+     * @param us user viewing the data
+     */
     public WyszukajWizytaWindow(Database db, boolean cd, User us) {
         super("Wyszukaj wizyt\u0119");
         database = db;
@@ -217,6 +227,13 @@ public class WyszukajWizytaWindow extends JFrame {
     private int id_cb_lek, id_cb_pom, id_cb_pac;
     private User user;
     private boolean czyDzisiejsze;
+
+    /**
+     * Checks validity of created JComboBox.
+     *
+     * @param cb JComboBox object to check
+     * @return default selection index or -1 when invalid.
+     */
     private int comboboxCheckInfo(JComboBox cb) {
         if (cb != null) {
             return cb.getSelectedIndex();
@@ -226,6 +243,13 @@ public class WyszukajWizytaWindow extends JFrame {
             return -1;
         }
     }
+
+    /**
+     * Creates JComboBox object filled with physicians to choose from.
+     *
+     * @param result result of the operation will be placed here
+     * @return JComboBox object
+     */
     private JComboBox createComboBoxLekarz(AtomicBoolean result) {
         Lekarz lekarz = new Lekarz();
         ResultSet resultSet = lekarz.search(database, result);
@@ -268,6 +292,13 @@ public class WyszukajWizytaWindow extends JFrame {
         }
         return cb;
     }
+
+    /**
+     * Creates JComboBox object filled with rooms to choose from.
+     *
+     * @param result result of the operation will be placed here.
+     * @return JComboBox object
+     */
     private JComboBox createComboBoxPomieszczenie(AtomicBoolean result) {
         Pomieszczenie pomieszczenie = new Pomieszczenie();
         ResultSet resultSet = pomieszczenie.search(database, result);
@@ -296,7 +327,17 @@ public class WyszukajWizytaWindow extends JFrame {
         JComboBox cb = new JComboBox(vtCombo);
         return cb;
     }
+
+    /**
+     * Responsible for Pop-Up window which appears after right mouse click on the selected row.
+     */
     private class PopUp extends JPopupMenu {
+        /**
+         * Creates a pop-up window.
+         *
+         * @param tab JTable where the row was selected
+         * @param d Default Table Model that this JTable contains
+         */
         public PopUp(JTable tab, DefaultTableModel d) {
             table = tab;
             dtm = d;
@@ -336,6 +377,11 @@ public class WyszukajWizytaWindow extends JFrame {
         }
         private JTable table;
         private DefaultTableModel dtm;
+
+        /**
+         * Removes appointment from the database.
+         * Actually calls the relevant method from {@link Wizyta} class.
+         */
         private void deleteWizyta() {
             int idSelected = table.getSelectedRow();
             if (idSelected == -1) {
@@ -356,8 +402,22 @@ public class WyszukajWizytaWindow extends JFrame {
     }
 }
 
-class ColoredTableCellRenderer extends DefaultTableCellRenderer
-{
+/**
+ * Responsible for colouring some rows - marks the appointments as realized (green) or not (red).
+ */
+class ColoredTableCellRenderer extends DefaultTableCellRenderer {
+    /**
+     * Creates the object.
+     *
+     * @param table  the <code>JTable</code>
+     * @param value  the value to assign to the cell at
+     *                  <code>[row, column]</code>
+     * @param selected true if cell is selected
+     * @param focused true if cell has focus
+     * @param row  the row of the cell to render
+     * @param column the column of the cell to render
+     * @return Component object
+     */
     public Component getTableCellRendererComponent (JTable table, Object value, boolean selected, boolean focused, int row, int column) {
         final Color mygreen = new Color(0, 255, 0);
         final Color myred = new Color(255, 0, 0);

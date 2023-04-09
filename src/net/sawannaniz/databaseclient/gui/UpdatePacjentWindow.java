@@ -13,7 +13,18 @@ import net.sawannaniz.databaseclient.ctrl.Lekarz;
 import net.sawannaniz.databaseclient.ctrl.Pacjent;
 import net.sawannaniz.databaseclient.dbutils.*;
 
+/**
+ * Responsible for a window which enables updating patient's data.
+ */
 public class UpdatePacjentWindow extends JFrame {
+    /**
+     * Creates a window.
+     *
+     * @param db database with opened connection, see  {@link net.sawannaniz.databaseclient.dbutils.Database Database}
+     * @param dt DefaultTableModel, a starting point from which patient was selected
+     * @param tab   JTable object, a starting point from which patient was selected
+     * @param v vector of integers - ids of patients.
+     */
     public UpdatePacjentWindow(Database db, DefaultTableModel dt, JTable tab, Vector<Integer> v) {
         super("Edycja danych");
         database = db;
@@ -187,6 +198,10 @@ public class UpdatePacjentWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    /**
+     * CLoses the window.
+     */
     public void close() {
         dispose();
     }
@@ -196,6 +211,13 @@ public class UpdatePacjentWindow extends JFrame {
     private Vector<Integer> vtIdPacjenci;
     private int id_cb;
     private Vector<Integer> vtIndexes;
+
+    /**
+     * Creates JComboBox object filled with phsycians' data to choose from.
+     *
+     * @param result result of the operation is stored here
+     * @return  JComboBox object filled with relevant data
+     */
     private JComboBox createComboBox(AtomicBoolean result) {
         Lekarz lekarz = new Lekarz();
         ResultSet resultSet = lekarz.search(database, result);
@@ -224,6 +246,13 @@ public class UpdatePacjentWindow extends JFrame {
         JComboBox cb = new JComboBox(vtCombo);
         return cb;
     }
+
+    /**
+     * Finds an id occupied by a specific physician identified by his id.
+     *
+     * @param id_lekarz id of a physician
+     * @return id of a JComboBox.
+     */
     private int fillComboBox(int id_lekarz) {
         int i = 0;
         for (int el : vtIndexes) {
