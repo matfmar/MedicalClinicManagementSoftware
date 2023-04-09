@@ -17,6 +17,10 @@ import java.sql.ResultSet;
 
 /**
  * Responsible for window which enables the user to look for rooms in the database.
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
  */
 public class WyszukajPomieszczenieWindow extends JFrame {
     /**

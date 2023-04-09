@@ -10,6 +10,10 @@ import net.sawannaniz.databaseclient.dbutils.*;
 /**
  * Class for login window.
  * Login window is the first window that appears after starting the application.
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
  */
 public class LoginWindow extends JFrame {
     /**

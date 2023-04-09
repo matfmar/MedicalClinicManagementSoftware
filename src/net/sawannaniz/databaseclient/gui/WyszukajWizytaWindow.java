@@ -19,6 +19,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Responsible for window which enables to search for appointments in the database.
  * Can be used both when finding today's appointments and making general search.
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
  */
 public class WyszukajWizytaWindow extends JFrame {
     /**
@@ -404,6 +408,10 @@ public class WyszukajWizytaWindow extends JFrame {
 
 /**
  * Responsible for colouring some rows - marks the appointments as realized (green) or not (red).
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
  */
 class ColoredTableCellRenderer extends DefaultTableCellRenderer {
     /**

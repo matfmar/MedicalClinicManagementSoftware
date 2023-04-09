@@ -15,6 +15,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Responsible for a window which enables updating information about rooms.
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
  */
 public class UpdatePomieszczenieWindow extends JFrame {
     /**

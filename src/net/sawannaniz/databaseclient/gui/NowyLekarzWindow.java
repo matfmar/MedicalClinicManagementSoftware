@@ -10,6 +10,10 @@ import java.awt.event.ActionListener;
 
 /**
  * This class is responsible for a window which enables the user to add new physicians to the database.
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
  */
 public class NowyLekarzWindow extends JFrame {
     /**

@@ -8,6 +8,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Class for a window which opens before login and enables setting connection parameters
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
  */
 public class LoginSettingsWindow  extends JFrame {
     /**

@@ -15,7 +15,11 @@ import net.sawannaniz.databaseclient.dbutils.*;
 
 /**
  * Responsible for a window which enables updating patient's data.
- */
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
+*/
 public class UpdatePacjentWindow extends JFrame {
     /**
      * Creates a window.

@@ -17,6 +17,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * This class is responsible for a window which enables finding details of a particular appointment and editing them, if possible.
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
  */
 public class PrzegladajWizyteWindow extends JFrame {
     /**

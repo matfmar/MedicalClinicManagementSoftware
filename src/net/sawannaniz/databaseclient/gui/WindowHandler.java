@@ -7,6 +7,10 @@ import net.sawannaniz.databaseclient.dbutils.*;
 
 /**
  * Responsible for closing the application with a preceding prompt.
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
  */
 public class WindowHandler extends WindowAdapter {
     /**

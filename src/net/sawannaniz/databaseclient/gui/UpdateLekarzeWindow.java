@@ -15,6 +15,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Responsible for a window which enables updating data about physicians.
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
  */
 public class UpdateLekarzeWindow extends JFrame {
     /**

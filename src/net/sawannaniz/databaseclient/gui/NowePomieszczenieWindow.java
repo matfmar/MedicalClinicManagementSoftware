@@ -10,6 +10,10 @@ import net.sawannaniz.databaseclient.ctrl.Pomieszczenie;
 
 /**
  * This class is responsible for a window which enables adding new rooms to the database.
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
  */
 public class NowePomieszczenieWindow extends JFrame {
     /**

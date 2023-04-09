@@ -19,6 +19,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Responsible for a window which enables realization of appointments by physicians.
  * Only a physician who is mentioned in the appointment can realize this appointment.
  * When the appointment is tried to be realized many times, a prompt appears which warns that there is some data already written.
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
  */
 public class RealizujWizyteWindow extends JFrame {
     /**

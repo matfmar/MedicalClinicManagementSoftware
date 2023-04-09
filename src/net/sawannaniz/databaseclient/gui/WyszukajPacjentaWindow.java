@@ -19,6 +19,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Responsible for a window which enables searching for a patient in a database.
  * This will be opened both when looking for a patient and when looking for a specific PESEL number when making and appointment.
  * The choice will be set based on the parameters.
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
  */
 public class WyszukajPacjentaWindow extends JFrame {
     /**

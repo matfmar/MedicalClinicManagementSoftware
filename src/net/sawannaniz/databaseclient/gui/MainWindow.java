@@ -10,6 +10,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Class responsible for main application window.
  * Appears after successful login.
  * All major operations are started here.
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
  */
 public class MainWindow extends JFrame {
     /**

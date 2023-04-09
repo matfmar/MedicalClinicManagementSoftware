@@ -20,6 +20,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Class responsible for window which provides making new appointments.
  * Opens from the level of main window.
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
  */
 public class NowaWizytaWindow extends JFrame {
     /**

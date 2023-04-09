@@ -16,6 +16,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Responsible for a window which enables searching for a physician in a database.
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
  */
 public class WyszukajLekarzaWindow extends JFrame {
     /**

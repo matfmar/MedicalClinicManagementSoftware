@@ -13,6 +13,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * This class is responsible for a window which enables a user to add new patients.
+ *
+ * @author Mateusz Marzec
+ * @version 1.0
+ * @since 2023-04-09
  */
 public class NowyPacjentWindow extends JFrame {
     /**
