@@ -531,7 +531,13 @@ public class Database {
      * @since 2023-04-09
      */
     public enum Role {
+        /**
+         * Default role for a default user.
+         */
         NO_ROLE,
+        /**
+         * Role for users being physicians in the clinic. Have permission to realize and edit the appointments.
+         */
         LEKARZ
     }
     private String JDBC_URL = "jdbc:mariadb://localhost:3306/Przychodnia";
